@@ -1,0 +1,8126 @@
+[
+  {
+    "timestamp": "2026-02-17 10:49:20",
+    "scan_id": 232,
+    "millis": 756053,
+    "lat": 35.52018,
+    "lon": 11.03284,
+    "networks": [
+      {
+        "ssid": "dlink-04F9",
+        "mac": "10:BE:F5:52:04:F9",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:49:15",
+    "scan_id": 231,
+    "millis": 752859,
+    "lat": 35.52019,
+    "lon": 11.03263,
+    "networks": [
+      {
+        "ssid": "TOPNET_3420",
+        "mac": "84:D8:1B:19:34:20",
+        "rssi": -84
+      },
+      {
+        "ssid": "dlink-04F9",
+        "mac": "10:BE:F5:52:04:F9",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:49:09",
+    "scan_id": 230,
+    "millis": 749499,
+    "lat": 35.52012,
+    "lon": 11.03288,
+    "networks": [
+      {
+        "ssid": "dlink-04F9",
+        "mac": "10:BE:F5:52:04:F9",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:49:04",
+    "scan_id": 229,
+    "millis": 746526,
+    "lat": 35.52012,
+    "lon": 11.03288,
+    "networks": [
+      {
+        "ssid": "TOPNET_3420",
+        "mac": "84:D8:1B:19:34:20",
+        "rssi": -81
+      },
+      {
+        "ssid": "dlink-04F9",
+        "mac": "10:BE:F5:52:04:F9",
+        "rssi": -84
+      },
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:59",
+    "scan_id": 228,
+    "millis": 743104,
+    "lat": 35.52008,
+    "lon": 11.03287,
+    "networks": [
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -86
+      },
+      {
+        "ssid": "dlink-04F9",
+        "mac": "10:BE:F5:52:04:F9",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:54",
+    "scan_id": 227,
+    "millis": 740071,
+    "lat": 35.51999,
+    "lon": 11.03286,
+    "networks": [
+      {
+        "ssid": "TOPNET_3420",
+        "mac": "84:D8:1B:19:34:20",
+        "rssi": -82
+      },
+      {
+        "ssid": "dlink-04F9",
+        "mac": "10:BE:F5:52:04:F9",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:49",
+    "scan_id": 226,
+    "millis": 736708,
+    "lat": 35.51988,
+    "lon": 11.03287,
+    "networks": [
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -75
+      },
+      {
+        "ssid": "dlink-04F9",
+        "mac": "10:BE:F5:52:04:F9",
+        "rssi": -83
+      },
+      {
+        "ssid": "TOPNET_3420",
+        "mac": "84:D8:1B:19:34:20",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:44",
+    "scan_id": 225,
+    "millis": 733504,
+    "lat": 35.51973,
+    "lon": 11.03285,
+    "networks": [
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -66
+      },
+      {
+        "ssid": "TOPNET_3420",
+        "mac": "84:D8:1B:19:34:20",
+        "rssi": -77
+      },
+      {
+        "ssid": "dlink-04F9",
+        "mac": "10:BE:F5:52:04:F9",
+        "rssi": -86
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -89
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:39",
+    "scan_id": 224,
+    "millis": 730199,
+    "lat": 35.51973,
+    "lon": 11.03285,
+    "networks": [
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -65
+      },
+      {
+        "ssid": "TOPNET_3420",
+        "mac": "84:D8:1B:19:34:20",
+        "rssi": -77
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -87
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -88
+      },
+      {
+        "ssid": "dlink-04F9",
+        "mac": "10:BE:F5:52:04:F9",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:34",
+    "scan_id": 223,
+    "millis": 727005,
+    "lat": 35.51979,
+    "lon": 11.03283,
+    "networks": [
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -69
+      },
+      {
+        "ssid": "TOPNET_3420",
+        "mac": "84:D8:1B:19:34:20",
+        "rssi": -77
+      },
+      {
+        "ssid": "dlink-04F9",
+        "mac": "10:BE:F5:52:04:F9",
+        "rssi": -84
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:29",
+    "scan_id": 222,
+    "millis": 723645,
+    "lat": 35.51981,
+    "lon": 11.03296,
+    "networks": [
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -79
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -80
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -83
+      },
+      {
+        "ssid": "TOPNET_3420",
+        "mac": "84:D8:1B:19:34:20",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:24",
+    "scan_id": 221,
+    "millis": 720662,
+    "lat": 35.51944,
+    "lon": 11.03327,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -67
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -76
+      },
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:19",
+    "scan_id": 220,
+    "millis": 717207,
+    "lat": 35.5194,
+    "lon": 11.03339,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -67
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -69
+      },
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -78
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -79
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4-EXT",
+        "mac": "90:91:64:20:97:C8",
+        "rssi": -88
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EE7D",
+        "mac": "A0:9F:7A:6B:EE:7D",
+        "rssi": -88
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4",
+        "mac": "1C:73:E2:84:74:B0",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:14",
+    "scan_id": 219,
+    "millis": 713968,
+    "lat": 35.51937,
+    "lon": 11.03309,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -62
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -74
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -78
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4",
+        "mac": "1C:73:E2:84:74:B0",
+        "rssi": -82
+      },
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -84
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-wHd7",
+        "mac": "48:2F:D7:52:09:98",
+        "rssi": -85
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EE7D",
+        "mac": "A0:9F:7A:6B:EE:7D",
+        "rssi": -87
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4-EXT",
+        "mac": "90:91:64:20:97:C8",
+        "rssi": -89
+      },
+      {
+        "ssid": "DIRECT-920A1139",
+        "mac": "3A:9D:92:0A:91:39",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:09",
+    "scan_id": 218,
+    "millis": 710609,
+    "lat": 35.51941,
+    "lon": 11.03321,
+    "networks": [
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4-EXT",
+        "mac": "90:91:64:20:97:C8",
+        "rssi": -80
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -80
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -81
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EE7D",
+        "mac": "A0:9F:7A:6B:EE:7D",
+        "rssi": -83
+      },
+      {
+        "ssid": "SG-B2341163022",
+        "mac": "B8:D6:1A:9F:03:99",
+        "rssi": -84
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4",
+        "mac": "1C:73:E2:84:74:B0",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:48:04",
+    "scan_id": 217,
+    "millis": 707361,
+    "lat": 35.51949,
+    "lon": 11.0334,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -69
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -69
+      },
+      {
+        "ssid": "sunways-WiFi0730211B",
+        "mac": "44:2A:8F:F8:43:50",
+        "rssi": -72
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -73
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4-EXT",
+        "mac": "90:91:64:20:97:C8",
+        "rssi": -77
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4",
+        "mac": "1C:73:E2:84:74:B0",
+        "rssi": -80
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-wHd7",
+        "mac": "48:2F:D7:52:09:98",
+        "rssi": -80
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EE7D",
+        "mac": "A0:9F:7A:6B:EE:7D",
+        "rssi": -83
+      },
+      {
+        "ssid": "DIRECT-920A1139",
+        "mac": "3A:9D:92:0A:91:39",
+        "rssi": -85
+      },
+      {
+        "ssid": "SG-B2341163022",
+        "mac": "B8:D6:1A:9F:03:99",
+        "rssi": -86
+      },
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:59",
+    "scan_id": 216,
+    "millis": 703910,
+    "lat": 35.51948,
+    "lon": 11.03343,
+    "networks": [
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -66
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -76
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4-EXT",
+        "mac": "90:91:64:20:97:C8",
+        "rssi": -77
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4",
+        "mac": "1C:73:E2:84:74:B0",
+        "rssi": -78
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-wHd7",
+        "mac": "48:2F:D7:52:09:98",
+        "rssi": -82
+      },
+      {
+        "ssid": "DIRECT-920A1139",
+        "mac": "3A:9D:92:0A:91:39",
+        "rssi": -86
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -86
+      },
+      {
+        "ssid": "sunways-WiFi0730211B",
+        "mac": "44:2A:8F:F8:43:50",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:54",
+    "scan_id": 215,
+    "millis": 700661,
+    "lat": 35.51948,
+    "lon": 11.03343,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -77
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -82
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4",
+        "mac": "1C:73:E2:84:74:B0",
+        "rssi": -84
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-wHd7",
+        "mac": "48:2F:D7:52:09:98",
+        "rssi": -84
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EE7D",
+        "mac": "A0:9F:7A:6B:EE:7D",
+        "rssi": -86
+      },
+      {
+        "ssid": "DIRECT-920A1139",
+        "mac": "3A:9D:92:0A:91:39",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:49",
+    "scan_id": 214,
+    "millis": 697273,
+    "lat": 35.51943,
+    "lon": 11.03352,
+    "networks": [
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -73
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -80
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -82
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -83
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EE7D",
+        "mac": "A0:9F:7A:6B:EE:7D",
+        "rssi": -84
+      },
+      {
+        "ssid": "DIRECT-920A1139",
+        "mac": "3A:9D:92:0A:91:39",
+        "rssi": -87
+      },
+      {
+        "ssid": "sunways-WiFi0730211B",
+        "mac": "44:2A:8F:F8:43:50",
+        "rssi": -87
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-wHd7",
+        "mac": "48:2F:D7:52:09:98",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:44",
+    "scan_id": 213,
+    "millis": 694025,
+    "lat": 35.51946,
+    "lon": 11.03366,
+    "networks": [
+      {
+        "ssid": "sunways-WiFi0730211B",
+        "mac": "44:2A:8F:F8:43:50",
+        "rssi": -70
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -74
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -76
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -77
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EE7D",
+        "mac": "A0:9F:7A:6B:EE:7D",
+        "rssi": -80
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -80
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4-EXT",
+        "mac": "90:91:64:20:97:C8",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:38",
+    "scan_id": 212,
+    "millis": 690598,
+    "lat": 35.51939,
+    "lon": 11.03401,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -70
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -72
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -76
+      },
+      {
+        "ssid": "SG-B2341163022",
+        "mac": "B8:D6:1A:9F:03:99",
+        "rssi": -83
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-wHd7",
+        "mac": "48:2F:D7:52:09:98",
+        "rssi": -84
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4",
+        "mac": "1C:73:E2:84:74:B0",
+        "rssi": -85
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -85
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EE7D",
+        "mac": "A0:9F:7A:6B:EE:7D",
+        "rssi": -87
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-VNu4-EXT",
+        "mac": "90:91:64:20:97:C8",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:33",
+    "scan_id": 211,
+    "millis": 687529,
+    "lat": 35.5194,
+    "lon": 11.034,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -68
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -73
+      },
+      {
+        "ssid": "SG-B2341163022",
+        "mac": "B8:D6:1A:9F:03:99",
+        "rssi": -82
+      },
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -83
+      },
+      {
+        "ssid": "ooredoo-43DD30",
+        "mac": "98:A9:42:43:DD:31",
+        "rssi": -88
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EE7D",
+        "mac": "A0:9F:7A:6B:EE:7D",
+        "rssi": -88
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-wHd7",
+        "mac": "48:2F:D7:52:09:98",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:28",
+    "scan_id": 210,
+    "millis": 684041,
+    "lat": 35.51941,
+    "lon": 11.03399,
+    "networks": [
+      {
+        "ssid": "SG-B2341163022",
+        "mac": "B8:D6:1A:9F:03:99",
+        "rssi": -70
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -72
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -73
+      },
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -74
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:23",
+    "scan_id": 209,
+    "millis": 680814,
+    "lat": 35.51938,
+    "lon": 11.03401,
+    "networks": [
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -56
+      },
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -76
+      },
+      {
+        "ssid": "SG-B2341163022",
+        "mac": "B8:D6:1A:9F:03:99",
+        "rssi": -81
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -87
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -88
+      },
+      {
+        "ssid": "Orange-0222",
+        "mac": "02:7E:DE:22:02:24",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:18",
+    "scan_id": 208,
+    "millis": 677478,
+    "lat": 35.51938,
+    "lon": 11.03401,
+    "networks": [
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -63
+      },
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -66
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -79
+      },
+      {
+        "ssid": "Orange-0222",
+        "mac": "02:7E:DE:22:02:24",
+        "rssi": -83
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EE7D",
+        "mac": "A0:9F:7A:6B:EE:7D",
+        "rssi": -86
+      },
+      {
+        "ssid": "SG-B2341163022",
+        "mac": "B8:D6:1A:9F:03:99",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:13",
+    "scan_id": 207,
+    "millis": 674240,
+    "lat": 35.51938,
+    "lon": 11.03401,
+    "networks": [
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -70
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -79
+      },
+      {
+        "ssid": "Orange-0222",
+        "mac": "02:7E:DE:22:02:24",
+        "rssi": -85
+      },
+      {
+        "ssid": "Ooredoo-X17M-283C77",
+        "mac": "D8:42:F7:28:3C:7B",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:08",
+    "scan_id": 206,
+    "millis": 670886,
+    "lat": 35.51928,
+    "lon": 11.03415,
+    "networks": [
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -68
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -78
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -87
+      },
+      {
+        "ssid": "Orange-0222",
+        "mac": "02:7E:DE:22:02:24",
+        "rssi": -88
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-wHd7",
+        "mac": "48:2F:D7:52:09:98",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:47:03",
+    "scan_id": 205,
+    "millis": 667681,
+    "lat": 35.5193,
+    "lon": 11.03414,
+    "networks": [
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -72
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -76
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:58",
+    "scan_id": 204,
+    "millis": 664430,
+    "lat": 35.51927,
+    "lon": 11.03416,
+    "networks": [
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -73
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -78
+      },
+      {
+        "ssid": "ORANGE_D3F3",
+        "mac": "EC:55:1C:CC:D3:FC",
+        "rssi": -83
+      },
+      {
+        "ssid": "Orange-0222",
+        "mac": "02:7E:DE:22:02:24",
+        "rssi": -84
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:53",
+    "scan_id": 203,
+    "millis": 661247,
+    "lat": 35.51916,
+    "lon": 11.03427,
+    "networks": [
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -75
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -80
+      },
+      {
+        "ssid": "ORANGE_D3F3",
+        "mac": "EC:55:1C:CC:D3:FC",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:48",
+    "scan_id": 202,
+    "millis": 657924,
+    "lat": 35.51912,
+    "lon": 11.03428,
+    "networks": [
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -77
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -79
+      },
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:43",
+    "scan_id": 201,
+    "millis": 654752,
+    "lat": 35.51906,
+    "lon": 11.03432,
+    "networks": [
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -80
+      },
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -81
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EED6",
+        "mac": "A0:9F:7A:6B:EE:D6",
+        "rssi": -88
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:38",
+    "scan_id": 200,
+    "millis": 651469,
+    "lat": 35.51886,
+    "lon": 11.03439,
+    "networks": [
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -76
+      },
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -80
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:33",
+    "scan_id": 199,
+    "millis": 648436,
+    "lat": 35.51905,
+    "lon": 11.0343,
+    "networks": [
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -77
+      },
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -83
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:28",
+    "scan_id": 198,
+    "millis": 645053,
+    "lat": 35.51905,
+    "lon": 11.03431,
+    "networks": [
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -76
+      },
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -84
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -85
+      },
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:23",
+    "scan_id": 197,
+    "millis": 641858,
+    "lat": 35.51906,
+    "lon": 11.03434,
+    "networks": [
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -85
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -86
+      },
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -87
+      },
+      {
+        "ssid": "ORANGE_D3F3",
+        "mac": "EC:55:1C:CC:D3:FC",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:18",
+    "scan_id": 196,
+    "millis": 638564,
+    "lat": 35.51882,
+    "lon": 11.0345,
+    "networks": [
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -76
+      },
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -79
+      },
+      {
+        "ssid": "ORANGE_D3F3",
+        "mac": "EC:55:1C:CC:D3:FC",
+        "rssi": -80
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:13",
+    "scan_id": 195,
+    "millis": 635531,
+    "lat": 35.51882,
+    "lon": 11.0345,
+    "networks": [
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -64
+      },
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -78
+      },
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -79
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -80
+      },
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -86
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:07",
+    "scan_id": 194,
+    "millis": 632115,
+    "lat": 35.51877,
+    "lon": 11.03455,
+    "networks": [
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -61
+      },
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -81
+      },
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -83
+      },
+      {
+        "ssid": "ORANGE_D3F3",
+        "mac": "EC:55:1C:CC:D3:FC",
+        "rssi": -85
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -86
+      },
+      {
+        "ssid": "sunways-WiFi0730211B",
+        "mac": "44:2A:8F:F8:43:50",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:46:02",
+    "scan_id": 193,
+    "millis": 628908,
+    "lat": 35.51881,
+    "lon": 11.03452,
+    "networks": [
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -66
+      },
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -77
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -80
+      },
+      {
+        "ssid": "PIX-LINK",
+        "mac": "90:91:64:25:C9:45",
+        "rssi": -82
+      },
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -82
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-vCM3",
+        "mac": "48:2F:D7:07:90:44",
+        "rssi": -83
+      },
+      {
+        "ssid": "Ooredoo _S20_2F8F",
+        "mac": "98:A9:42:6E:2F:8F",
+        "rssi": -85
+      },
+      {
+        "ssid": "sunways-WiFi0730211B",
+        "mac": "44:2A:8F:F8:43:50",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:57",
+    "scan_id": 192,
+    "millis": 625581,
+    "lat": 35.51884,
+    "lon": 11.03449,
+    "networks": [
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -72
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-vCM3",
+        "mac": "48:2F:D7:07:90:44",
+        "rssi": -75
+      },
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -76
+      },
+      {
+        "ssid": "AP_M32531-7221023FP",
+        "mac": "28:56:2F:56:A8:E1",
+        "rssi": -81
+      },
+      {
+        "ssid": "sunways-WiFi0730211B",
+        "mac": "44:2A:8F:F8:43:50",
+        "rssi": -86
+      },
+      {
+        "ssid": "ORANGE_DEE8",
+        "mac": "24:26:D6:F5:DE:F0",
+        "rssi": -88
+      },
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -90
+      },
+      {
+        "ssid": "ORANGE_D3F3",
+        "mac": "EC:55:1C:CC:D3:FC",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:52",
+    "scan_id": 191,
+    "millis": 622505,
+    "lat": 35.51892,
+    "lon": 11.03444,
+    "networks": [
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -72
+      },
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -85
+      },
+      {
+        "ssid": "ORANGE_DEE8",
+        "mac": "24:26:D6:F5:DE:F0",
+        "rssi": -87
+      },
+      {
+        "ssid": "TOPNET_7470",
+        "mac": "3C:84:6A:5F:74:70",
+        "rssi": -87
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-vCM3",
+        "mac": "48:2F:D7:07:90:44",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:47",
+    "scan_id": 190,
+    "millis": 619068,
+    "lat": 35.51886,
+    "lon": 11.03449,
+    "networks": [
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -68
+      },
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -86
+      },
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:42",
+    "scan_id": 189,
+    "millis": 615874,
+    "lat": 35.51838,
+    "lon": 11.03481,
+    "networks": [
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -70
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-vCM3",
+        "mac": "48:2F:D7:07:90:44",
+        "rssi": -84
+      },
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:37",
+    "scan_id": 188,
+    "millis": 612600,
+    "lat": 35.51838,
+    "lon": 11.03481,
+    "networks": [
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -68
+      },
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -80
+      },
+      {
+        "ssid": "ORANGE_DEE8",
+        "mac": "24:26:D6:F5:DE:F0",
+        "rssi": -83
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-vCM3",
+        "mac": "48:2F:D7:07:90:44",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:32",
+    "scan_id": 187,
+    "millis": 609556,
+    "lat": 35.5183,
+    "lon": 11.03499,
+    "networks": [
+      {
+        "ssid": "ORANGE_DEE8",
+        "mac": "24:26:D6:F5:DE:F0",
+        "rssi": -79
+      },
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -80
+      },
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -81
+      },
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -84
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-vCM3",
+        "mac": "48:2F:D7:07:90:44",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:27",
+    "scan_id": 186,
+    "millis": 606161,
+    "lat": 35.51836,
+    "lon": 11.03481,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -74
+      },
+      {
+        "ssid": "ORANGE_DEE8",
+        "mac": "24:26:D6:F5:DE:F0",
+        "rssi": -85
+      },
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:22",
+    "scan_id": 185,
+    "millis": 602978,
+    "lat": 35.51834,
+    "lon": 11.03423,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -76
+      },
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -82
+      },
+      {
+        "ssid": "ORANGE_DEE8",
+        "mac": "24:26:D6:F5:DE:F0",
+        "rssi": -88
+      },
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:17",
+    "scan_id": 184,
+    "millis": 599683,
+    "lat": 35.51801,
+    "lon": 11.03478,
+    "networks": [
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -86
+      },
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -89
+      },
+      {
+        "ssid": "ORANGE_DEE8",
+        "mac": "24:26:D6:F5:DE:F0",
+        "rssi": -90
+      },
+      {
+        "ssid": "MAXBOX5G_6D34",
+        "mac": "A2:C3:1D:34:6D:B7",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:12",
+    "scan_id": 183,
+    "millis": 596500,
+    "lat": 35.51799,
+    "lon": 11.03475,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -79
+      },
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:07",
+    "scan_id": 182,
+    "millis": 593138,
+    "lat": 35.5181,
+    "lon": 11.03475,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -84
+      },
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:45:02",
+    "scan_id": 181,
+    "millis": 589987,
+    "lat": 35.51803,
+    "lon": 11.03449,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:52",
+    "scan_id": 179,
+    "millis": 583446,
+    "lat": 35.51803,
+    "lon": 11.03454,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -72
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-n4C3",
+        "mac": "48:2F:D7:07:78:18",
+        "rssi": -84
+      },
+      {
+        "ssid": "AP_M32531-72210239P",
+        "mac": "28:56:2F:57:77:D5",
+        "rssi": -88
+      },
+      {
+        "ssid": "TT_3EF0",
+        "mac": "40:ED:00:C3:3E:F0",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:47",
+    "scan_id": 178,
+    "millis": 580102,
+    "lat": 35.51802,
+    "lon": 11.03463,
+    "networks": [
+      {
+        "ssid": "TUNISIETELECOM-2.4G-f3Py",
+        "mac": "48:2F:D7:08:41:D4",
+        "rssi": -84
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-n4C3",
+        "mac": "48:2F:D7:07:78:18",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:42",
+    "scan_id": 177,
+    "millis": 577058,
+    "lat": 35.51797,
+    "lon": 11.03477,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -62
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-n4C3",
+        "mac": "48:2F:D7:07:78:18",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:37",
+    "scan_id": 176,
+    "millis": 573646,
+    "lat": 35.51799,
+    "lon": 11.03477,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -65
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-n4C3",
+        "mac": "48:2F:D7:07:78:18",
+        "rssi": -85
+      },
+      {
+        "ssid": "TT_3EF0",
+        "mac": "40:ED:00:C3:3E:F0",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:32",
+    "scan_id": 175,
+    "millis": 570634,
+    "lat": 35.51788,
+    "lon": 11.03479,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -62
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-n4C3",
+        "mac": "48:2F:D7:07:78:18",
+        "rssi": -82
+      },
+      {
+        "ssid": "TT_3EF0",
+        "mac": "40:ED:00:C3:3E:F0",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:26",
+    "scan_id": 174,
+    "millis": 567240,
+    "lat": 35.51789,
+    "lon": 11.03479,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -65
+      },
+      {
+        "ssid": "TT_3EF0",
+        "mac": "40:ED:00:C3:3E:F0",
+        "rssi": -85
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-f3Py",
+        "mac": "48:2F:D7:08:41:D4",
+        "rssi": -87
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-n4C3",
+        "mac": "48:2F:D7:07:78:18",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:21",
+    "scan_id": 173,
+    "millis": 564175,
+    "lat": 35.5179,
+    "lon": 11.03481,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -70
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-f3Py",
+        "mac": "48:2F:D7:08:41:D4",
+        "rssi": -84
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-n4C3",
+        "mac": "48:2F:D7:07:78:18",
+        "rssi": -85
+      },
+      {
+        "ssid": "TT_3EF0",
+        "mac": "40:ED:00:C3:3E:F0",
+        "rssi": -88
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:16",
+    "scan_id": 172,
+    "millis": 560709,
+    "lat": 35.51788,
+    "lon": 11.03478,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -76
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:11",
+    "scan_id": 171,
+    "millis": 557515,
+    "lat": 35.51788,
+    "lon": 11.03478,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -70
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-f3Py",
+        "mac": "48:2F:D7:08:41:D4",
+        "rssi": -84
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:06",
+    "scan_id": 170,
+    "millis": 554144,
+    "lat": 35.5178,
+    "lon": 11.03478,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -73
+      },
+      {
+        "ssid": "TT_3EF0",
+        "mac": "40:ED:00:C3:3E:F0",
+        "rssi": -89
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-f3Py",
+        "mac": "48:2F:D7:08:41:D4",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:44:01",
+    "scan_id": 169,
+    "millis": 551181,
+    "lat": 35.51756,
+    "lon": 11.03477,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -77
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:56",
+    "scan_id": 168,
+    "millis": 547726,
+    "lat": 35.51719,
+    "lon": 11.03474,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -76
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -84
+      },
+      {
+        "ssid": "Ooredoo-X17M-E30BC0",
+        "mac": "FC:3F:FC:E3:0B:C4",
+        "rssi": -87
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-f3Py",
+        "mac": "48:2F:D7:08:41:D4",
+        "rssi": -88
+      },
+      {
+        "ssid": "TT_3EF0",
+        "mac": "40:ED:00:C3:3E:F0",
+        "rssi": -89
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-n4C3",
+        "mac": "48:2F:D7:07:78:18",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:51",
+    "scan_id": 167,
+    "millis": 544479,
+    "lat": 35.5172,
+    "lon": 11.0346,
+    "networks": [
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -68
+      },
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -70
+      },
+      {
+        "ssid": "Ooredoo-X17M-E30BC0",
+        "mac": "FC:3F:FC:E3:0B:C4",
+        "rssi": -81
+      },
+      {
+        "ssid": "Ooredoo 4G_3991CE",
+        "mac": "60:14:66:39:91:CE",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:46",
+    "scan_id": 166,
+    "millis": 541163,
+    "lat": 35.51705,
+    "lon": 11.03457,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X17M-E30BC0",
+        "mac": "FC:3F:FC:E3:0B:C4",
+        "rssi": -72
+      },
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -78
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -79
+      },
+      {
+        "ssid": "Ooredoo 4G_3991CE",
+        "mac": "60:14:66:39:91:CE",
+        "rssi": -87
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-f3Py",
+        "mac": "48:2F:D7:08:41:D4",
+        "rssi": -88
+      },
+      {
+        "ssid": "HexaByte D9B0",
+        "mac": "6C:D1:E5:80:F4:84",
+        "rssi": -89
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-n4C3",
+        "mac": "48:2F:D7:07:78:18",
+        "rssi": -89
+      },
+      {
+        "ssid": "Redmi Note 11 Pro 5G",
+        "mac": "9E:17:79:9A:E6:2F",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:41",
+    "scan_id": 165,
+    "millis": 537916,
+    "lat": 35.517,
+    "lon": 11.03441,
+    "networks": [
+      {
+        "ssid": "Ooredoo 4G_3991CE",
+        "mac": "60:14:66:39:91:CE",
+        "rssi": -66
+      },
+      {
+        "ssid": "Ooredoo-X17M-E30BC0",
+        "mac": "FC:3F:FC:E3:0B:C4",
+        "rssi": -68
+      },
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -70
+      },
+      {
+        "ssid": "Redmi Note 11 Pro 5G",
+        "mac": "9E:17:79:9A:E6:2F",
+        "rssi": -81
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -83
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-w6H4",
+        "mac": "48:2F:D7:08:56:E4",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:36",
+    "scan_id": 164,
+    "millis": 534550,
+    "lat": 35.51708,
+    "lon": 11.0344,
+    "networks": [
+      {
+        "ssid": "Ooredoo 4G_3991CE",
+        "mac": "60:14:66:39:91:CE",
+        "rssi": -67
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-w6H4",
+        "mac": "48:2F:D7:08:56:E4",
+        "rssi": -73
+      },
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -77
+      },
+      {
+        "ssid": "BEE HUAWEI-FCB3",
+        "mac": "30:49:9E:A2:11:FC",
+        "rssi": -78
+      },
+      {
+        "ssid": "Ooredoo-X17M-E30BC0",
+        "mac": "FC:3F:FC:E3:0B:C4",
+        "rssi": -78
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -81
+      },
+      {
+        "ssid": "HexaByte D9B0",
+        "mac": "6C:D1:E5:80:F4:84",
+        "rssi": -82
+      },
+      {
+        "ssid": "Redmi Note 11 Pro 5G",
+        "mac": "9E:17:79:9A:E6:2F",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:31",
+    "scan_id": 163,
+    "millis": 531452,
+    "lat": 35.51703,
+    "lon": 11.03443,
+    "networks": [
+      {
+        "ssid": "Ooredoo 4G_3991CE",
+        "mac": "60:14:66:39:91:CE",
+        "rssi": -65
+      },
+      {
+        "ssid": "Redmi Note 11 Pro 5G",
+        "mac": "9E:17:79:9A:E6:2F",
+        "rssi": -73
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-w6H4",
+        "mac": "48:2F:D7:08:56:E4",
+        "rssi": -76
+      },
+      {
+        "ssid": "Ooredoo-X17M-E30BC0",
+        "mac": "FC:3F:FC:E3:0B:C4",
+        "rssi": -82
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -83
+      },
+      {
+        "ssid": "HexaByte D9B0",
+        "mac": "6C:D1:E5:80:F4:84",
+        "rssi": -84
+      },
+      {
+        "ssid": "BEE HUAWEI-FCB3",
+        "mac": "30:49:9E:A2:11:FC",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:26",
+    "scan_id": 162,
+    "millis": 527986,
+    "lat": 35.51703,
+    "lon": 11.03443,
+    "networks": [
+      {
+        "ssid": "Ooredoo 4G_3991CE",
+        "mac": "60:14:66:39:91:CE",
+        "rssi": -73
+      },
+      {
+        "ssid": "BEE HUAWEI-FCB3",
+        "mac": "30:49:9E:A2:11:FC",
+        "rssi": -76
+      },
+      {
+        "ssid": "Redmi Note 11 Pro 5G",
+        "mac": "9E:17:79:9A:E6:2F",
+        "rssi": -81
+      },
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -84
+      },
+      {
+        "ssid": "HexaByte D9B0",
+        "mac": "6C:D1:E5:80:F4:84",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:21",
+    "scan_id": 161,
+    "millis": 524802,
+    "lat": 35.51702,
+    "lon": 11.03456,
+    "networks": [
+      {
+        "ssid": "Ooredoo 4G_3991CE",
+        "mac": "60:14:66:39:91:CE",
+        "rssi": -73
+      },
+      {
+        "ssid": "HexaByte D9B0",
+        "mac": "6C:D1:E5:80:F4:84",
+        "rssi": -79
+      },
+      {
+        "ssid": "BEE HUAWEI-FCB3",
+        "mac": "30:49:9E:A2:11:FC",
+        "rssi": -82
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -84
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -86
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-w6H4",
+        "mac": "48:2F:D7:08:56:E4",
+        "rssi": -90
+      },
+      {
+        "ssid": "Ooredoo-X17M-E30BC0",
+        "mac": "FC:3F:FC:E3:0B:C4",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:16",
+    "scan_id": 160,
+    "millis": 521487,
+    "lat": 35.51683,
+    "lon": 11.03486,
+    "networks": [
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -82
+      },
+      {
+        "ssid": "Ooredoo-X17M-E35B9A",
+        "mac": "FC:3F:FC:E3:5B:9E",
+        "rssi": -82
+      },
+      {
+        "ssid": "BEE HUAWEI-FCB3",
+        "mac": "30:49:9E:A2:11:FC",
+        "rssi": -82
+      },
+      {
+        "ssid": "Ooredoo 4G_3991CE",
+        "mac": "60:14:66:39:91:CE",
+        "rssi": -85
+      },
+      {
+        "ssid": "Redmi Note 11 Pro 5G",
+        "mac": "9E:17:79:9A:E6:2F",
+        "rssi": -88
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:11",
+    "scan_id": 159,
+    "millis": 518439,
+    "lat": 35.51681,
+    "lon": 11.03529,
+    "networks": [
+      {
+        "ssid": "BEE HUAWEI-FCB3",
+        "mac": "30:49:9E:A2:11:FC",
+        "rssi": -74
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -80
+      },
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -85
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-w6H4",
+        "mac": "48:2F:D7:08:56:E4",
+        "rssi": -88
+      },
+      {
+        "ssid": "Redmi Note 11 Pro 5G",
+        "mac": "9E:17:79:9A:E6:2F",
+        "rssi": -88
+      },
+      {
+        "ssid": "HexaByte D9B0",
+        "mac": "6C:D1:E5:80:F4:84",
+        "rssi": -89
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -89
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:06",
+    "scan_id": 158,
+    "millis": 515012,
+    "lat": 35.51671,
+    "lon": 11.03547,
+    "networks": [
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -84
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -87
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -87
+      },
+      {
+        "ssid": "BEE HUAWEI-FCB3",
+        "mac": "30:49:9E:A2:11:FC",
+        "rssi": -87
+      },
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -87
+      },
+      {
+        "ssid": "HexaByte D9B0",
+        "mac": "6C:D1:E5:80:F4:84",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:43:01",
+    "scan_id": 157,
+    "millis": 511807,
+    "lat": 35.51674,
+    "lon": 11.03529,
+    "networks": [
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -77
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -88
+      },
+      {
+        "ssid": "ORANGE_908C",
+        "mac": "24:26:D6:F5:90:94",
+        "rssi": -89
+      },
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -89
+      },
+      {
+        "ssid": "BEE HUAWEI-FCB3",
+        "mac": "30:49:9E:A2:11:FC",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:56",
+    "scan_id": 156,
+    "millis": 508534,
+    "lat": 35.51677,
+    "lon": 11.03526,
+    "networks": [
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -59
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -85
+      },
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:51",
+    "scan_id": 155,
+    "millis": 505522,
+    "lat": 35.5168,
+    "lon": 11.03555,
+    "networks": [
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -65
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:46",
+    "scan_id": 154,
+    "millis": 502132,
+    "lat": 35.5168,
+    "lon": 11.03568,
+    "networks": [
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -73
+      },
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -75
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:41",
+    "scan_id": 153,
+    "millis": 498809,
+    "lat": 35.51684,
+    "lon": 11.03552,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -68
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:36",
+    "scan_id": 152,
+    "millis": 495547,
+    "lat": 35.5169,
+    "lon": 11.03511,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -57
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -80
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:30",
+    "scan_id": 151,
+    "millis": 492364,
+    "lat": 35.51676,
+    "lon": 11.03488,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -61
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -79
+      },
+      {
+        "ssid": "TT_2998",
+        "mac": "40:ED:00:A6:29:98",
+        "rssi": -87
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:25",
+    "scan_id": 150,
+    "millis": 488925,
+    "lat": 35.51641,
+    "lon": 11.0349,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -65
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -85
+      },
+      {
+        "ssid": "TT_2998",
+        "mac": "40:ED:00:A6:29:98",
+        "rssi": -89
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -90
+      },
+      {
+        "ssid": "TOPNET_9BC2",
+        "mac": "AC:5E:14:F7:9B:C8",
+        "rssi": -90
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-Mu6D",
+        "mac": "48:2F:D7:52:1B:10",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:20",
+    "scan_id": 149,
+    "millis": 485991,
+    "lat": 35.51641,
+    "lon": 11.0349,
+    "networks": [
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -71
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -85
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -89
+      },
+      {
+        "ssid": "TOPNET_9BC2",
+        "mac": "AC:5E:14:F7:9B:C8",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:15",
+    "scan_id": 148,
+    "millis": 482497,
+    "lat": 35.5162,
+    "lon": 11.03522,
+    "networks": [
+      {
+        "ssid": "TT_2998",
+        "mac": "40:ED:00:A6:29:98",
+        "rssi": -72
+      },
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -73
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -83
+      },
+      {
+        "ssid": "TOPNET_9BC2",
+        "mac": "AC:5E:14:F7:9B:C8",
+        "rssi": -87
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:10",
+    "scan_id": 147,
+    "millis": 479303,
+    "lat": 35.51621,
+    "lon": 11.0352,
+    "networks": [
+      {
+        "ssid": "TT_2998",
+        "mac": "40:ED:00:A6:29:98",
+        "rssi": -71
+      },
+      {
+        "ssid": "TOPNET_9BC2",
+        "mac": "AC:5E:14:F7:9B:C8",
+        "rssi": -80
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:05",
+    "scan_id": 146,
+    "millis": 475975,
+    "lat": 35.51621,
+    "lon": 11.03519,
+    "networks": [
+      {
+        "ssid": "TT_2998",
+        "mac": "40:ED:00:A6:29:98",
+        "rssi": -70
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -74
+      },
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -81
+      },
+      {
+        "ssid": "TOPNET_9BC2",
+        "mac": "AC:5E:14:F7:9B:C8",
+        "rssi": -87
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -88
+      },
+      {
+        "ssid": "ooredoo-43D540",
+        "mac": "98:A9:42:43:D5:41",
+        "rssi": -90
+      },
+      {
+        "ssid": "ORANGE_85A8-EXT",
+        "mac": "90:91:64:28:F9:55",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:42:00",
+    "scan_id": 145,
+    "millis": 472981,
+    "lat": 35.5162,
+    "lon": 11.03523,
+    "networks": [
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -70
+      },
+      {
+        "ssid": "TT_2998",
+        "mac": "40:ED:00:A6:29:98",
+        "rssi": -75
+      },
+      {
+        "ssid": "TOPNET_9BC2",
+        "mac": "AC:5E:14:F7:9B:C8",
+        "rssi": -83
+      },
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -84
+      },
+      {
+        "ssid": "dlink-D349",
+        "mac": "58:D5:6E:A9:D3:4A",
+        "rssi": -88
+      },
+      {
+        "ssid": "ORANGE_85A8-EXT",
+        "mac": "90:91:64:28:F9:55",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:55",
+    "scan_id": 144,
+    "millis": 469525,
+    "lat": 35.5162,
+    "lon": 11.03523,
+    "networks": [
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -67
+      },
+      {
+        "ssid": "TOPNET_9BC2",
+        "mac": "AC:5E:14:F7:9B:C8",
+        "rssi": -80
+      },
+      {
+        "ssid": "TT_2998",
+        "mac": "40:ED:00:A6:29:98",
+        "rssi": -82
+      },
+      {
+        "ssid": "ORANGE_85A8-EXT",
+        "mac": "90:91:64:28:F9:55",
+        "rssi": -89
+      },
+      {
+        "ssid": "ooredoo-43D540",
+        "mac": "98:A9:42:43:D5:41",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:50",
+    "scan_id": 143,
+    "millis": 466481,
+    "lat": 35.51618,
+    "lon": 11.03524,
+    "networks": [
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -66
+      },
+      {
+        "ssid": "TT_2998",
+        "mac": "40:ED:00:A6:29:98",
+        "rssi": -82
+      },
+      {
+        "ssid": "TOPNET_9BC2",
+        "mac": "AC:5E:14:F7:9B:C8",
+        "rssi": -82
+      },
+      {
+        "ssid": "ooredoo-43D540",
+        "mac": "98:A9:42:43:D5:41",
+        "rssi": -83
+      },
+      {
+        "ssid": "ORANGE_85A8-EXT",
+        "mac": "90:91:64:28:F9:55",
+        "rssi": -84
+      },
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:45",
+    "scan_id": 142,
+    "millis": 463065,
+    "lat": 35.51611,
+    "lon": 11.03538,
+    "networks": [
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -67
+      },
+      {
+        "ssid": "ORANGE_85A8-EXT",
+        "mac": "90:91:64:28:F9:55",
+        "rssi": -76
+      },
+      {
+        "ssid": "Ooredoo-X16-FF2FF6",
+        "mac": "98:A9:42:FF:2F:F7",
+        "rssi": -88
+      },
+      {
+        "ssid": "ooredoo-43D540",
+        "mac": "98:A9:42:43:D5:41",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:40",
+    "scan_id": 141,
+    "millis": 460000,
+    "lat": 35.51611,
+    "lon": 11.03538,
+    "networks": [
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -66
+      },
+      {
+        "ssid": "ooredoo-43D540",
+        "mac": "98:A9:42:43:D5:41",
+        "rssi": -80
+      },
+      {
+        "ssid": "ORANGE_85A8-EXT",
+        "mac": "90:91:64:28:F9:55",
+        "rssi": -80
+      },
+      {
+        "ssid": "TT_2998",
+        "mac": "40:ED:00:A6:29:98",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:35",
+    "scan_id": 140,
+    "millis": 456524,
+    "lat": 35.51582,
+    "lon": 11.03543,
+    "networks": [
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -80
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:30",
+    "scan_id": 139,
+    "millis": 453191,
+    "lat": 35.51592,
+    "lon": 11.03538,
+    "networks": [
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:25",
+    "scan_id": 138,
+    "millis": 450080,
+    "lat": 35.51553,
+    "lon": 11.03545,
+    "networks": [
+      {
+        "ssid": "ooredoo-43D540",
+        "mac": "98:A9:42:43:D5:41",
+        "rssi": -83
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:20",
+    "scan_id": 137,
+    "millis": 446897,
+    "lat": 35.51582,
+    "lon": 11.03541,
+    "networks": [
+      {
+        "ssid": "ooredoo-43D540",
+        "mac": "98:A9:42:43:D5:41",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:10",
+    "scan_id": 135,
+    "millis": 440355,
+    "lat": 35.51578,
+    "lon": 11.03556,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:05",
+    "scan_id": 134,
+    "millis": 437006,
+    "lat": 35.51578,
+    "lon": 11.03556,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -74
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:41:00",
+    "scan_id": 133,
+    "millis": 434055,
+    "lat": 35.5157,
+    "lon": 11.03562,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -68
+      },
+      {
+        "ssid": "Bannour Gri",
+        "mac": "98:A9:42:5D:80:A2",
+        "rssi": -85
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -88
+      },
+      {
+        "ssid": "Fixbox-7E763C",
+        "mac": "34:BA:9A:7E:76:3C",
+        "rssi": -89
+      },
+      {
+        "ssid": "BEE Nokia- 6F6E",
+        "mac": "50:88:C7:9D:66:49",
+        "rssi": -90
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CD:66:49",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:55",
+    "scan_id": 132,
+    "millis": 430621,
+    "lat": 35.51567,
+    "lon": 11.03563,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -62
+      },
+      {
+        "ssid": "ooredoo-8BD5E2",
+        "mac": "98:A9:42:8B:D5:E3",
+        "rssi": -85
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-Mu6D",
+        "mac": "48:2F:D7:52:1B:10",
+        "rssi": -89
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CD:66:49",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:50",
+    "scan_id": 131,
+    "millis": 427587,
+    "lat": 35.51578,
+    "lon": 11.0356,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -76
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:45",
+    "scan_id": 130,
+    "millis": 424224,
+    "lat": 35.51556,
+    "lon": 11.0356,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -60
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -67
+      },
+      {
+        "ssid": "Bannour Gri",
+        "mac": "98:A9:42:5D:80:A2",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:39",
+    "scan_id": 129,
+    "millis": 421041,
+    "lat": 35.51541,
+    "lon": 11.0357,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -71
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -71
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-Mu6D",
+        "mac": "48:2F:D7:52:1B:10",
+        "rssi": -82
+      },
+      {
+        "ssid": "Bannour Gri",
+        "mac": "98:A9:42:5D:80:A2",
+        "rssi": -85
+      },
+      {
+        "ssid": "ooredoo-8BD5E2",
+        "mac": "98:A9:42:8B:D5:E3",
+        "rssi": -87
+      },
+      {
+        "ssid": "BEE Nokia- 6F6E",
+        "mac": "50:88:C7:9D:66:49",
+        "rssi": -88
+      },
+      {
+        "ssid": "ORANGE_85A8",
+        "mac": "24:26:D6:F5:85:B0",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:34",
+    "scan_id": 128,
+    "millis": 417726,
+    "lat": 35.51533,
+    "lon": 11.03564,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -77
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -79
+      },
+      {
+        "ssid": "Bannour Gri",
+        "mac": "98:A9:42:5D:80:A2",
+        "rssi": -85
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-nYZ7",
+        "mac": "48:2F:D7:31:86:C8",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:29",
+    "scan_id": 127,
+    "millis": 414681,
+    "lat": 35.51526,
+    "lon": 11.03564,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -74
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-Mu6D",
+        "mac": "48:2F:D7:52:1B:10",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:24",
+    "scan_id": 126,
+    "millis": 411319,
+    "lat": 35.51518,
+    "lon": 11.03564,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -81
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -84
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-nYZ7",
+        "mac": "48:2F:D7:31:86:C8",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:19",
+    "scan_id": 125,
+    "millis": 408103,
+    "lat": 35.51518,
+    "lon": 11.03564,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -75
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-Mu6D",
+        "mac": "48:2F:D7:52:1B:10",
+        "rssi": -81
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-nYZ7",
+        "mac": "48:2F:D7:31:86:C8",
+        "rssi": -85
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:14",
+    "scan_id": 124,
+    "millis": 404744,
+    "lat": 35.51516,
+    "lon": 11.03572,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -73
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -75
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-Mu6D",
+        "mac": "48:2F:D7:52:1B:10",
+        "rssi": -76
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-nYZ7",
+        "mac": "48:2F:D7:31:86:C8",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:09",
+    "scan_id": 123,
+    "millis": 401465,
+    "lat": 35.51518,
+    "lon": 11.03574,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -71
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -72
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-Mu6D",
+        "mac": "48:2F:D7:52:1B:10",
+        "rssi": -78
+      },
+      {
+        "ssid": "ooredoo-8BD5E2",
+        "mac": "98:A9:42:8B:D5:E3",
+        "rssi": -82
+      },
+      {
+        "ssid": "BEE Nokia- 6F6E",
+        "mac": "50:88:C7:9D:66:49",
+        "rssi": -85
+      },
+      {
+        "ssid": "Bannour Gri",
+        "mac": "98:A9:42:5D:80:A2",
+        "rssi": -86
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CD:66:49",
+        "rssi": -86
+      },
+      {
+        "ssid": "Fixbox-7E763C",
+        "mac": "34:BA:9A:7E:76:3C",
+        "rssi": -87
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -88
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3gH2",
+        "mac": "48:2F:D7:52:0F:1C",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:40:04",
+    "scan_id": 122,
+    "millis": 398117,
+    "lat": 35.51511,
+    "lon": 11.0358,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -69
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-Mu6D",
+        "mac": "48:2F:D7:52:1B:10",
+        "rssi": -79
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -79
+      },
+      {
+        "ssid": "ooredoo-8BD5E2",
+        "mac": "98:A9:42:8B:D5:E3",
+        "rssi": -81
+      },
+      {
+        "ssid": "Fixbox-7E763C",
+        "mac": "34:BA:9A:7E:76:3C",
+        "rssi": -83
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-nYZ7",
+        "mac": "48:2F:D7:31:86:C8",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:59",
+    "scan_id": 121,
+    "millis": 394868,
+    "lat": 35.51504,
+    "lon": 11.03585,
+    "networks": [
+      {
+        "ssid": "ooredoo-8BD5E2",
+        "mac": "98:A9:42:8B:D5:E3",
+        "rssi": -74
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -77
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -77
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3gH2",
+        "mac": "48:2F:D7:52:0F:1C",
+        "rssi": -82
+      },
+      {
+        "ssid": "BEE Nokia- 6F6E",
+        "mac": "50:88:C7:9D:66:49",
+        "rssi": -83
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-nYZ7",
+        "mac": "48:2F:D7:31:86:C8",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:54",
+    "scan_id": 120,
+    "millis": 391492,
+    "lat": 35.51503,
+    "lon": 11.03586,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -69
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -75
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CD:66:49",
+        "rssi": -82
+      },
+      {
+        "ssid": "Bannour Gri",
+        "mac": "98:A9:42:5D:80:A2",
+        "rssi": -85
+      },
+      {
+        "ssid": "ooredoo-8BD5E2",
+        "mac": "98:A9:42:8B:D5:E3",
+        "rssi": -85
+      },
+      {
+        "ssid": "Fixbox-7E763C",
+        "mac": "34:BA:9A:7E:76:3C",
+        "rssi": -88
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-Mu6D",
+        "mac": "48:2F:D7:52:1B:10",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:49",
+    "scan_id": 119,
+    "millis": 388287,
+    "lat": 35.51499,
+    "lon": 11.03586,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -72
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -78
+      },
+      {
+        "ssid": "BEE Nokia- 6F6E",
+        "mac": "50:88:C7:9D:66:49",
+        "rssi": -84
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CD:66:49",
+        "rssi": -84
+      },
+      {
+        "ssid": "ooredoo-8BD5E2",
+        "mac": "98:A9:42:8B:D5:E3",
+        "rssi": -84
+      },
+      {
+        "ssid": "Fixbox-7E763C",
+        "mac": "34:BA:9A:7E:76:3C",
+        "rssi": -86
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:44",
+    "scan_id": 118,
+    "millis": 384881,
+    "lat": 35.51475,
+    "lon": 11.03591,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -73
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -78
+      },
+      {
+        "ssid": "ooredoo-8BD5E2",
+        "mac": "98:A9:42:8B:D5:E3",
+        "rssi": -82
+      },
+      {
+        "ssid": "BEE Nokia- 6F6E",
+        "mac": "50:88:C7:9D:66:49",
+        "rssi": -86
+      },
+      {
+        "ssid": "ooredoo-5D79A7",
+        "mac": "98:A9:42:5D:79:A8",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:39",
+    "scan_id": 117,
+    "millis": 381677,
+    "lat": 35.51477,
+    "lon": 11.03591,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -74
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -77
+      },
+      {
+        "ssid": "BEE Nokia- 6F6E",
+        "mac": "50:88:C7:9D:66:49",
+        "rssi": -82
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CD:66:49",
+        "rssi": -83
+      },
+      {
+        "ssid": "SE 2KTL_2104-72370884D",
+        "mac": "34:EA:E7:59:99:2B",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:34",
+    "scan_id": 116,
+    "millis": 378372,
+    "lat": 35.51472,
+    "lon": 11.0359,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -78
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -86
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -87
+      },
+      {
+        "ssid": "SE 2KTL_2104-72370884D",
+        "mac": "34:EA:E7:59:99:2B",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:29",
+    "scan_id": 115,
+    "millis": 375338,
+    "lat": 35.51472,
+    "lon": 11.0359,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -75
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -80
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CD:66:49",
+        "rssi": -85
+      },
+      {
+        "ssid": "ooredoo-43FE1A",
+        "mac": "98:A9:42:43:FE:1B",
+        "rssi": -86
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -86
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3gH2",
+        "mac": "48:2F:D7:52:0F:1C",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:24",
+    "scan_id": 114,
+    "millis": 371922,
+    "lat": 35.51471,
+    "lon": 11.03595,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -75
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -77
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -81
+      },
+      {
+        "ssid": "ooredoo-5D79A7",
+        "mac": "98:A9:42:5D:79:A8",
+        "rssi": -81
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -84
+      },
+      {
+        "ssid": "ooredoo-43FE1A",
+        "mac": "98:A9:42:43:FE:1B",
+        "rssi": -87
+      },
+      {
+        "ssid": "SE 2KTL_2104-72370884D",
+        "mac": "34:EA:E7:59:99:2B",
+        "rssi": -89
+      },
+      {
+        "ssid": "ooredoo-8BD5E2",
+        "mac": "98:A9:42:8B:D5:E3",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:19",
+    "scan_id": 113,
+    "millis": 368696,
+    "lat": 35.5147,
+    "lon": 11.03594,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -82
+      },
+      {
+        "ssid": "ooredoo-5D79A7",
+        "mac": "98:A9:42:5D:79:A8",
+        "rssi": -83
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -86
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -88
+      },
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -89
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3gH2",
+        "mac": "48:2F:D7:52:0F:1C",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:14",
+    "scan_id": 112,
+    "millis": 365390,
+    "lat": 35.5147,
+    "lon": 11.03599,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -86
+      },
+      {
+        "ssid": "ooredoo-8BD5E2",
+        "mac": "98:A9:42:8B:D5:E3",
+        "rssi": -87
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -88
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -88
+      },
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:09",
+    "scan_id": 111,
+    "millis": 362357,
+    "lat": 35.51471,
+    "lon": 11.03598,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -79
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -82
+      },
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3gH2",
+        "mac": "48:2F:D7:52:0F:1C",
+        "rssi": -88
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -88
+      },
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:39:04",
+    "scan_id": 110,
+    "millis": 358941,
+    "lat": 35.51473,
+    "lon": 11.03603,
+    "networks": [
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -80
+      },
+      {
+        "ssid": "ooredoo-43FE1A",
+        "mac": "98:A9:42:43:FE:1B",
+        "rssi": -84
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:59",
+    "scan_id": 109,
+    "millis": 355747,
+    "lat": 35.51475,
+    "lon": 11.03633,
+    "networks": [
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -79
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -80
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -84
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -85
+      },
+      {
+        "ssid": "ooredoo-43FE1A",
+        "mac": "98:A9:42:43:FE:1B",
+        "rssi": -87
+      },
+      {
+        "ssid": "SE 2KTL_2104-72370884D",
+        "mac": "34:EA:E7:59:99:2B",
+        "rssi": -88
+      },
+      {
+        "ssid": "ooredoo-5D79A7",
+        "mac": "98:A9:42:5D:79:A8",
+        "rssi": -89
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:54",
+    "scan_id": 108,
+    "millis": 352420,
+    "lat": 35.51466,
+    "lon": 11.03646,
+    "networks": [
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -86
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -87
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -87
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:49",
+    "scan_id": 107,
+    "millis": 349215,
+    "lat": 35.51463,
+    "lon": 11.03658,
+    "networks": [
+      {
+        "ssid": "SE 2KTL_2104-72370884D",
+        "mac": "34:EA:E7:59:99:2B",
+        "rssi": -84
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -86
+      },
+      {
+        "ssid": "ooredoo-5D79A7",
+        "mac": "98:A9:42:5D:79:A8",
+        "rssi": -90
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:44",
+    "scan_id": 106,
+    "millis": 345871,
+    "lat": 35.51455,
+    "lon": 11.03674,
+    "networks": [
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -79
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -85
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:39",
+    "scan_id": 105,
+    "millis": 342855,
+    "lat": 35.51455,
+    "lon": 11.03674,
+    "networks": [
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -79
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -83
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -85
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -89
+      },
+      {
+        "ssid": "TT_8728",
+        "mac": "40:ED:00:C2:87:28",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:34",
+    "scan_id": 104,
+    "millis": 339389,
+    "lat": 35.51454,
+    "lon": 11.03674,
+    "networks": [
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -85
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-2422",
+        "mac": "A0:9F:7A:6C:24:22",
+        "rssi": -86
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:0C:09",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:29",
+    "scan_id": 103,
+    "millis": 336195,
+    "lat": 35.51452,
+    "lon": 11.03674,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -75
+      },
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -75
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:24",
+    "scan_id": 102,
+    "millis": 332867,
+    "lat": 35.51439,
+    "lon": 11.03674,
+    "networks": [
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -76
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -87
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -88
+      },
+      {
+        "ssid": "Ooredoo-18A654",
+        "mac": "FC:3F:FC:18:A6:56",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:18",
+    "scan_id": 101,
+    "millis": 329874,
+    "lat": 35.51438,
+    "lon": 11.03676,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -70
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:13",
+    "scan_id": 100,
+    "millis": 326461,
+    "lat": 35.51432,
+    "lon": 11.03675,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -71
+      },
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:08",
+    "scan_id": 99,
+    "millis": 323450,
+    "lat": 35.51404,
+    "lon": 11.03663,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -71
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -84
+      },
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:38:03",
+    "scan_id": 98,
+    "millis": 320067,
+    "lat": 35.5142,
+    "lon": 11.03672,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:58",
+    "scan_id": 97,
+    "millis": 316916,
+    "lat": 35.5142,
+    "lon": 11.03672,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -67
+      },
+      {
+        "ssid": "ALHN-89CA",
+        "mac": "50:88:C7:9F:0C:09",
+        "rssi": -89
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:0C:09",
+        "rssi": -89
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:53",
+    "scan_id": 96,
+    "millis": 313607,
+    "lat": 35.51414,
+    "lon": 11.03676,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -75
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -81
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:0C:09",
+        "rssi": -87
+      },
+      {
+        "ssid": "ALHN-89CA",
+        "mac": "50:88:C7:9F:0C:09",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:48",
+    "scan_id": 95,
+    "millis": 310634,
+    "lat": 35.51407,
+    "lon": 11.03679,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -77
+      },
+      {
+        "ssid": "ALHN-89CA",
+        "mac": "50:88:C7:9F:0C:09",
+        "rssi": -77
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:0C:09",
+        "rssi": -81
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:43",
+    "scan_id": 94,
+    "millis": 307201,
+    "lat": 35.51403,
+    "lon": 11.0368,
+    "networks": [
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -81
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -82
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:0C:09",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:38",
+    "scan_id": 93,
+    "millis": 304190,
+    "lat": 35.51396,
+    "lon": 11.03679,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -77
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:0C:09",
+        "rssi": -83
+      },
+      {
+        "ssid": "ALHN-89CA",
+        "mac": "50:88:C7:9F:0C:09",
+        "rssi": -84
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:33",
+    "scan_id": 92,
+    "millis": 300817,
+    "lat": 35.51392,
+    "lon": 11.03677,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -78
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -84
+      },
+      {
+        "ssid": "ALHN-89CA",
+        "mac": "50:88:C7:9F:0C:09",
+        "rssi": -88
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:0C:09",
+        "rssi": -89
+      },
+      {
+        "ssid": "TOPNET_E930_2EX",
+        "mac": "74:DA:38:C6:0E:81",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:28",
+    "scan_id": 91,
+    "millis": 297623,
+    "lat": 35.51388,
+    "lon": 11.03676,
+    "networks": [
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -81
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -82
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:0C:09",
+        "rssi": -87
+      },
+      {
+        "ssid": "ALHN-89CA",
+        "mac": "50:88:C7:9F:0C:09",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:23",
+    "scan_id": 90,
+    "millis": 294351,
+    "lat": 35.51387,
+    "lon": 11.03674,
+    "networks": [
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -80
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:0C:09",
+        "rssi": -85
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -85
+      },
+      {
+        "ssid": "ALHN-89CA",
+        "mac": "50:88:C7:9F:0C:09",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:18",
+    "scan_id": 89,
+    "millis": 291307,
+    "lat": 35.51381,
+    "lon": 11.03675,
+    "networks": [
+      {
+        "ssid": "ALHN-89CA",
+        "mac": "50:88:C7:9F:0C:09",
+        "rssi": -88
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -89
+      },
+      {
+        "ssid": "ooredoo-43FE1A",
+        "mac": "98:A9:42:43:FE:1B",
+        "rssi": -89
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:0C:09",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:13",
+    "scan_id": 88,
+    "millis": 287923,
+    "lat": 35.51359,
+    "lon": 11.03672,
+    "networks": [
+      {
+        "ssid": "Ooredoo-188AAC",
+        "mac": "FC:3F:FC:18:8A:AE",
+        "rssi": -81
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -82
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:08",
+    "scan_id": 87,
+    "millis": 284750,
+    "lat": 35.51359,
+    "lon": 11.03672,
+    "networks": [
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -76
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -81
+      },
+      {
+        "ssid": "Ooredoo-188AAC",
+        "mac": "FC:3F:FC:18:8A:AE",
+        "rssi": -82
+      },
+      {
+        "ssid": "ooredoo-43FE1A",
+        "mac": "98:A9:42:43:FE:1B",
+        "rssi": -85
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:37:03",
+    "scan_id": 86,
+    "millis": 281407,
+    "lat": 35.51356,
+    "lon": 11.03669,
+    "networks": [
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -81
+      },
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -82
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:58",
+    "scan_id": 85,
+    "millis": 278446,
+    "lat": 35.51359,
+    "lon": 11.03668,
+    "networks": [
+      {
+        "ssid": "MAXBOX5G_571A",
+        "mac": "82:82:D0:1A:57:BF",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:53",
+    "scan_id": 84,
+    "millis": 275065,
+    "lat": 35.5136,
+    "lon": 11.03668,
+    "networks": [
+      {
+        "ssid": "Ooredoo-188AAC",
+        "mac": "FC:3F:FC:18:8A:AE",
+        "rssi": -75
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:48",
+    "scan_id": 83,
+    "millis": 272043,
+    "lat": 35.51344,
+    "lon": 11.03677,
+    "networks": [
+      {
+        "ssid": "Ooredoo-188AAC",
+        "mac": "FC:3F:FC:18:8A:AE",
+        "rssi": -79
+      },
+      {
+        "ssid": "ALHN-8CD2_plus",
+        "mac": "44:F7:70:64:63:24",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:43",
+    "scan_id": 82,
+    "millis": 268660,
+    "lat": 35.51343,
+    "lon": 11.03681,
+    "networks": [
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:38",
+    "scan_id": 81,
+    "millis": 265498,
+    "lat": 35.51351,
+    "lon": 11.03675,
+    "networks": [
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -79
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:33",
+    "scan_id": 80,
+    "millis": 262209,
+    "lat": 35.51354,
+    "lon": 11.03664,
+    "networks": [
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:28",
+    "scan_id": 79,
+    "millis": 259247,
+    "lat": 35.51349,
+    "lon": 11.03645,
+    "networks": [
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -82
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:18",
+    "scan_id": 77,
+    "millis": 252695,
+    "lat": 35.51346,
+    "lon": 11.03657,
+    "networks": [
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -79
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -85
+      },
+      {
+        "ssid": "Wifi_SRZMFNZYDA",
+        "mac": "48:31:B7:D0:2C:0D",
+        "rssi": -89
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:13",
+    "scan_id": 76,
+    "millis": 249351,
+    "lat": 35.51337,
+    "lon": 11.03645,
+    "networks": [
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -83
+      },
+      {
+        "ssid": "Ooredoo-188AAC",
+        "mac": "FC:3F:FC:18:8A:AE",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:08",
+    "scan_id": 75,
+    "millis": 246357,
+    "lat": 35.51338,
+    "lon": 11.03648,
+    "networks": [
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -78
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -82
+      },
+      {
+        "ssid": "Ooredoo-188AAC",
+        "mac": "FC:3F:FC:18:8A:AE",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:36:03",
+    "scan_id": 74,
+    "millis": 242935,
+    "lat": 35.51327,
+    "lon": 11.03644,
+    "networks": [
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -75
+      },
+      {
+        "ssid": "TT_1CB8",
+        "mac": "F0:A7:31:71:1C:B8",
+        "rssi": -83
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -89
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -89
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:58",
+    "scan_id": 73,
+    "millis": 239912,
+    "lat": 35.51332,
+    "lon": 11.03648,
+    "networks": [
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -74
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -85
+      },
+      {
+        "ssid": "Wifi_SRZMFNZYDA",
+        "mac": "48:31:B7:D0:2C:0D",
+        "rssi": -88
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -90
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:53",
+    "scan_id": 72,
+    "millis": 236453,
+    "lat": 35.51313,
+    "lon": 11.03646,
+    "networks": [
+      {
+        "ssid": "TT_1CB8",
+        "mac": "F0:A7:31:71:1C:B8",
+        "rssi": -76
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -81
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -83
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -87
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:47",
+    "scan_id": 71,
+    "millis": 233529,
+    "lat": 35.51293,
+    "lon": 11.03639,
+    "networks": [
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -80
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -88
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:42",
+    "scan_id": 70,
+    "millis": 229998,
+    "lat": 35.51293,
+    "lon": 11.03639,
+    "networks": [
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -75
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -83
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -84
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -86
+      },
+      {
+        "ssid": "TT_1CB8",
+        "mac": "F0:A7:31:71:1C:B8",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:37",
+    "scan_id": 69,
+    "millis": 227059,
+    "lat": 35.513,
+    "lon": 11.03635,
+    "networks": [
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -67
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -77
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -79
+      },
+      {
+        "ssid": "Wifi_SRZMFNZYDA",
+        "mac": "48:31:B7:D0:2C:0D",
+        "rssi": -80
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -82
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -83
+      },
+      {
+        "ssid": "TT_1CB8",
+        "mac": "F0:A7:31:71:1C:B8",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:32",
+    "scan_id": 68,
+    "millis": 223532,
+    "lat": 35.51302,
+    "lon": 11.03626,
+    "networks": [
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -78
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -79
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -79
+      },
+      {
+        "ssid": "Wifi_SRZMFNZYDA",
+        "mac": "48:31:B7:D0:2C:0D",
+        "rssi": -81
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -82
+      },
+      {
+        "ssid": "TT_1CB8",
+        "mac": "F0:A7:31:71:1C:B8",
+        "rssi": -85
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:27",
+    "scan_id": 67,
+    "millis": 220177,
+    "lat": 35.513,
+    "lon": 11.03607,
+    "networks": [
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -64
+      },
+      {
+        "ssid": "Wifi_SRZMFNZYDA",
+        "mac": "48:31:B7:D0:2C:0D",
+        "rssi": -66
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -67
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -69
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -69
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -81
+      },
+      {
+        "ssid": "TT_1CB8",
+        "mac": "F0:A7:31:71:1C:B8",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:22",
+    "scan_id": 66,
+    "millis": 217101,
+    "lat": 35.51296,
+    "lon": 11.03595,
+    "networks": [
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -69
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -70
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -70
+      },
+      {
+        "ssid": "Wifi_SRZMFNZYDA",
+        "mac": "48:31:B7:D0:2C:0D",
+        "rssi": -72
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:17",
+    "scan_id": 65,
+    "millis": 213667,
+    "lat": 35.51292,
+    "lon": 11.03582,
+    "networks": [
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -62
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -75
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -79
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -87
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:12",
+    "scan_id": 64,
+    "millis": 210474,
+    "lat": 35.51293,
+    "lon": 11.03582,
+    "networks": [
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -70
+      },
+      {
+        "ssid": "Wifi_SRZMFNZYDA",
+        "mac": "48:31:B7:D0:2C:0D",
+        "rssi": -79
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -82
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -83
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -83
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:07",
+    "scan_id": 63,
+    "millis": 207130,
+    "lat": 35.51301,
+    "lon": 11.03585,
+    "networks": [
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -60
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -79
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -84
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -87
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -89
+      },
+      {
+        "ssid": "Wifi_SRZMFNZYDA",
+        "mac": "48:31:B7:D0:2C:0D",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:35:02",
+    "scan_id": 62,
+    "millis": 204136,
+    "lat": 35.51301,
+    "lon": 11.03585,
+    "networks": [
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -62
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -81
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -88
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -89
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -89
+      },
+      {
+        "ssid": "TOPNET_4C70",
+        "mac": "98:48:27:F1:4C:70",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:57",
+    "scan_id": 61,
+    "millis": 200681,
+    "lat": 35.51293,
+    "lon": 11.0358,
+    "networks": [
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -67
+      },
+      {
+        "ssid": "TOPNET_4C70",
+        "mac": "98:48:27:F1:4C:70",
+        "rssi": -82
+      },
+      {
+        "ssid": "Wifi_SRZMFNZYDA",
+        "mac": "48:31:B7:D0:2C:0D",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:52",
+    "scan_id": 60,
+    "millis": 197347,
+    "lat": 35.51279,
+    "lon": 11.03577,
+    "networks": [
+      {
+        "ssid": "TOPNET_4C70",
+        "mac": "98:48:27:F1:4C:70",
+        "rssi": -73
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -77
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -82
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:47",
+    "scan_id": 59,
+    "millis": 193903,
+    "lat": 35.51226,
+    "lon": 11.03576,
+    "networks": [
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -71
+      },
+      {
+        "ssid": "TOPNET_4C70",
+        "mac": "98:48:27:F1:4C:70",
+        "rssi": -74
+      },
+      {
+        "ssid": "Wifi_SRZMFNZYDA",
+        "mac": "48:31:B7:D0:2C:0D",
+        "rssi": -86
+      },
+      {
+        "ssid": "Wifi_SR7BQ8TQTL",
+        "mac": "48:31:B7:D0:A1:05",
+        "rssi": -86
+      },
+      {
+        "ssid": "Wifi_SREFVPWRTW",
+        "mac": "48:31:B7:D0:7B:F3",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:42",
+    "scan_id": 58,
+    "millis": 190676,
+    "lat": 35.51229,
+    "lon": 11.03578,
+    "networks": [
+      {
+        "ssid": "TOPNET_4C70",
+        "mac": "98:48:27:F1:4C:70",
+        "rssi": -70
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -76
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -83
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:37",
+    "scan_id": 57,
+    "millis": 187351,
+    "lat": 35.51233,
+    "lon": 11.03581,
+    "networks": [
+      {
+        "ssid": "TOPNET_4C70",
+        "mac": "98:48:27:F1:4C:70",
+        "rssi": -77
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -78
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -85
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:32",
+    "scan_id": 56,
+    "millis": 184275,
+    "lat": 35.51227,
+    "lon": 11.03585,
+    "networks": [
+      {
+        "ssid": "TOPNET_4C70",
+        "mac": "98:48:27:F1:4C:70",
+        "rssi": -69
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -80
+      },
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:27",
+    "scan_id": 55,
+    "millis": 180859,
+    "lat": 35.51225,
+    "lon": 11.03578,
+    "networks": [
+      {
+        "ssid": "TOPNET_4C70",
+        "mac": "98:48:27:F1:4C:70",
+        "rssi": -70
+      },
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -83
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -85
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:22",
+    "scan_id": 54,
+    "millis": 177665,
+    "lat": 35.51225,
+    "lon": 11.03576,
+    "networks": [
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -82
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:17",
+    "scan_id": 53,
+    "millis": 174393,
+    "lat": 35.51225,
+    "lon": 11.03576,
+    "networks": [
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -86
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:12",
+    "scan_id": 52,
+    "millis": 171232,
+    "lat": 35.51223,
+    "lon": 11.03561,
+    "networks": [
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -78
+      },
+      {
+        "ssid": "Ooredoo-FEBCB6",
+        "mac": "98:A9:42:FE:BC:B8",
+        "rssi": -87
+      },
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:07",
+    "scan_id": 51,
+    "millis": 167869,
+    "lat": 35.51222,
+    "lon": 11.03561,
+    "networks": [
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -78
+      },
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:34:02",
+    "scan_id": 50,
+    "millis": 164697,
+    "lat": 35.51219,
+    "lon": 11.03565,
+    "networks": [
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -61
+      },
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -84
+      },
+      {
+        "ssid": "Orange-60BE",
+        "mac": "E2:8D:D0:BE:60:9E",
+        "rssi": -84
+      },
+      {
+        "ssid": "ALHN-8AED",
+        "mac": "50:88:C7:9F:1E:39",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:57",
+    "scan_id": 49,
+    "millis": 161403,
+    "lat": 35.51218,
+    "lon": 11.03572,
+    "networks": [
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -78
+      },
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -83
+      },
+      {
+        "ssid": "TOPNET_4C70",
+        "mac": "98:48:27:F1:4C:70",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:52",
+    "scan_id": 48,
+    "millis": 158220,
+    "lat": 35.51217,
+    "lon": 11.03573,
+    "networks": [
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -77
+      },
+      {
+        "ssid": "Orange-60BE",
+        "mac": "E2:8D:D0:BE:60:9E",
+        "rssi": -79
+      },
+      {
+        "ssid": "Orange-A575",
+        "mac": "14:5F:94:11:A5:75",
+        "rssi": -83
+      },
+      {
+        "ssid": "ALHN-8AED",
+        "mac": "50:88:C7:9F:1E:39",
+        "rssi": -86
+      },
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -86
+      },
+      {
+        "ssid": "TT-ALHN-0057-2.4",
+        "mac": "E0:3D:A6:08:80:D9",
+        "rssi": -88
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -89
+      },
+      {
+        "ssid": "ONEV1P",
+        "mac": "98:A9:42:5E:96:54",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:47",
+    "scan_id": 47,
+    "millis": 154854,
+    "lat": 35.51199,
+    "lon": 11.03572,
+    "networks": [
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -75
+      },
+      {
+        "ssid": "Orange-60BE",
+        "mac": "E2:8D:D0:BE:60:9E",
+        "rssi": -78
+      },
+      {
+        "ssid": "Orange-A575",
+        "mac": "14:5F:94:11:A5:75",
+        "rssi": -85
+      },
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -86
+      },
+      {
+        "ssid": "ALHN-8AED",
+        "mac": "50:88:C7:9F:1E:39",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:42",
+    "scan_id": 46,
+    "millis": 151648,
+    "lat": 35.51199,
+    "lon": 11.03572,
+    "networks": [
+      {
+        "ssid": "Orange-A575",
+        "mac": "14:5F:94:11:A5:75",
+        "rssi": -75
+      },
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -79
+      },
+      {
+        "ssid": "ALHN-8AED",
+        "mac": "50:88:C7:9F:1E:39",
+        "rssi": -85
+      },
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -86
+      },
+      {
+        "ssid": "Orange-60BE",
+        "mac": "E2:8D:D0:BE:60:9E",
+        "rssi": -87
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -88
+      },
+      {
+        "ssid": "TT-ALHN-0057-2.4",
+        "mac": "E0:3D:A6:08:80:D9",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:37",
+    "scan_id": 45,
+    "millis": 148199,
+    "lat": 35.51192,
+    "lon": 11.03564,
+    "networks": [
+      {
+        "ssid": "Orange-A575",
+        "mac": "14:5F:94:11:A5:75",
+        "rssi": -75
+      },
+      {
+        "ssid": "ALHN-E6E1",
+        "mac": "C8:9C:BB:92:22:79",
+        "rssi": -87
+      },
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -88
+      },
+      {
+        "ssid": "TT-ALHN-0057-2.4",
+        "mac": "E0:3D:A6:08:80:D9",
+        "rssi": -88
+      },
+      {
+        "ssid": "ALHN-8AED",
+        "mac": "50:88:C7:9F:1E:39",
+        "rssi": -89
+      },
+      {
+        "ssid": "Orange-60BE",
+        "mac": "E2:8D:D0:BE:60:9E",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:32",
+    "scan_id": 44,
+    "millis": 145212,
+    "lat": 35.51192,
+    "lon": 11.03564,
+    "networks": [
+      {
+        "ssid": "ALHN-E6E1",
+        "mac": "C8:9C:BB:92:22:79",
+        "rssi": -78
+      },
+      {
+        "ssid": "TT-ALHN-0057-2.4",
+        "mac": "E0:3D:A6:08:80:D9",
+        "rssi": -80
+      },
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -90
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:27",
+    "scan_id": 43,
+    "millis": 141697,
+    "lat": 35.51183,
+    "lon": 11.03568,
+    "networks": [
+      {
+        "ssid": "ALHN-E6E1",
+        "mac": "C8:9C:BB:92:22:79",
+        "rssi": -78
+      },
+      {
+        "ssid": "TT-ALHN-0057-2.4",
+        "mac": "E0:3D:A6:08:80:D9",
+        "rssi": -79
+      },
+      {
+        "ssid": "Orange-60BE",
+        "mac": "E2:8D:D0:BE:60:9E",
+        "rssi": -86
+      },
+      {
+        "ssid": "Orange-A575",
+        "mac": "14:5F:94:11:A5:75",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:22",
+    "scan_id": 42,
+    "millis": 138482,
+    "lat": 35.51194,
+    "lon": 11.03559,
+    "networks": [
+      {
+        "ssid": "ALHN-E6E1",
+        "mac": "C8:9C:BB:92:22:79",
+        "rssi": -89
+      },
+      {
+        "ssid": "SE 2KTL_2117-38780191D",
+        "mac": "9C:D8:63:FB:4B:C4",
+        "rssi": -90
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:17",
+    "scan_id": 41,
+    "millis": 135143,
+    "lat": 35.51182,
+    "lon": 11.03571,
+    "networks": [
+      {
+        "ssid": "ALHN-E6E1",
+        "mac": "C8:9C:BB:92:22:79",
+        "rssi": -88
+      },
+      {
+        "ssid": "TT-ALHN-0057-2.4",
+        "mac": "E0:3D:A6:08:80:D9",
+        "rssi": -89
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:12",
+    "scan_id": 40,
+    "millis": 132149,
+    "lat": 35.51146,
+    "lon": 11.03555,
+    "networks": [
+      {
+        "ssid": "ALHN-E6E1",
+        "mac": "C8:9C:BB:92:22:79",
+        "rssi": -84
+      },
+      {
+        "ssid": "DAP-8D081C8PAZ0430E",
+        "mac": "E4:24:6C:89:86:0E",
+        "rssi": -86
+      },
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:07",
+    "scan_id": 39,
+    "millis": 128727,
+    "lat": 35.51149,
+    "lon": 11.03554,
+    "networks": [
+      {
+        "ssid": "ALHN-E6E1",
+        "mac": "C8:9C:BB:92:22:79",
+        "rssi": -90
+      },
+      {
+        "ssid": "TT_741F_2.4G",
+        "mac": "7C:F1:7E:17:74:1F",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:33:02",
+    "scan_id": 38,
+    "millis": 125554,
+    "lat": 35.51147,
+    "lon": 11.03556,
+    "networks": [
+      {
+        "ssid": "CMCservices",
+        "mac": "80:26:89:08:4F:2B",
+        "rssi": -86
+      },
+      {
+        "ssid": "ALHN-E6E1",
+        "mac": "C8:9C:BB:92:22:79",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:32:57",
+    "scan_id": 37,
+    "millis": 122232,
+    "lat": 35.51147,
+    "lon": 11.03556,
+    "networks": [
+      {
+        "ssid": "CMCservices",
+        "mac": "80:26:89:08:4F:2B",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:32:52",
+    "scan_id": 36,
+    "millis": 119081,
+    "lat": 35.51138,
+    "lon": 11.0356,
+    "networks": [
+      {
+        "ssid": "CMCservices",
+        "mac": "80:26:89:08:4F:2B",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:32:42",
+    "scan_id": 34,
+    "millis": 112841,
+    "lat": 35.51124,
+    "lon": 11.0356,
+    "networks": [
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:B7:E9",
+        "rssi": -85
+      },
+      {
+        "ssid": "ALHN-9488",
+        "mac": "50:88:C7:9F:B7:E9",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:32:37",
+    "scan_id": 33,
+    "millis": 109439,
+    "lat": 35.51124,
+    "lon": 11.03563,
+    "networks": [
+      {
+        "ssid": "ALHN-9488",
+        "mac": "50:88:C7:9F:B7:E9",
+        "rssi": -87
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:B7:E9",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:32:32",
+    "scan_id": 32,
+    "millis": 106428,
+    "lat": 35.51119,
+    "lon": 11.03559,
+    "networks": [
+      {
+        "ssid": "ALHN-9488",
+        "mac": "50:88:C7:9F:B7:E9",
+        "rssi": -87
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:B7:E9",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:32:26",
+    "scan_id": 31,
+    "millis": 103055,
+    "lat": 35.51107,
+    "lon": 11.03559,
+    "networks": [
+      {
+        "ssid": "CMCservices",
+        "mac": "80:26:89:08:4F:2B",
+        "rssi": -84
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:B7:E9",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:32:21",
+    "scan_id": 30,
+    "millis": 99893,
+    "lat": 35.51095,
+    "lon": 11.03567,
+    "networks": [
+      {
+        "ssid": "ALHN-9488",
+        "mac": "50:88:C7:9F:B7:E9",
+        "rssi": -85
+      },
+      {
+        "ssid": "CMCservices",
+        "mac": "80:26:89:08:4F:2B",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:32:16",
+    "scan_id": 29,
+    "millis": 96631,
+    "lat": 35.51095,
+    "lon": 11.03567,
+    "networks": [
+      {
+        "ssid": "CMCservices",
+        "mac": "80:26:89:08:4F:2B",
+        "rssi": -84
+      },
+      {
+        "ssid": "ALHN-9488",
+        "mac": "50:88:C7:9F:B7:E9",
+        "rssi": -86
+      },
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:B7:E9",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:32:11",
+    "scan_id": 28,
+    "millis": 93459,
+    "lat": 35.51092,
+    "lon": 11.03557,
+    "networks": [
+      {
+        "ssid": "HIDDEN",
+        "mac": "52:88:C7:CF:B7:E9",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:32:01",
+    "scan_id": 26,
+    "millis": 86968,
+    "lat": 35.51094,
+    "lon": 11.03547,
+    "networks": [
+      {
+        "ssid": "CMCservices",
+        "mac": "80:26:89:08:4F:2B",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:31:51",
+    "scan_id": 24,
+    "millis": 80718,
+    "lat": 35.51085,
+    "lon": 11.03555,
+    "networks": [
+      {
+        "ssid": "CMCservices",
+        "mac": "80:26:89:08:4F:2B",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:31:46",
+    "scan_id": 23,
+    "millis": 77328,
+    "lat": 35.51077,
+    "lon": 11.03588,
+    "networks": [
+      {
+        "ssid": "Fixbox-7193DD",
+        "mac": "34:BA:9A:71:93:DD",
+        "rssi": -85
+      },
+      {
+        "ssid": "ALHN-9488",
+        "mac": "50:88:C7:9F:B7:E9",
+        "rssi": -90
+      },
+      {
+        "ssid": "CMCservices",
+        "mac": "80:26:89:08:4F:2B",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:31:41",
+    "scan_id": 22,
+    "millis": 74166,
+    "lat": 35.51075,
+    "lon": 11.03587,
+    "networks": [
+      {
+        "ssid": "Fixbox-7193DD",
+        "mac": "34:BA:9A:71:93:DD",
+        "rssi": -89
+      },
+      {
+        "ssid": "CMCservices",
+        "mac": "80:26:89:08:4F:2B",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:31:36",
+    "scan_id": 21,
+    "millis": 70855,
+    "lat": 35.51075,
+    "lon": 11.03587,
+    "networks": [
+      {
+        "ssid": "Fixbox-7193DD",
+        "mac": "34:BA:9A:71:93:DD",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:31:31",
+    "scan_id": 20,
+    "millis": 67714,
+    "lat": 35.51056,
+    "lon": 11.03568,
+    "networks": [
+      {
+        "ssid": "Fixbox-7193DD",
+        "mac": "34:BA:9A:71:93:DD",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:31:26",
+    "scan_id": 19,
+    "millis": 64453,
+    "lat": 35.51085,
+    "lon": 11.03583,
+    "networks": [
+      {
+        "ssid": "Fixbox-7193DD",
+        "mac": "34:BA:9A:71:93:DD",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:31:21",
+    "scan_id": 18,
+    "millis": 61303,
+    "lat": 35.51085,
+    "lon": 11.03587,
+    "networks": [
+      {
+        "ssid": "Fixbox-7193DD",
+        "mac": "34:BA:9A:71:93:DD",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:31:16",
+    "scan_id": 17,
+    "millis": 57952,
+    "lat": 35.51088,
+    "lon": 11.03615,
+    "networks": [
+      {
+        "ssid": "Fixbox-7193DD",
+        "mac": "34:BA:9A:71:93:DD",
+        "rssi": -87
+      },
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:31:11",
+    "scan_id": 16,
+    "millis": 54801,
+    "lat": 35.51084,
+    "lon": 11.03629,
+    "networks": [
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -86
+      },
+      {
+        "ssid": "Fixbox-7193DD",
+        "mac": "34:BA:9A:71:93:DD",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:31:01",
+    "scan_id": 14,
+    "millis": 48517,
+    "lat": 35.51067,
+    "lon": 11.03649,
+    "networks": [
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -81
+      },
+      {
+        "ssid": "Fixbox-7193DD",
+        "mac": "34:BA:9A:71:93:DD",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:56",
+    "scan_id": 13,
+    "millis": 45105,
+    "lat": 35.51027,
+    "lon": 11.03633,
+    "networks": [
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:51",
+    "scan_id": 12,
+    "millis": 41943,
+    "lat": 35.51027,
+    "lon": 11.03633,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "0C:0E:76:9E:00:B2",
+        "rssi": -80
+      },
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -81
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:46",
+    "scan_id": 11,
+    "millis": 38621,
+    "lat": 35.51027,
+    "lon": 11.03633,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "A0:9F:7A:6B:ED:BA",
+        "rssi": -71
+      },
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -80
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "0C:0E:76:9E:00:B2",
+        "rssi": -81
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:41",
+    "scan_id": 10,
+    "millis": 35609,
+    "lat": 35.51027,
+    "lon": 11.03633,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "A0:9F:7A:6B:ED:BA",
+        "rssi": -77
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "0C:0E:76:9E:00:B2",
+        "rssi": -85
+      },
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:36",
+    "scan_id": 9,
+    "millis": 32186,
+    "lat": 35.51029,
+    "lon": 11.03625,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "A0:9F:7A:6B:ED:BA",
+        "rssi": -71
+      },
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -75
+      },
+      {
+        "ssid": "ransomware",
+        "mac": "FC:3F:FC:18:DA:66",
+        "rssi": -76
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "0C:0E:76:9E:00:B2",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:31",
+    "scan_id": 8,
+    "millis": 29002,
+    "lat": 35.51028,
+    "lon": 11.03628,
+    "networks": [
+      {
+        "ssid": "ransomware",
+        "mac": "FC:3F:FC:18:DA:66",
+        "rssi": -81
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "A0:9F:7A:6B:ED:BA",
+        "rssi": -83
+      },
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:26",
+    "scan_id": 7,
+    "millis": 25653,
+    "lat": 35.51028,
+    "lon": 11.03628,
+    "networks": [
+      {
+        "ssid": "ransomware",
+        "mac": "FC:3F:FC:18:DA:66",
+        "rssi": -80
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "A0:9F:7A:6B:ED:BA",
+        "rssi": -82
+      },
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -83
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "0C:0E:76:9E:00:B2",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:21",
+    "scan_id": 6,
+    "millis": 22690,
+    "lat": 35.51017,
+    "lon": 11.03633,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "A0:9F:7A:6B:ED:BA",
+        "rssi": -78
+      },
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -85
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "0C:0E:76:9E:00:B2",
+        "rssi": -88
+      },
+      {
+        "ssid": "ransomware",
+        "mac": "FC:3F:FC:18:DA:66",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:16",
+    "scan_id": 5,
+    "millis": 19257,
+    "lat": 35.51016,
+    "lon": 11.03633,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "A0:9F:7A:6B:ED:BA",
+        "rssi": -80
+      },
+      {
+        "ssid": "ransomware",
+        "mac": "FC:3F:FC:18:DA:66",
+        "rssi": -81
+      },
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:11",
+    "scan_id": 4,
+    "millis": 16094,
+    "lat": 35.51011,
+    "lon": 11.0363,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "A0:9F:7A:6B:ED:BA",
+        "rssi": -78
+      },
+      {
+        "ssid": "ransomware",
+        "mac": "FC:3F:FC:18:DA:66",
+        "rssi": -79
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "0C:0E:76:9E:00:B2",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:06",
+    "scan_id": 3,
+    "millis": 12729,
+    "lat": 35.51008,
+    "lon": 11.03635,
+    "networks": [
+      {
+        "ssid": "ransomware",
+        "mac": "FC:3F:FC:18:DA:66",
+        "rssi": -75
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "A0:9F:7A:6B:ED:BA",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-17 10:30:01",
+    "scan_id": 2,
+    "millis": 9385,
+    "lat": 35.51015,
+    "lon": 11.03634,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "A0:9F:7A:6B:ED:BA",
+        "rssi": -79
+      },
+      {
+        "ssid": "ooredoo-441EC0",
+        "mac": "98:A9:42:44:1E:C1",
+        "rssi": -84
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-EDBA",
+        "mac": "0C:0E:76:9E:00:B2",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:26:00",
+    "scan_id": 217,
+    "millis": 2172534,
+    "lat": 35.52129,
+    "lon": 11.03235,
+    "networks": [
+      {
+        "ssid": "ooredoo-68A9A7",
+        "mac": "98:A9:42:68:A9:A8",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:25:40",
+    "scan_id": 215,
+    "millis": 2152491,
+    "lat": 35.52129,
+    "lon": 11.03235,
+    "networks": [
+      {
+        "ssid": "ooredoo-68A9A7",
+        "mac": "98:A9:42:68:A9:A8",
+        "rssi": -81
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:25:30",
+    "scan_id": 214,
+    "millis": 2142512,
+    "lat": 35.52129,
+    "lon": 11.03235,
+    "networks": [
+      {
+        "ssid": "ooredoo-68A9A7",
+        "mac": "98:A9:42:68:A9:A8",
+        "rssi": -82
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:25:20",
+    "scan_id": 213,
+    "millis": 2132544,
+    "lat": 35.52129,
+    "lon": 11.03235,
+    "networks": [
+      {
+        "ssid": "ooredoo-68A9A7",
+        "mac": "98:A9:42:68:A9:A8",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:25:10",
+    "scan_id": 212,
+    "millis": 2122502,
+    "lat": 35.52129,
+    "lon": 11.03235,
+    "networks": [
+      {
+        "ssid": "ooredoo-68A9A7",
+        "mac": "98:A9:42:68:A9:A8",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:22:50",
+    "scan_id": 198,
+    "millis": 1982491,
+    "lat": 35.52129,
+    "lon": 11.03235,
+    "networks": [
+      {
+        "ssid": "DAP-89283AAPSF7850C",
+        "mac": "A8:31:62:1D:AE:F3",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:22:40",
+    "scan_id": 197,
+    "millis": 1972480,
+    "lat": 35.52129,
+    "lon": 11.03235,
+    "networks": [
+      {
+        "ssid": "DAP-89283AAPSF7850C",
+        "mac": "A8:31:62:1D:AE:F3",
+        "rssi": -73
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:22:30",
+    "scan_id": 196,
+    "millis": 1962513,
+    "lat": 35.52129,
+    "lon": 11.03235,
+    "networks": [
+      {
+        "ssid": "DAP-89283AAPSF7850C",
+        "mac": "A8:31:62:1D:AE:F3",
+        "rssi": -62
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:22:20",
+    "scan_id": 195,
+    "millis": 1952501,
+    "lat": 35.52133,
+    "lon": 11.03241,
+    "networks": [
+      {
+        "ssid": "DAP-89283AAPSF7850C",
+        "mac": "A8:31:62:1D:AE:F3",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:22:10",
+    "scan_id": 194,
+    "millis": 1942502,
+    "lat": 35.52112,
+    "lon": 11.03721,
+    "networks": [
+      {
+        "ssid": "DAP-89283AAPSF7850C",
+        "mac": "A8:31:62:1D:AE:F3",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:19:50",
+    "scan_id": 180,
+    "millis": 1802524,
+    "lat": 35.51704,
+    "lon": 11.0372,
+    "networks": [
+      {
+        "ssid": "D-Link_DAP-1360",
+        "mac": "6C:72:20:7D:60:18",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:19:40",
+    "scan_id": 179,
+    "millis": 1792513,
+    "lat": 35.51708,
+    "lon": 11.03719,
+    "networks": [
+      {
+        "ssid": "D-Link_DAP-1360",
+        "mac": "6C:72:20:7D:60:18",
+        "rssi": -79
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:19:30",
+    "scan_id": 178,
+    "millis": 1782513,
+    "lat": 35.52019,
+    "lon": 11.03655,
+    "networks": [
+      {
+        "ssid": "D-Link_DAP-1360",
+        "mac": "6C:72:20:7D:60:18",
+        "rssi": -70
+      },
+      {
+        "ssid": "Couloir 4G",
+        "mac": "02:16:78:5A:17:F8",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:19:20",
+    "scan_id": 177,
+    "millis": 1772534,
+    "lat": 35.52019,
+    "lon": 11.03655,
+    "networks": [
+      {
+        "ssid": "D-Link_DAP-1360",
+        "mac": "6C:72:20:7D:60:18",
+        "rssi": -79
+      },
+      {
+        "ssid": "Couloir 4G",
+        "mac": "02:16:78:5A:17:F8",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:19:10",
+    "scan_id": 176,
+    "millis": 1762512,
+    "lat": 35.52019,
+    "lon": 11.03655,
+    "networks": [
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3YzD",
+        "mac": "48:2F:D7:32:3E:40",
+        "rssi": -79
+      },
+      {
+        "ssid": "D-Link_DAP-1360",
+        "mac": "6C:72:20:7D:60:18",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:19:00",
+    "scan_id": 175,
+    "millis": 1752513,
+    "lat": 35.52019,
+    "lon": 11.03655,
+    "networks": [
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3YzD",
+        "mac": "48:2F:D7:32:3E:40",
+        "rssi": -87
+      },
+      {
+        "ssid": "Couloir 4G",
+        "mac": "02:16:78:5A:17:F8",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:18:50",
+    "scan_id": 174,
+    "millis": 1742502,
+    "lat": 35.52019,
+    "lon": 11.03655,
+    "networks": [
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3YzD",
+        "mac": "48:2F:D7:32:3E:40",
+        "rssi": -78
+      },
+      {
+        "ssid": "Couloir 4G",
+        "mac": "02:16:78:5A:17:F8",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:18:40",
+    "scan_id": 173,
+    "millis": 1732535,
+    "lat": 35.52252,
+    "lon": 11.03299,
+    "networks": [
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3YzD",
+        "mac": "48:2F:D7:32:3E:40",
+        "rssi": -75
+      },
+      {
+        "ssid": "Couloir 4G",
+        "mac": "02:16:78:5A:17:F8",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:18:30",
+    "scan_id": 172,
+    "millis": 1722545,
+    "lat": 35.52252,
+    "lon": 11.03299,
+    "networks": [
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3YzD",
+        "mac": "48:2F:D7:32:3E:40",
+        "rssi": -76
+      },
+      {
+        "ssid": "Couloir 4G",
+        "mac": "02:16:78:5A:17:F8",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:18:20",
+    "scan_id": 171,
+    "millis": 1712587,
+    "lat": 35.52252,
+    "lon": 11.03299,
+    "networks": [
+      {
+        "ssid": "TUNISIETELECOM-2.4G-3YzD",
+        "mac": "48:2F:D7:32:3E:40",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:18:10",
+    "scan_id": 170,
+    "millis": 1702598,
+    "lat": 35.52252,
+    "lon": 11.03299,
+    "networks": [
+      {
+        "ssid": "Ooredoo 4G_6428B7",
+        "mac": "B0:0A:D5:64:28:B7",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:18:00",
+    "scan_id": 169,
+    "millis": 1692545,
+    "lat": 35.52252,
+    "lon": 11.03299,
+    "networks": [
+      {
+        "ssid": "Ooredoo 4G_6428B7",
+        "mac": "B0:0A:D5:64:28:B7",
+        "rssi": -81
+      },
+      {
+        "ssid": "ooredoo-43E870",
+        "mac": "98:A9:42:43:E8:71",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:17:50",
+    "scan_id": 168,
+    "millis": 1682544,
+    "lat": 35.52252,
+    "lon": 11.03299,
+    "networks": [
+      {
+        "ssid": "Ooredoo 4G_6428B7",
+        "mac": "B0:0A:D5:64:28:B7",
+        "rssi": -65
+      },
+      {
+        "ssid": "ooredoo-43E870",
+        "mac": "98:A9:42:43:E8:71",
+        "rssi": -77
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:17:40",
+    "scan_id": 167,
+    "millis": 1672513,
+    "lat": 35.52224,
+    "lon": 11.03213,
+    "networks": [
+      {
+        "ssid": "",
+        "mac": "E0:E1:A9:C5:43:64",
+        "rssi": -69
+      },
+      {
+        "ssid": "ooredoo-43E870",
+        "mac": "98:A9:42:43:E8:71",
+        "rssi": -70
+      },
+      {
+        "ssid": "Ooredoo 4G_6428B7",
+        "mac": "B0:0A:D5:64:28:B7",
+        "rssi": -76
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:17:30",
+    "scan_id": 166,
+    "millis": 1662522,
+    "lat": 35.52233,
+    "lon": 11.03289,
+    "networks": [
+      {
+        "ssid": "",
+        "mac": "E0:E1:A9:C5:43:64",
+        "rssi": -73
+      },
+      {
+        "ssid": "ooredoo-43E870",
+        "mac": "98:A9:42:43:E8:71",
+        "rssi": -79
+      },
+      {
+        "ssid": "Ooredoo 4G_6428B7",
+        "mac": "B0:0A:D5:64:28:B7",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:17:20",
+    "scan_id": 165,
+    "millis": 1652534,
+    "lat": 35.52196,
+    "lon": 11.03206,
+    "networks": [
+      {
+        "ssid": "",
+        "mac": "E0:E1:A9:C5:43:64",
+        "rssi": -70
+      },
+      {
+        "ssid": "Ooredoo 4G_6428B7",
+        "mac": "B0:0A:D5:64:28:B7",
+        "rssi": -79
+      },
+      {
+        "ssid": "ooredoo-43E870",
+        "mac": "98:A9:42:43:E8:71",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:17:10",
+    "scan_id": 164,
+    "millis": 1642523,
+    "lat": 35.52224,
+    "lon": 11.03214,
+    "networks": [
+      {
+        "ssid": "Ooredoo 4G_6428B7",
+        "mac": "B0:0A:D5:64:28:B7",
+        "rssi": -87
+      },
+      {
+        "ssid": "",
+        "mac": "E0:E1:A9:C5:43:64",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:17:00",
+    "scan_id": 163,
+    "millis": 1632480,
+    "lat": 35.52222,
+    "lon": 11.03216,
+    "networks": [
+      {
+        "ssid": "",
+        "mac": "E0:E1:A9:C5:43:64",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:16:10",
+    "scan_id": 158,
+    "millis": 1582491,
+    "lat": 35.52198,
+    "lon": 11.03184,
+    "networks": [
+      {
+        "ssid": "Ooredoo 4G_6428B7",
+        "mac": "B0:0A:D5:64:28:B7",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:16:00",
+    "scan_id": 157,
+    "millis": 1572491,
+    "lat": 35.52167,
+    "lon": 11.03224,
+    "networks": [
+      {
+        "ssid": "",
+        "mac": "E0:E1:A9:C5:43:64",
+        "rssi": -78
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:14:30",
+    "scan_id": 148,
+    "millis": 1482513,
+    "lat": 35.51921,
+    "lon": 11.03418,
+    "networks": [
+      {
+        "ssid": "ooredoo-6CB491",
+        "mac": "98:A9:42:6C:B4:92",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:14:20",
+    "scan_id": 147,
+    "millis": 1472501,
+    "lat": 35.51892,
+    "lon": 11.03441,
+    "networks": [
+      {
+        "ssid": "ooredoo-6CB491",
+        "mac": "98:A9:42:6C:B4:92",
+        "rssi": -81
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:13:50",
+    "scan_id": 144,
+    "millis": 1442522,
+    "lat": 35.51789,
+    "lon": 11.03476,
+    "networks": [
+      {
+        "ssid": "Ooredoo-528A2D",
+        "mac": "FC:3F:FC:52:8A:2F",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:13:40",
+    "scan_id": 143,
+    "millis": 1432533,
+    "lat": 35.51772,
+    "lon": 11.03476,
+    "networks": [
+      {
+        "ssid": "Ooredoo-528A2D",
+        "mac": "FC:3F:FC:52:8A:2F",
+        "rssi": -74
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:13:30",
+    "scan_id": 142,
+    "millis": 1422480,
+    "lat": 35.51748,
+    "lon": 11.03586,
+    "networks": [
+      {
+        "ssid": "Ooredoo-528A2D",
+        "mac": "FC:3F:FC:52:8A:2F",
+        "rssi": -81
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:13:20",
+    "scan_id": 141,
+    "millis": 1412469,
+    "lat": 35.51743,
+    "lon": 11.03495,
+    "networks": [
+      {
+        "ssid": "Ooredoo-528A2D",
+        "mac": "FC:3F:FC:52:8A:2F",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:12:50",
+    "scan_id": 138,
+    "millis": 1382480,
+    "lat": 35.51739,
+    "lon": 11.03577,
+    "networks": [
+      {
+        "ssid": "TT_0400",
+        "mac": "34:60:F9:D1:04:00",
+        "rssi": -80
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:12:40",
+    "scan_id": 137,
+    "millis": 1372502,
+    "lat": 35.51739,
+    "lon": 11.03583,
+    "networks": [
+      {
+        "ssid": "TT_0400",
+        "mac": "34:60:F9:D1:04:00",
+        "rssi": -83
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-F82B",
+        "mac": "A0:9F:7A:6B:F8:2B",
+        "rssi": -84
+      },
+      {
+        "ssid": "ooredoo-43C6DC",
+        "mac": "98:A9:42:43:C6:DD",
+        "rssi": -84
+      },
+      {
+        "ssid": "TT_D910",
+        "mac": "34:60:F9:2F:D9:10",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:12:30",
+    "scan_id": 136,
+    "millis": 1362512,
+    "lat": 35.51745,
+    "lon": 11.03589,
+    "networks": [
+      {
+        "ssid": "ooredoo-43C6DC",
+        "mac": "98:A9:42:43:C6:DD",
+        "rssi": -73
+      },
+      {
+        "ssid": "TT_0400",
+        "mac": "34:60:F9:D1:04:00",
+        "rssi": -84
+      },
+      {
+        "ssid": "TT_9854_2.4G",
+        "mac": "B0:19:21:CF:98:54",
+        "rssi": -88
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-F82B",
+        "mac": "A0:9F:7A:6B:F8:2B",
+        "rssi": -88
+      },
+      {
+        "ssid": "TT_D910",
+        "mac": "34:60:F9:2F:D9:10",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:12:20",
+    "scan_id": 135,
+    "millis": 1352491,
+    "lat": 35.51745,
+    "lon": 11.03589,
+    "networks": [
+      {
+        "ssid": "TT_0400",
+        "mac": "34:60:F9:D1:04:00",
+        "rssi": -78
+      },
+      {
+        "ssid": "ooredoo-43C6DC",
+        "mac": "98:A9:42:43:C6:DD",
+        "rssi": -80
+      },
+      {
+        "ssid": "TT_D910",
+        "mac": "34:60:F9:2F:D9:10",
+        "rssi": -81
+      },
+      {
+        "ssid": "TT_9854_2.4G",
+        "mac": "B0:19:21:CF:98:54",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-21 17:12:10",
+    "scan_id": 134,
+    "millis": 1342502,
+    "lat": 35.51745,
+    "lon": 11.0359,
+    "networks": [
+      {
+        "ssid": "TT_0400",
+        "mac": "34:60:F9:D1:04:00",
+        "rssi": -77
+      },
+      {
+        "ssid": "TT_D910",
+        "mac": "34:60:F9:2F:D9:10",
+        "rssi": -84
+      },
+      {
+        "ssid": "TT_9854_2.4G",
+        "mac": "B0:19:21:CF:98:54",
+        "rssi": -86
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-F82B",
+        "mac": "A0:9F:7A:6B:F8:2B",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:49:43",
+    "scan_id": 139,
+    "millis": 1392513,
+    "lat": 35.50303,
+    "lon": 11.06851,
+    "networks": [
+      {
+        "ssid": "ooredoo-8B809E",
+        "mac": "98:A9:42:8B:80:9F",
+        "rssi": -75
+      },
+      {
+        "ssid": "ooredoo-4408C0",
+        "mac": "98:A9:42:44:08:C1",
+        "rssi": -77
+      },
+      {
+        "ssid": "TOPNET_D7A8",
+        "mac": "84:D8:1B:19:D7:A8",
+        "rssi": -87
+      },
+      {
+        "ssid": "[LG_Wall-Mount A/C]d6cb",
+        "mac": "82:5B:65:DA:D6:CB",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:49:33",
+    "scan_id": 138,
+    "millis": 1382502,
+    "lat": 35.50339,
+    "lon": 11.06837,
+    "networks": [
+      {
+        "ssid": "ooredoo-4408C0",
+        "mac": "98:A9:42:44:08:C1",
+        "rssi": -82
+      },
+      {
+        "ssid": "Orange-E801",
+        "mac": "E2:FD:34:01:E8:BB",
+        "rssi": -82
+      },
+      {
+        "ssid": "ooredoo-8B809E",
+        "mac": "98:A9:42:8B:80:9F",
+        "rssi": -84
+      },
+      {
+        "ssid": "[LG_Wall-Mount A/C]d6cb",
+        "mac": "82:5B:65:DA:D6:CB",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:49:23",
+    "scan_id": 137,
+    "millis": 1372523,
+    "lat": 35.50339,
+    "lon": 11.06837,
+    "networks": [
+      {
+        "ssid": "ooredoo-8B809E",
+        "mac": "98:A9:42:8B:80:9F",
+        "rssi": -73
+      },
+      {
+        "ssid": "[LG_Wall-Mount A/C]d6cb",
+        "mac": "82:5B:65:DA:D6:CB",
+        "rssi": -81
+      },
+      {
+        "ssid": "TOPNET_D7A8",
+        "mac": "84:D8:1B:19:D7:A8",
+        "rssi": -83
+      },
+      {
+        "ssid": "Orange-E801",
+        "mac": "E2:FD:34:01:E8:BB",
+        "rssi": -88
+      },
+      {
+        "ssid": "TT_2130_2.4G_plus",
+        "mac": "CC:D8:43:9C:9E:59",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:49:13",
+    "scan_id": 136,
+    "millis": 1362523,
+    "lat": 35.50379,
+    "lon": 11.06829,
+    "networks": [
+      {
+        "ssid": "[LG_Wall-Mount A/C]d6cb",
+        "mac": "82:5B:65:DA:D6:CB",
+        "rssi": -81
+      },
+      {
+        "ssid": "TT_2130_2.4G_plus",
+        "mac": "CC:D8:43:9C:9E:59",
+        "rssi": -83
+      },
+      {
+        "ssid": "globalnet",
+        "mac": "A0:18:42:79:47:7E",
+        "rssi": -86
+      },
+      {
+        "ssid": "ooredoo-8B809E",
+        "mac": "98:A9:42:8B:80:9F",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:49:03",
+    "scan_id": 135,
+    "millis": 1352592,
+    "lat": 35.50376,
+    "lon": 11.06758,
+    "networks": [
+      {
+        "ssid": "globalnet",
+        "mac": "A0:18:42:79:47:7E",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:45:13",
+    "scan_id": 112,
+    "millis": 1122642,
+    "lat": 35.50767,
+    "lon": 11.05623,
+    "networks": [
+      {
+        "ssid": "MAH_1080",
+        "mac": "2C:F1:BB:18:01:50",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:45:03",
+    "scan_id": 111,
+    "millis": 1112674,
+    "lat": 35.50792,
+    "lon": 11.05565,
+    "networks": [
+      {
+        "ssid": "MAH_1080",
+        "mac": "2C:F1:BB:18:01:50",
+        "rssi": -64
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:44:43",
+    "scan_id": 109,
+    "millis": 1092685,
+    "lat": 35.50816,
+    "lon": 11.05509,
+    "networks": [
+      {
+        "ssid": "MAH_1080",
+        "mac": "2C:F1:BB:18:01:50",
+        "rssi": -72
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:44:33",
+    "scan_id": 108,
+    "millis": 1082696,
+    "lat": 35.50832,
+    "lon": 11.05472,
+    "networks": [
+      {
+        "ssid": "MAH_1080",
+        "mac": "2C:F1:BB:18:01:50",
+        "rssi": -80
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:44:23",
+    "scan_id": 107,
+    "millis": 1072685,
+    "lat": 35.50862,
+    "lon": 11.05397,
+    "networks": [
+      {
+        "ssid": "ooredoo-8B6866",
+        "mac": "98:A9:42:8B:68:67",
+        "rssi": -78
+      },
+      {
+        "ssid": "MAH_1080",
+        "mac": "2C:F1:BB:18:01:50",
+        "rssi": -84
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:44:13",
+    "scan_id": 106,
+    "millis": 1062652,
+    "lat": 35.50878,
+    "lon": 11.05351,
+    "networks": [
+      {
+        "ssid": "ooredoo-8B6866",
+        "mac": "98:A9:42:8B:68:67",
+        "rssi": -58
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:44:03",
+    "scan_id": 105,
+    "millis": 1052664,
+    "lat": 35.5088,
+    "lon": 11.05343,
+    "networks": [
+      {
+        "ssid": "ooredoo-8B6866",
+        "mac": "98:A9:42:8B:68:67",
+        "rssi": -72
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:43:53",
+    "scan_id": 104,
+    "millis": 1042685,
+    "lat": 35.50901,
+    "lon": 11.05287,
+    "networks": [
+      {
+        "ssid": "ooredoo-8B6866",
+        "mac": "98:A9:42:8B:68:67",
+        "rssi": -80
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 11:43:43",
+    "scan_id": 103,
+    "millis": 1032653,
+    "lat": 35.50913,
+    "lon": 11.05267,
+    "networks": [
+      {
+        "ssid": "ooredoo-8B6866",
+        "mac": "98:A9:42:8B:68:67",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:14:33",
+    "scan_id": 288,
+    "millis": 2882491,
+    "lat": 35.50929,
+    "lon": 11.05584,
+    "networks": [
+      {
+        "ssid": "ooredoo-68B3D1",
+        "mac": "98:A9:42:68:B3:D2",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:14:23",
+    "scan_id": 287,
+    "millis": 2872501,
+    "lat": 35.50911,
+    "lon": 11.0561,
+    "networks": [
+      {
+        "ssid": "ooredoo-68B3D1",
+        "mac": "98:A9:42:68:B3:D2",
+        "rssi": -73
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:14:13",
+    "scan_id": 286,
+    "millis": 2862480,
+    "lat": 35.50898,
+    "lon": 11.05656,
+    "networks": [
+      {
+        "ssid": "ooredoo-68B3D1",
+        "mac": "98:A9:42:68:B3:D2",
+        "rssi": -77
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:14:03",
+    "scan_id": 285,
+    "millis": 2852502,
+    "lat": 35.50876,
+    "lon": 11.05616,
+    "networks": [
+      {
+        "ssid": "ooredoo-68B3D1",
+        "mac": "98:A9:42:68:B3:D2",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:13:53",
+    "scan_id": 284,
+    "millis": 2842502,
+    "lat": 35.50826,
+    "lon": 11.05642,
+    "networks": [
+      {
+        "ssid": "ooredoo-68B3D1",
+        "mac": "98:A9:42:68:B3:D2",
+        "rssi": -84
+      },
+      {
+        "ssid": "MAH_1080",
+        "mac": "2C:F1:BB:18:01:50",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:13:43",
+    "scan_id": 283,
+    "millis": 2832502,
+    "lat": 35.50881,
+    "lon": 11.05716,
+    "networks": [
+      {
+        "ssid": "MAH_1080",
+        "mac": "2C:F1:BB:18:01:50",
+        "rssi": -87
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:11:13",
+    "scan_id": 268,
+    "millis": 2682491,
+    "lat": 35.50572,
+    "lon": 11.06434,
+    "networks": [
+      {
+        "ssid": "ooredoo-Famiglia",
+        "mac": "98:A9:42:5D:8D:AA",
+        "rssi": -81
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-D5DE",
+        "mac": "A0:9F:7A:6D:D5:DE",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:11:03",
+    "scan_id": 267,
+    "millis": 2672491,
+    "lat": 35.50584,
+    "lon": 11.06427,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-D5DE",
+        "mac": "A0:9F:7A:6D:D5:DE",
+        "rssi": -87
+      },
+      {
+        "ssid": "ooredoo-Famiglia",
+        "mac": "98:A9:42:5D:8D:AA",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:10:53",
+    "scan_id": 266,
+    "millis": 2662502,
+    "lat": 35.50555,
+    "lon": 11.06457,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-D5DE",
+        "mac": "A0:9F:7A:6D:D5:DE",
+        "rssi": -88
+      },
+      {
+        "ssid": "ooredoo-Famiglia",
+        "mac": "98:A9:42:5D:8D:AA",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:10:43",
+    "scan_id": 265,
+    "millis": 2652544,
+    "lat": 35.50552,
+    "lon": 11.06538,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-D5DE",
+        "mac": "A0:9F:7A:6D:D5:DE",
+        "rssi": -65
+      },
+      {
+        "ssid": "ooredoo-Famiglia",
+        "mac": "98:A9:42:5D:8D:AA",
+        "rssi": -65
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:10:33",
+    "scan_id": 264,
+    "millis": 2642513,
+    "lat": 35.5055,
+    "lon": 11.06531,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-D5DE",
+        "mac": "A0:9F:7A:6D:D5:DE",
+        "rssi": -80
+      },
+      {
+        "ssid": "ooredoo-Famiglia",
+        "mac": "98:A9:42:5D:8D:AA",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:10:23",
+    "scan_id": 263,
+    "millis": 2632502,
+    "lat": 35.50522,
+    "lon": 11.06465,
+    "networks": [
+      {
+        "ssid": "ooredoo-Famiglia",
+        "mac": "98:A9:42:5D:8D:AA",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:08:53",
+    "scan_id": 254,
+    "millis": 2542555,
+    "lat": 35.50285,
+    "lon": 11.06869,
+    "networks": [
+      {
+        "ssid": "[LG_Wall-Mount A/C]d6cb",
+        "mac": "82:5B:65:DA:D6:CB",
+        "rssi": -74
+      },
+      {
+        "ssid": "TT_2130_2.4G_plus",
+        "mac": "CC:D8:43:9C:9E:59",
+        "rssi": -79
+      },
+      {
+        "ssid": "globalnet",
+        "mac": "A0:18:42:79:47:7E",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:08:43",
+    "scan_id": 253,
+    "millis": 2532544,
+    "lat": 35.50285,
+    "lon": 11.06869,
+    "networks": [
+      {
+        "ssid": "[LG_Wall-Mount A/C]d6cb",
+        "mac": "82:5B:65:DA:D6:CB",
+        "rssi": -73
+      },
+      {
+        "ssid": "globalnet",
+        "mac": "A0:18:42:79:47:7E",
+        "rssi": -79
+      },
+      {
+        "ssid": "TT_2130_2.4G_plus",
+        "mac": "CC:D8:43:9C:9E:59",
+        "rssi": -81
+      },
+      {
+        "ssid": "ooredoo-8B809E",
+        "mac": "98:A9:42:8B:80:9F",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:08:33",
+    "scan_id": 252,
+    "millis": 2522544,
+    "lat": 35.50285,
+    "lon": 11.06869,
+    "networks": [
+      {
+        "ssid": "[LG_Wall-Mount A/C]d6cb",
+        "mac": "82:5B:65:DA:D6:CB",
+        "rssi": -73
+      },
+      {
+        "ssid": "ooredoo-8B809E",
+        "mac": "98:A9:42:8B:80:9F",
+        "rssi": -76
+      },
+      {
+        "ssid": "TT_2130_2.4G_plus",
+        "mac": "CC:D8:43:9C:9E:59",
+        "rssi": -77
+      },
+      {
+        "ssid": "globalnet",
+        "mac": "A0:18:42:79:47:7E",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:08:23",
+    "scan_id": 251,
+    "millis": 2512523,
+    "lat": 35.50285,
+    "lon": 11.06869,
+    "networks": [
+      {
+        "ssid": "ooredoo-4408C0",
+        "mac": "98:A9:42:44:08:C1",
+        "rssi": -75
+      },
+      {
+        "ssid": "Orange-E801",
+        "mac": "E2:FD:34:01:E8:BB",
+        "rssi": -79
+      },
+      {
+        "ssid": "ooredoo-8B809E",
+        "mac": "98:A9:42:8B:80:9F",
+        "rssi": -81
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:08:13",
+    "scan_id": 250,
+    "millis": 2502620,
+    "lat": 35.50285,
+    "lon": 11.06869,
+    "networks": [
+      {
+        "ssid": "ooredoo-4408C0",
+        "mac": "98:A9:42:44:08:C1",
+        "rssi": -73
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:08:03",
+    "scan_id": 249,
+    "millis": 2492652,
+    "lat": 35.50286,
+    "lon": 11.0687,
+    "networks": [
+      {
+        "ssid": "TOPNET_D7A8",
+        "mac": "84:D8:1B:19:D7:A8",
+        "rssi": -84
+      },
+      {
+        "ssid": "ooredoo-4408C0",
+        "mac": "98:A9:42:44:08:C1",
+        "rssi": -84
+      },
+      {
+        "ssid": "Orange-E801",
+        "mac": "E2:FD:34:01:E8:BB",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:07:53",
+    "scan_id": 248,
+    "millis": 2482653,
+    "lat": 35.50293,
+    "lon": 11.06871,
+    "networks": [
+      {
+        "ssid": "ooredoo-4408C0",
+        "mac": "98:A9:42:44:08:C1",
+        "rssi": -78
+      },
+      {
+        "ssid": "TOPNET_D7A8",
+        "mac": "84:D8:1B:19:D7:A8",
+        "rssi": -79
+      },
+      {
+        "ssid": "Orange-E801",
+        "mac": "E2:FD:34:01:E8:BB",
+        "rssi": -82
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:07:43",
+    "scan_id": 247,
+    "millis": 2472642,
+    "lat": 35.50294,
+    "lon": 11.06845,
+    "networks": [
+      {
+        "ssid": "Orange-E801",
+        "mac": "E2:FD:34:01:E8:BB",
+        "rssi": -76
+      },
+      {
+        "ssid": "TOPNET_D7A8",
+        "mac": "84:D8:1B:19:D7:A8",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:07:33",
+    "scan_id": 246,
+    "millis": 2462641,
+    "lat": 35.50276,
+    "lon": 11.06875,
+    "networks": [
+      {
+        "ssid": "TOPNET_D7A8",
+        "mac": "84:D8:1B:19:D7:A8",
+        "rssi": -89
+      },
+      {
+        "ssid": "Orange-E801",
+        "mac": "E2:FD:34:01:E8:BB",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:07:23",
+    "scan_id": 245,
+    "millis": 2452652,
+    "lat": 35.50272,
+    "lon": 11.06966,
+    "networks": [
+      {
+        "ssid": "TOPNET_D7A8",
+        "mac": "84:D8:1B:19:D7:A8",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:19:13",
+    "scan_id": 316,
+    "millis": 3162490,
+    "lat": 35.51443,
+    "lon": 11.04612,
+    "networks": [
+      {
+        "ssid": "Comtrend_0516",
+        "mac": "D8:B6:B7:5C:05:17",
+        "rssi": -85
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:27:23",
+    "scan_id": 365,
+    "millis": 3652523,
+    "lat": 35.51737,
+    "lon": 11.03583,
+    "networks": [
+      {
+        "ssid": "ooredoo-43C6DC",
+        "mac": "98:A9:42:43:C6:DD",
+        "rssi": -82
+      },
+      {
+        "ssid": "TT_9854_2.4G",
+        "mac": "B0:19:21:CF:98:54",
+        "rssi": -84
+      },
+      {
+        "ssid": "TT_0400",
+        "mac": "34:60:F9:D1:04:00",
+        "rssi": -87
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-F82B",
+        "mac": "A0:9F:7A:6B:F8:2B",
+        "rssi": -87
+      },
+      {
+        "ssid": "TT_D910",
+        "mac": "34:60:F9:2F:D9:10",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:27:13",
+    "scan_id": 364,
+    "millis": 3642502,
+    "lat": 35.51747,
+    "lon": 11.03551,
+    "networks": [
+      {
+        "ssid": "ooredoo-43C6DC",
+        "mac": "98:A9:42:43:C6:DD",
+        "rssi": -75
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-F82B",
+        "mac": "A0:9F:7A:6B:F8:2B",
+        "rssi": -84
+      },
+      {
+        "ssid": "TT_9854_2.4G",
+        "mac": "B0:19:21:CF:98:54",
+        "rssi": -85
+      },
+      {
+        "ssid": "TT_D910",
+        "mac": "34:60:F9:2F:D9:10",
+        "rssi": -88
+      },
+      {
+        "ssid": "TT_0400",
+        "mac": "34:60:F9:D1:04:00",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:27:03",
+    "scan_id": 363,
+    "millis": 3632502,
+    "lat": 35.51747,
+    "lon": 11.03551,
+    "networks": [
+      {
+        "ssid": "TT_0400",
+        "mac": "34:60:F9:D1:04:00",
+        "rssi": -75
+      },
+      {
+        "ssid": "ooredoo-43C6DC",
+        "mac": "98:A9:42:43:C6:DD",
+        "rssi": -77
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-F82B",
+        "mac": "A0:9F:7A:6B:F8:2B",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:26:53",
+    "scan_id": 362,
+    "millis": 3622502,
+    "lat": 35.51739,
+    "lon": 11.03586,
+    "networks": [
+      {
+        "ssid": "ooredoo-43C6DC",
+        "mac": "98:A9:42:43:C6:DD",
+        "rssi": -81
+      },
+      {
+        "ssid": "Tunisie_Telecom-2.4G-F82B",
+        "mac": "A0:9F:7A:6B:F8:2B",
+        "rssi": -87
+      },
+      {
+        "ssid": "TT_0400",
+        "mac": "34:60:F9:D1:04:00",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:26:43",
+    "scan_id": 361,
+    "millis": 3612480,
+    "lat": 35.51741,
+    "lon": 11.03621,
+    "networks": [
+      {
+        "ssid": "Tunisie_Telecom-2.4G-F82B",
+        "mac": "A0:9F:7A:6B:F8:2B",
+        "rssi": -89
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:26:13",
+    "scan_id": 358,
+    "millis": 3582491,
+    "lat": 35.51799,
+    "lon": 11.03478,
+    "networks": [
+      {
+        "ssid": "Ooredoo-528A2D",
+        "mac": "FC:3F:FC:52:8A:2F",
+        "rssi": -74
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:25:53",
+    "scan_id": 356,
+    "millis": 3562491,
+    "lat": 35.51915,
+    "lon": 11.0342,
+    "networks": [
+      {
+        "ssid": "Ooredoo-528A2D",
+        "mac": "FC:3F:FC:52:8A:2F",
+        "rssi": -88
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:25:43",
+    "scan_id": 355,
+    "millis": 3552492,
+    "lat": 35.5194,
+    "lon": 11.03413,
+    "networks": [
+      {
+        "ssid": "ooredoo-6CB491",
+        "mac": "98:A9:42:6C:B4:92",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:25:33",
+    "scan_id": 354,
+    "millis": 3542502,
+    "lat": 35.5194,
+    "lon": 11.03413,
+    "networks": [
+      {
+        "ssid": "ooredoo-6CB491",
+        "mac": "98:A9:42:6C:B4:92",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:25:23",
+    "scan_id": 353,
+    "millis": 3532513,
+    "lat": 35.51945,
+    "lon": 11.03451,
+    "networks": [
+      {
+        "ssid": "ooredoo-6CB491",
+        "mac": "98:A9:42:6C:B4:92",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:23:43",
+    "scan_id": 343,
+    "millis": 3432513,
+    "lat": 35.51899,
+    "lon": 11.03962,
+    "networks": [
+      {
+        "ssid": "wireless",
+        "mac": "98:A9:42:5D:82:1E",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:23:33",
+    "scan_id": 342,
+    "millis": 3422513,
+    "lat": 35.51891,
+    "lon": 11.03996,
+    "networks": [
+      {
+        "ssid": "wireless",
+        "mac": "98:A9:42:5D:82:1E",
+        "rssi": -56
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:23:23",
+    "scan_id": 341,
+    "millis": 3412512,
+    "lat": 35.51875,
+    "lon": 11.04083,
+    "networks": [
+      {
+        "ssid": "wireless",
+        "mac": "98:A9:42:5D:82:1E",
+        "rssi": -71
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:23:13",
+    "scan_id": 340,
+    "millis": 3402491,
+    "lat": 35.5189,
+    "lon": 11.04154,
+    "networks": [
+      {
+        "ssid": "wireless",
+        "mac": "98:A9:42:5D:82:1E",
+        "rssi": -78
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:23:03",
+    "scan_id": 339,
+    "millis": 3392502,
+    "lat": 35.51803,
+    "lon": 11.04221,
+    "networks": [
+      {
+        "ssid": "wireless",
+        "mac": "98:A9:42:5D:82:1E",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:20:33",
+    "scan_id": 324,
+    "millis": 3242631,
+    "lat": 35.51529,
+    "lon": 11.04661,
+    "networks": [
+      {
+        "ssid": "Comtrend_0516",
+        "mac": "D8:B6:B7:5C:05:17",
+        "rssi": -86
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:20:23",
+    "scan_id": 323,
+    "millis": 3232632,
+    "lat": 35.51444,
+    "lon": 11.0462,
+    "networks": [
+      {
+        "ssid": "Comtrend_0516",
+        "mac": "D8:B6:B7:5C:05:17",
+        "rssi": -90
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:20:13",
+    "scan_id": 322,
+    "millis": 3222721,
+    "lat": 35.5145,
+    "lon": 11.0462,
+    "networks": [
+      {
+        "ssid": "Comtrend_0516",
+        "mac": "D8:B6:B7:5C:05:17",
+        "rssi": -83
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-02-22 12:20:04",
+    "scan_id": 321,
+    "millis": 3213482,
+    "lat": 35.5145,
+    "lon": 11.0462,
+    "networks": [
+      {
+        "ssid": "Comtrend_0516",
+        "mac": "D8:B6:B7:5C:05:17",
+        "rssi": -82
+      }
+    ]
+  }
+]
