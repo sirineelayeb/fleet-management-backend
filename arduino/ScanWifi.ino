@@ -1,74 +1,59 @@
 #include <WiFi.h>
 #include "BluetoothSerial.h"
+// Optional: include GPS library if you have one
+// #include <TinyGPS++.h>  
 
 BluetoothSerial SerialBT;
 
 // Scan settings
-const int SCAN_DELAY = 2000; // 2 seconds between scans
+const int SCAN_DELAY = 2000;   // 2 seconds between scans
+const int SCAN_TIME  = 300;    // 300 ms per channel
+
+unsigned long scanID = 0;
 
 void setup() {
   Serial.begin(115200);
   SerialBT.begin("ESP32_WIFI_SCANNER");
 
   WiFi.mode(WIFI_STA);
-  WiFi.disconnect();
+  WiFi.disconnect(true); // disconnect and erase old connections
+  delay(1000);
 
-  Serial.println("\n===============================");
-  Serial.println(" ESP32 WiFi Scanner STARTED");
-  Serial.println("===============================\n");
-
-  delay(2000);
+  Serial.println("ESP32 WiFi Scanner Ready");
 }
 
 void loop() {
-  Serial.println("\nScanning WiFi networks...");
-  SerialBT.println("\n--- WIFI SCAN START ---");
+  scanID++;
 
-  int n = WiFi.scanNetworks(false, true, false, 300); // 300 ms per channel
-  if (n == 0) {
-    Serial.println("No networks found");
-    SerialBT.println("No networks found");
-  } else {
+  // Perform WiFi scan
+  int n = WiFi.scanNetworks(false, true, false, SCAN_TIME);
 
-    Serial.printf("Found %d networks\n\n", n);
-    SerialBT.printf("Found %d networks\n", n);
+  if (n > 0) {
+    // Optional timestamp or millis
+    unsigned long timestamp = millis();  
+
+    String scanLine = String(scanID) + "|" + String(timestamp) + "|";
 
     for (int i = 0; i < n; ++i) {
-
       String ssid = WiFi.SSID(i);
       if (ssid == "") ssid = "HIDDEN";
 
-      String mac  = WiFi.BSSIDstr(i);
-      int rssi    = WiFi.RSSI(i);
-      int channel = WiFi.channel(i);
-      bool enc    = WiFi.encryptionType(i) != WIFI_AUTH_OPEN;
+      String mac = WiFi.BSSIDstr(i);
+      int rssi = WiFi.RSSI(i);
 
-      // Print to Serial
-      Serial.printf(
-        "%2d | RSSI:%4d | CH:%2d | %s | %s | %s\n",
-        i + 1,
-        rssi,
-        channel,
-        enc ? "ENC" : "OPEN",
-        ssid.c_str(),
-        mac.c_str()
-      );
+      String entry = ssid + "," + mac + "," + String(rssi);
 
-      // Send via Bluetooth
-      SerialBT.printf(
-        "%s,%s,%d,%d,%s\n",
-        ssid.c_str(),
-        mac.c_str(),
-        rssi,
-        channel,
-        enc ? "ENC" : "OPEN"
-      );
+      if (i > 0) scanLine += ";";  // separate networks with ;
+      scanLine += entry;
     }
+
+    // Send full line via Bluetooth
+    SerialBT.println(scanLine);
+
+    // Optional debug
+    Serial.println(scanLine);
   }
 
-  Serial.println("\nScan complete.");
-  SerialBT.println("--- WIFI SCAN END ---");
-
-  WiFi.scanDelete(); // free memory
+  WiFi.scanDelete();   // free memory
   delay(SCAN_DELAY);
 }
