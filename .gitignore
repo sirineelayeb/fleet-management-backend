@@ -1,3 +1,7 @@
 venv/
 __pycache__/
 *.pyc
+outputs/
+# data/processed/
+# data/raw/
+models/
