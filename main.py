@@ -1,6 +1,11 @@
-from config import Config, CircleMode
+from config import Config
 from scripts.data_processing import load_wifi_data
-from scripts.visualization import create_interactive_map, create_heatmap
+from scripts.visualization import (
+    create_full_map,
+    create_maps_per_network,
+    create_rssi_bubble_map,
+    list_available_macs
+)
 from scripts.report import print_statistics
 import os
 
@@ -14,30 +19,41 @@ def prepare_environment():
 
 def main():
     print("===================================")
-    print(" NoGPS WiFi Geolocation System ")
+    print(" NoGPS WiFi Geolocation System")
     print(" Location:", Config.LOCATION)
     print("===================================\n")
 
     prepare_environment()
 
-    # Load dataset
-    data = load_wifi_data(Config.INPUT_FILE)
-
+    data = load_wifi_data(Config.CLEAN_JSON)
     if not data:
-        print("⚠️ No data found. Please add wifi dataset first.")
+        print("⚠️  No data found.")
+        print(f"   Expected file → {Config.CLEAN_JSON}")
+        print("   Run cleaning first → python -m scripts.clean_wifi_dataset")
         return
 
     print_statistics(data)
+    list_available_macs(data)
 
-    # Visualization mode
-    circle_mode = CircleMode.STRENGTH
-    print("📡 Using Strength Mode (big circle = weak signal)\n")
+    # MAP 1 — Density map
+    print("\n🗺️  Building density map...")
+    density_map = os.path.join(Config.OUTPUTS, "wifi_map.html")
+    create_full_map(data, output_file=density_map)
+    print("✅ Density map     →", density_map)
 
-    create_interactive_map(data, circle_mode=circle_mode)
-    create_heatmap(data)
-    # create_network_comparison(data)
-    # create_signal_strength_plot(data)
-    print("\n✅ All visualizations generated in:", Config.OUTPUTS)
+    # MAP 2 — Checklist heatmap map
+    print("\n🗺️  Building checklist map...")
+    checklist_map = os.path.join(Config.OUTPUTS, "wifi_checklist_map.html")
+    create_maps_per_network(data, output_file=checklist_map)
+    print("✅ Checklist map   →", checklist_map)
+
+    # MAP 3 — RSSI bubble map
+    print("\n🗺️  Building RSSI bubble map...")
+    bubble_map = os.path.join(Config.OUTPUTS, "wifi_rssi_map.html")
+    create_rssi_bubble_map(data, output_file=bubble_map)
+    print("✅ RSSI bubble map →", bubble_map)
+
+    print("\n🎉 All done! Open the maps in your browser.")
 
 
 if __name__ == "__main__":
