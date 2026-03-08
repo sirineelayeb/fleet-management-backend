@@ -1,7 +1,5 @@
 #include <WiFi.h>
 #include "BluetoothSerial.h"
-// Optional: include GPS library if you have one
-// #include <TinyGPS++.h>  
 
 BluetoothSerial SerialBT;
 
