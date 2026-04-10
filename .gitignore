@@ -5,3 +5,4 @@ outputs/
 # data/processed/
 # data/raw/
 models/
+node_modules/
