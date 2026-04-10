@@ -1,27 +1,26 @@
-// backend/src/routes/tripHistoryRoutes.js
 const express = require('express');
 const router = express.Router();
-const { protect, restrictTo } = require('../middlewares/auth');
 const tripHistoryController = require('../controllers/tripHistoryController');
+const { protect } = require('../middlewares/auth');
 
-router.use(protect);
+// Public / summary routes
+router.get('/all', protect, tripHistoryController.getAllTrips);
+router.get('/stats', tripHistoryController.getTripStats);
 
-// ============================================================
-// ALL STATIC ROUTES (no :id parameters)
-// ============================================================
-router.get('/all', tripHistoryController.getAllTrips);
-router.get('/stats', restrictTo('admin'), tripHistoryController.getTripStats);
+// Live tracking
 router.get('/live/:truckId', tripHistoryController.getLiveTracking);
-router.get('/driver/:driverId/stats', tripHistoryController.getDriverTripStats);
-router.get('/truck/:truckId/stats', tripHistoryController.getTruckTripStats);
-router.get('/truck/:truckId', tripHistoryController.getTruckTrips);
-router.get('/driver/:driverId', tripHistoryController.getDriverTrips);
 
-// ============================================================
-// ROUTES WITH :id (but different paths)
-// ============================================================
-router.get('/trip/:id/map-data', tripHistoryController.getTripMapData);
-router.get('/trip/:id/route', tripHistoryController.getTripRoute);
-router.get('/trip/:id', tripHistoryController.getTripWithRoute);
+// Truck-specific
+router.get('/truck/:truckId', tripHistoryController.getTruckTrips);
+router.get('/truck/:truckId/stats', tripHistoryController.getTruckTripStats);
+
+// Driver-specific
+router.get('/driver/:driverId', tripHistoryController.getDriverTrips);
+router.get('/driver/:driverId/stats', tripHistoryController.getDriverTripStats);
+
+// Individual trip routes (order matters: /:id/route before /:id)
+router.get('/:id/map-data', tripHistoryController.getTripMapData);
+router.get('/:id/route', tripHistoryController.getTripRoute);
+router.get('/:id', tripHistoryController.getTripWithRoute);
 
 module.exports = router;

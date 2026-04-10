@@ -12,17 +12,17 @@ router.use(protect);
 // ============================================================
 
 // Get unread count (most specific first)
-router.get('/unread/count', restrictTo('admin', 'shipment_manager'), notificationController.getUnreadCount);
+router.get('/unread/count', protect, notificationController.getUnreadCount);
 
 // Mark all as read
-router.put('/read-all', restrictTo('admin', 'shipment_manager'), notificationController.markAllAsRead);
+router.put('/read-all', restrictTo('admin'), notificationController.markAllAsRead);
 
 // ============================================================
 // COLLECTION ROUTES
 // ============================================================
 
 // Get all notifications (with filters)
-router.get('/', restrictTo('admin', 'shipment_manager'), notificationController.getAll);
+router.get('/', protect, restrictTo('admin', 'shipment_manager'), notificationController.getAll);
 
 // ============================================================
 // DYNAMIC ROUTES (with :id) - MUST BE LAST

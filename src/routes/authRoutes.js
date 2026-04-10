@@ -19,6 +19,7 @@ router.post('/reset-password', authController.resetPassword);
 // PROTECTED ROUTES (Authentication required)
 // ============================================
 router.use(protect);
+router.put('/me', protect, userController.updateMe);
 
 // User profile routes
 router.get('/me', authController.getMe);

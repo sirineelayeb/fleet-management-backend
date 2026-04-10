@@ -6,54 +6,42 @@ const AppError = require('../utils/AppError');
 class TruckController {
   // GET /api/trucks
   getAllTrucks = catchAsync(async (req, res) => {
-    try {
-      const { status, search, page = 1, limit = 10 } = req.query;
-      const filters = {};
-      
-      if (status) filters.status = status;
-      if (search) {
-        filters.$or = [
-          { licensePlate: { $regex: search, $options: 'i' } },
-          { brand: { $regex: search, $options: 'i' } },
-          { model: { $regex: search, $options: 'i' } },
-          { vin: { $regex: search, $options: 'i' } }
-        ];
-      }
-      
-      const pageNum = parseInt(page);
-      const limitNum = parseInt(limit);
-      const skip = (pageNum - 1) * limitNum;
-      
-      // Get total count - using Truck model directly
-      const total = await Truck.countDocuments(filters);
-      
-      // Get paginated trucks
-      const trucks = await Truck.find(filters)
-        .populate('driver', 'name phone status')
-        .populate('device', 'deviceId status')
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limitNum);
-      
-      console.log(`Found ${trucks.length} trucks out of ${total} total`);
-      
-      res.status(200).json({
-        success: true,
-        data: trucks,
-        pagination: {
-          total,
-          page: pageNum,
-          limit: limitNum,
-          pages: Math.ceil(total / limitNum)
-        }
-      });
-    } catch (error) {
-      console.error('Error in getAllTrucks:', error);
-      res.status(500).json({
-        success: false,
-        message: error.message
-      });
+    const { status, search, page = 1, limit = 10 } = req.query;
+    const filters = {};
+    
+    if (status) filters.status = status;
+    if (search) {
+      filters.$or = [
+        { licensePlate: { $regex: search, $options: 'i' } },
+        { brand: { $regex: search, $options: 'i' } },
+        { model: { $regex: search, $options: 'i' } },
+        { vin: { $regex: search, $options: 'i' } }
+      ];
     }
+    
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    const skip = (pageNum - 1) * limitNum;
+    
+    const total = await Truck.countDocuments(filters);
+    
+    const trucks = await Truck.find(filters)
+      .populate('driver', 'name phone status')
+      .populate('devices', 'deviceId type status')   
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limitNum);
+    
+    res.status(200).json({
+      success: true,
+      data: trucks,
+      pagination: {
+        total,
+        page: pageNum,
+        limit: limitNum,
+        pages: Math.ceil(total / limitNum)
+      }
+    });
   });
 
   // GET /api/trucks/stats - REMOVE DUPLICATE, keep only one
@@ -97,12 +85,11 @@ class TruckController {
 
   // GET /api/trucks/:id
   getTruck = catchAsync(async (req, res) => {
-    const truck = await TruckService.findById(req.params.id);
-    
-    res.status(200).json({
-      success: true,
-      data: truck
-    });
+    const truck = await Truck.findById(req.params.id)
+      .populate('driver', 'name phone status')
+      .populate('devices', 'deviceId type status batteryLevel lastSeen');   // ✅ changed
+    if (!truck) throw new AppError('Truck not found', 404);
+    res.json({ success: true, data: truck });
   });
 
   // POST /api/trucks
@@ -202,31 +189,35 @@ class TruckController {
 
   // POST /api/trucks/:id/assign-device
   assignDevice = catchAsync(async (req, res) => {
+    const { id } = req.params;
     const { deviceId } = req.body;
+    
+    console.log(`🔧 Assigning device ${deviceId} to truck ${id}`);
     
     if (!deviceId) {
       throw new AppError('Device ID is required', 400);
     }
     
-    const truck = await TruckService.assignDevice(req.params.id, deviceId);
+    // ✅ Use the service method instead of duplicating logic
+    const populatedTruck = await TruckService.assignDevice(id, deviceId);
     
     res.status(200).json({
       success: true,
-      message: 'Device assigned successfully',
-      data: truck
+      message: 'Device assigned to truck successfully',
+      data: populatedTruck
     });
   });
 
   // DELETE /api/trucks/:id/unassign-device
-  unassignDevice = catchAsync(async (req, res) => {
-    const truck = await TruckService.unassignDevice(req.params.id);
-    
-    res.status(200).json({
-      success: true,
-      message: 'Device unassigned successfully',
-      data: truck
-    });
+ unassignDevice = catchAsync(async (req, res) => {
+  const { id, deviceId } = req.params;
+  const truck = await TruckService.unassignDevice(id, deviceId);
+  res.status(200).json({
+    success: true,
+    message: 'Device unassigned successfully',
+    data: truck
   });
+});
 
   // GET /api/trucks/:id/device
   getTruckDevice = catchAsync(async (req, res) => {

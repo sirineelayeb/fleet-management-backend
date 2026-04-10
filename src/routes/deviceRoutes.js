@@ -20,5 +20,5 @@ router.post('/register', restrictTo('admin'), deviceController.registerDevice);
 router.put('/:id', restrictTo('admin'), deviceController.updateDevice);
 router.delete('/:id', restrictTo('admin'), deviceController.deleteDevice);
 router.post('/:id/assign-truck', restrictTo('admin'), deviceController.assignToTruck);
-
+router.patch('/:id/unassign', deviceController.unassignFromTruck);
 module.exports = router;

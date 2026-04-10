@@ -17,10 +17,12 @@ class NotificationController {
     if (startDate) filters.startDate = startDate;
     if (endDate) filters.endDate = endDate;
     
+    // ✅ Pass user role to service for filtering
     const result = await notificationService.getNotifications(
       filters, 
       parseInt(page), 
-      parseInt(limit)
+      parseInt(limit),
+      req.user.role
     );
     
     res.status(200).json({
@@ -67,7 +69,8 @@ class NotificationController {
   
   // PUT /api/notifications/read-all
   markAllAsRead = catchAsync(async (req, res) => {
-    await notificationService.markAllAsRead();
+    // ✅ Pass user role to only mark notifications visible to this user
+    await notificationService.markAllAsRead(req.user.role);
     
     res.status(200).json({
       success: true,

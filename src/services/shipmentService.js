@@ -20,6 +20,11 @@ class ShipmentService {
       if (!shipment) throw new AppError('Shipment not found', 404);
       if (!truck) throw new AppError('Truck not found', 404);
       
+      //Check if shipment already has a mission
+      const existingMission = await Mission.findOne({ shipment: shipmentId });
+      if (existingMission) {
+        throw new AppError('A mission already exists for this shipment', 400);
+      }
       // Determine driver (either from parameter or from truck)
       let driver = null;
       if (driverId) {
@@ -43,11 +48,12 @@ class ShipmentService {
       }
       
       // Validate capacity
-      if (shipment.weightKg > truck.capacity) {
+      const truckCapacityKg = truck.capacity * 1000;
+      if (shipment.weightKg > truckCapacityKg) {
         throw new AppError(
-          `Shipment weight (${shipment.weightKg}kg) exceeds truck capacity (${truck.capacity}kg)`,
-          400
-        );
+      `Shipment weight (${shipment.weightKg}kg) exceeds truck capacity (${truckCapacityKg}kg)`,
+      400
+);
       }
       
       const compatibleTypes = {
@@ -147,189 +153,102 @@ class ShipmentService {
       throw error;
     }
   }
-  
-  
-  async startMission(missionId) {
+  async cancelShipment(shipmentId, reason = null, io = null) {
     try {
-      console.log(' Starting mission:', missionId);
+      const shipment = await Shipment.findById(shipmentId);
       
-      const mission = await Mission.findById(missionId)
-        .populate('shipment truck driver');
-      
-      if (!mission) throw new AppError('Mission not found', 404);
-      
-      if (mission.status !== 'not_started') {
-        throw new AppError(`Mission cannot be started from status: ${mission.status}`, 400);
+      if (!shipment) {
+        throw new AppError('Shipment not found', 404);
       }
       
-      const startTime = new Date();
-      
-      mission.status = 'in_progress';
-      mission.startTime = startTime;
-      await mission.save();
-      console.log(' Mission started');
-      
-      const trip = await TripHistory.findOne({ mission: missionId });
-      if (trip) {
-        trip.status = 'in_progress';
-        trip.actualStartTime = startTime;
-        await trip.save();
-        console.log('TripHistory status updated to in_progress');
+      if (shipment.status === 'completed') {
+        throw new AppError('Cannot cancel completed shipment', 400);
       }
       
-      const shipment = await Shipment.findById(mission.shipment._id);
-      if (shipment) {
-        shipment.status = 'in_progress';
-        await shipment.save();
-        console.log('Shipment status updated to in_progress');
+      // If already cancelled, just return
+      if (shipment.status === 'cancelled') {
+        return {
+          success: true,
+          message: 'Shipment is already cancelled',
+          shipment
+        };
       }
       
-      const truck = await Truck.findById(mission.truck._id);
-      if (truck) {
-        truck.status = 'in_mission';
-        await truck.save();
-        console.log('Truck status updated to in_mission');
+      // Find associated mission
+      const mission = await Mission.findOne({ shipment: shipmentId });
+      
+      if (mission && mission.status !== 'cancelled') {
+        // Get truck and driver
+        const [truck, driver] = await Promise.all([
+          Truck.findById(mission.truck),
+          Driver.findById(mission.driver)
+        ]);
+        
+        // Free up the truck
+        if (truck) {
+          truck.status = 'available';
+          truck.driver = null;
+          await truck.save();
+          console.log(`✅ Truck ${truck.licensePlate} freed and set to available`);
+        }
+        
+        // Free up the driver
+        if (driver) {
+          driver.status = 'available';
+          driver.assignedTruck = null;
+          await driver.save();
+          console.log(`✅ Driver ${driver.name} freed and set to available`);
+        }
+        
+        // Update mission status
+        mission.status = 'cancelled';
+        mission.endTime = new Date();
+        await mission.save();
+        
+        // Update trip history
+        const trip = await TripHistory.findOne({ mission: mission._id });
+        if (trip) {
+          trip.status = 'cancelled';
+          trip.endTime = new Date();
+          await trip.save();
+          console.log(`✅ Trip ${trip.tripNumber} cancelled`);
+        }
       }
       
-      const driver = await Driver.findById(mission.driver._id);
-      if (driver) {
-        driver.status = 'busy';
-        await driver.save();
-        console.log('Driver status updated to busy');
+      // Update shipment
+      shipment.status = 'cancelled';
+      shipment.truck = null;
+      shipment.driver = null;
+      if (reason) {
+        shipment.cancellationReason = reason;
       }
-      
-      return { 
-        success: true, 
-        mission, 
-        trip,
-        message: 'Mission started successfully' 
-      };
-      
-    } catch (error) {
-      console.error(' Error in startMission:', error);
-      throw error;
-    }
-  }
-  
-  async completeMission(missionId) {
-    try {
-      console.log(' Completing mission:', missionId);
-      
-      const mission = await Mission.findById(missionId)
-        .populate('shipment truck driver');
-      
-      if (!mission) throw new AppError('Mission not found', 404);
-      
-      if (mission.status !== 'in_progress') {
-        throw new AppError(`Mission cannot be completed from status: ${mission.status}`, 400);
-      }
-      
-      const completionTime = new Date();
-      
-      mission.status = 'completed';
-      mission.endTime = completionTime;
-      await mission.save();
-      console.log('Mission completed');
-      
-      const shipment = await Shipment.findById(mission.shipment._id);
-      shipment.status = 'completed';
-      shipment.actualEndTime = completionTime;
       await shipment.save();
-      console.log('Shipment updated');
       
-      const truck = await Truck.findById(mission.truck._id);
-      truck.status = 'available';
-      truck.driver = null;
-      await truck.save();
-      console.log('Truck status updated to available');
+      // Send notification
+      await notificationService.createNotification('shipment_cancelled', {
+        shipmentId: shipment._id,
+        shipmentNumber: shipment.shipmentId || shipment._id,
+        reason: reason || 'Cancelled by user',
+        origin: shipment.origin,
+        destination: shipment.destination
+      }, io);
       
-      const driver = await Driver.findById(mission.driver._id);
-      driver.status = 'available';
-      driver.assignedTruck = null;
-      await driver.save();
-      console.log('Driver status updated to available');
-      
-      const trip = await TripHistory.findOne({ mission: missionId });
-      
-      if (trip) {
-        console.log('Found TripHistory:', trip._id);
-        
-        trip.status = 'completed';
-        trip.endTime = completionTime;
-        trip.actualEndTime = completionTime;
-        
-        const locations = await LocationHistory.find({
-          truck: mission.truck._id,
-          timestamp: { 
-            $gte: mission.startTime, 
-            $lte: completionTime 
-          }
-        }).sort({ timestamp: 1 });
-        
-        console.log(` Found ${locations.length} location points`);
-        
-        if (locations.length > 0) {
-          let totalDistance = 0;
-          let maxSpeed = 0;
-          let speeds = [];
-          
-          for (let i = 0; i < locations.length; i++) {
-            if (locations[i].speed > maxSpeed) maxSpeed = locations[i].speed;
-            if (locations[i].speed > 0) speeds.push(locations[i].speed);
-            
-            if (i > 0) {
-              const prev = locations[i - 1];
-              const distance = this.calculateDistance(
-                prev.location.coordinates,
-                locations[i].location.coordinates
-              );
-              totalDistance += distance;
-            }
-          }
-          
-          const averageSpeed = speeds.length > 0 
-            ? parseFloat((speeds.reduce((a, b) => a + b, 0) / speeds.length).toFixed(2))
-            : 0;
-          
-          trip.actualDistanceKm = parseFloat(totalDistance.toFixed(2));
-          trip.averageSpeed = averageSpeed;
-          trip.maxSpeed = maxSpeed;
-          
-          trip.routePath = {
-            type: 'LineString',
-            coordinates: locations.map(loc => loc.location.coordinates)
-          };
-          
-          console.log(` Trip stats: ${totalDistance.toFixed(2)}km, ${averageSpeed}km/h avg, ${maxSpeed}km/h max`);
-        }
-        
-        const durationMs = completionTime - mission.startTime;
-        const actualDurationHours = parseFloat((durationMs / (1000 * 60 * 60)).toFixed(2));
-        trip.actualDurationHours = actualDurationHours;
-        
-        if (trip.plannedDurationHours > 0) {
-          const delayMinutes = Math.max(0, (actualDurationHours - trip.plannedDurationHours) * 60);
-          trip.delayMinutes = delayMinutes;
-        }
-        
-        await trip.save();
-        console.log('TripHistory updated to completed');
-      } else {
-        console.log(' No TripHistory found for mission:', missionId);
-      }
+      console.log(`✅ Shipment ${shipment._id} cancelled successfully`);
       
       return {
         success: true,
-        message: 'Mission completed successfully',
-        data: { mission, shipment, truck, driver, trip: trip || null }
+        message: 'Shipment cancelled successfully. Truck and driver have been freed.',
+        shipment
       };
       
     } catch (error) {
-      console.error(' Error in completeMission:', error);
+      console.error('❌ Error in cancelShipment:', error);
       throw error;
     }
   }
-  
+  async getDelayedShipments(){
+    
+  }
   // Helper method to calculate distance between two points
   calculateDistance(point1, point2) {
     const [lng1, lat1] = point1;

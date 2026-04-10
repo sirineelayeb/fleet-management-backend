@@ -1,4 +1,0 @@
-numpy>=1.25
-pandas>=2.0
-matplotlib>=3.7
-folium>=0.14

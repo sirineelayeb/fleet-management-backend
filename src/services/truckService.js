@@ -32,7 +32,7 @@ class TruckService {
     // Populate references
     return await Truck.findById(savedTruck._id)
       .populate('driver', 'name phone')
-      .populate('device', 'deviceId status');
+      .populate('devices', 'deviceId status');
   }
  async count(filters = {}) {
     return await Truck.countDocuments(filters);
@@ -44,7 +44,7 @@ class TruckService {
     
     const trucks = await Truck.find(filters)
       .populate('driver', 'name phone status')
-      .populate('device', 'deviceId status')
+      .populate('devices', 'deviceId status')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit));
@@ -56,7 +56,7 @@ class TruckService {
   async findAllNoPagination(filters = {}) {
     const trucks = await Truck.find(filters)
       .populate('driver', 'name phone status')
-      .populate('device', 'deviceId status')
+      .populate('devices', 'deviceId type status batteryLevel firmwareVersion lastSeen')
       .sort({ createdAt: -1 });
     
     return trucks;
@@ -66,7 +66,7 @@ class TruckService {
   async findById(id) {
     const truck = await Truck.findById(id)
       .populate('driver', 'name phone licenseNumber score')
-      .populate('device', 'deviceId status lastSeen');
+      .populate('devices', 'deviceId type status batteryLevel firmwareVersion lastSeen');
     
     if (!truck) {
       throw new AppError('Truck not found', 404);
@@ -107,8 +107,7 @@ class TruckService {
       truckData,
       { new: true, runValidators: true }
     ).populate('driver', 'name phone')
-     .populate('device', 'deviceId status');
-    
+     .populate('devices', 'deviceId type status batteryLevel firmwareVersion lastSeen');    
     return updatedTruck;
   }
 
@@ -276,59 +275,51 @@ async getAvailableTrucks() {
     truck.driver = null;
     await truck.save();
     
-    return await truck.populate('device', 'deviceId status');
-  }
+    return await truck.populate('devices', 'deviceId type status batteryLevel firmwareVersion lastSeen');  }
 
   // ASSIGN DEVICE
-  async assignDevice(truckId, deviceId) {
-    const truck = await Truck.findById(truckId);
-    if (!truck) throw new AppError('Truck not found', 404);
-    
-    const device = await Device.findById(deviceId);
-    if (!device) throw new AppError('Device not found', 404);
-    
-    // Check if device is already assigned to another truck
-    if (device.truck && device.truck.toString() !== truckId) {
-      throw new AppError('Device is already assigned to another truck', 400);
-    }
-    
-    // Check if device is active
-    if (device.status !== 'active') {
-      throw new AppError(`Device is ${device.status}. Only active devices can be assigned`, 400);
-    }
-    
-    // Clear previous device if exists
-    if (truck.device && truck.device.toString() !== deviceId) {
-      await Device.findByIdAndUpdate(truck.device, { truck: null });
-    }
-    
-    // Assign both sides
-    await Device.findByIdAndUpdate(deviceId, { truck: truckId, lastSeen: new Date() });
-    
-    truck.device = deviceId;
-    await truck.save();
-    
-    return await truck.populate('driver', 'name phone').populate('device', 'deviceId status');
-  }
+ async assignDevice(truckId, deviceId) {
+  const truck = await Truck.findById(truckId);
+  if (!truck) throw new AppError('Truck not found', 404);
+  
+  const device = await Device.findById(deviceId);
+  if (!device) throw new AppError('Device not found', 404);
+  if (device.truck) throw new AppError('Device already assigned to another truck', 400);
+  
+  // Add device to truck's devices array (avoid duplicates)
+  await Truck.findByIdAndUpdate(truckId, { $addToSet: { devices: deviceId } });
+  
+  // Set device's truck reference
+  device.truck = truckId;
+  await device.save();
+  
+  return await Truck.findById(truckId)
+    .populate('devices')
+    .populate('driver', 'name phone status');
+}
 
   // UNASSIGN DEVICE
-  async unassignDevice(truckId) {
-    const truck = await Truck.findById(truckId);
-    if (!truck) throw new AppError('Truck not found', 404);
-    
-    if (!truck.device) {
-      throw new AppError('Truck has no device assigned', 400);
-    }
-    
-    // Clear device assignment
-    await Device.findByIdAndUpdate(truck.device, { truck: null });
-    
-    truck.device = null;
-    await truck.save();
-    
-    return await truck.populate('driver', 'name phone');
+async unassignDevice(truckId, deviceId) {
+  const truck = await Truck.findById(truckId);
+  if (!truck) throw new AppError('Truck not found', 404);
+
+  // Ensure the truck has a devices array (fallback for old data)
+  const deviceIds = truck.devices || [];
+  if (!deviceIds.includes(deviceId)) {
+    throw new AppError('Device not assigned to this truck', 400);
   }
 
+  // Remove the specific device from the truck's devices array
+  await Truck.findByIdAndUpdate(truckId, { $pull: { devices: deviceId } });
+
+  // Clear the truck reference on the device
+  await Device.findByIdAndUpdate(deviceId, { truck: null });
+
+  // Return populated truck with devices and driver
+  return await Truck.findById(truckId)
+    .populate('devices')
+    .populate('driver', 'name phone status');
+}
   // GET TRUCK STATISTICS
   async getTruckStats() {
     const [total, available, inMission, maintenance] = await Promise.all([

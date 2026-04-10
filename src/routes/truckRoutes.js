@@ -30,7 +30,7 @@ router.put('/:id/status', restrictTo('shipment_manager', 'admin'), truckControll
 router.post('/:id/assign-driver', restrictTo('shipment_manager', 'admin'), truckController.assignDriver);
 router.delete('/:id/unassign-driver', restrictTo('shipment_manager', 'admin'), truckController.unassignDriver);
 router.post('/:id/assign-device', restrictTo('shipment_manager', 'admin'), truckController.assignDevice);
-router.delete('/:id/unassign-device', restrictTo('shipment_manager', 'admin'), truckController.unassignDevice);
+router.delete('/:id/unassign-device/:deviceId', restrictTo('shipment_manager', 'admin'), truckController.unassignDevice);
 
 // ============================================================
 //  DYNAMIC ROUTES (with :id) - MUST BE LAST

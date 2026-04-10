@@ -14,6 +14,7 @@ class DriverController {
       limit: parseInt(limit),
       skip: (page - 1) * parseInt(limit),
     });
+    // console.log('First truck driver:', JSON.stringify(trucks[0]?.driver, null, 2));
 
     res.status(200).json({
       success: true,
@@ -114,7 +115,7 @@ class DriverController {
 
     res.status(200).json({
       success: true,
-      data: driver,
+      data: driver, // driver already has driver.photo from the service
       message: 'Photo uploaded successfully',
     });
   });
@@ -138,6 +139,31 @@ class DriverController {
       data: driver,
       message: `Driver status updated to ${status}`,
     });
+  });
+  getScoreConfig = catchAsync(async (req, res) => {
+    const config = await driverService.getScoreConfig();
+    res.json({ success: true, data: config });
+  });
+
+  updateScoreConfig = catchAsync(async (req, res) => {
+    const config = await driverService.updateScoreConfig(req.body);
+    res.json({ success: true, message: 'Score config updated', data: config });
+  });
+
+  getDriverScoreLogs = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const { limit = 50 } = req.query;
+    const logs = await driverService.getDriverScoreLogs(id, parseInt(limit));
+    res.json({ success: true, data: logs });
+  });
+
+  manualAdjustScore = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const { points, remark } = req.body;
+    if (points === undefined) throw new AppError('Points amount is required', 400);
+    const adminId = req.user._id;
+    const driver = await driverService.adjustDriverScoreManually(id, points, remark, adminId);
+    res.json({ success: true, message: `Score adjusted by ${points} points`, data: driver });
   });
 }
 

@@ -14,6 +14,8 @@ router.use(protect);
 router.get('/available', driverController.getAvailableDrivers);
 router.get('/stats', restrictTo('admin'), driverController.getDriverStats);
 router.get('/history/all', restrictTo('admin'), driverController.getAllDriversWithHistory);
+router.get('/score-config', restrictTo('admin'), driverController.getScoreConfig);
+router.put('/score-config', restrictTo('admin'), driverController.updateScoreConfig);
 
 // ============================================================
 // COLLECTION ROUTES
@@ -29,7 +31,8 @@ router
 router.get('/:id/history', restrictTo('admin'), driverController.getDriverHistory);
 router.get('/:id/truck-history', restrictTo('admin'), driverController.getDriverTruckHistory);
 router.patch('/:id/status', restrictTo('admin', 'shipment_manager'), driverController.updateDriverStatus);
-
+router.get('/:id/score-logs', restrictTo('admin'), driverController.getDriverScoreLogs);
+router.post('/:id/adjust-score', restrictTo('admin'), driverController.manualAdjustScore);
 router
   .route('/:id')
   .get(driverController.getDriver)

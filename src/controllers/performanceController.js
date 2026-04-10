@@ -228,8 +228,8 @@ class PerformanceController {
         totalDistance: 0,
         totalDuration: 0,
         averageSpeed: 0,
-        fuelEfficiency: 0,
-        utilizationRate: 0,
+        // fuelEfficiency: 0,
+        // utilizationRate: 0,
         score: 0
       };
     }

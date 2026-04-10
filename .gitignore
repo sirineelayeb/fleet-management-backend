@@ -4,4 +4,7 @@ __pycache__/
 outputs/
 # data/processed/
 # data/raw/
-models/
+
+node_modules/
+.env
+package-lock.json

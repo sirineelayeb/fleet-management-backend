@@ -1,29 +1,49 @@
-const ShipmentService = require('../services/shipmentService');
 const Shipment = require('../models/Shipment');
+const Mission = require('../models/Mission');
+const TripHistory = require('../models/TripHistory');
+const Truck = require('../models/Truck');
+const Driver = require('../models/Driver');
+const ShipmentService = require('../services/shipmentService');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 
 class ShipmentController {
+  // Helper to check if user can access a shipment
+  _checkAccess(shipment, user) {
+    if (user.role === 'admin') return true;
+    if (!shipment.createdBy) return false;
+    return shipment.createdBy.toString() === user._id.toString();
+  }
+
+  // Helper to build base query with role‑based filter
+  _buildBaseQuery(user, extraFilter = {}) {
+    const query = { ...extraFilter };
+    if (user.role !== 'admin') {
+      query.createdBy = user._id;
+    }
+    return query;
+  }
+
   // GET /api/shipments
   getAllShipments = catchAsync(async (req, res) => {
     const { status, shipmentType, page = 1, limit = 50 } = req.query;
     const filter = {};
-    
     if (status) filter.status = status;
     if (shipmentType) filter.shipmentType = shipmentType;
-    
+
+    const query = this._buildBaseQuery(req.user, filter);
     const skip = (parseInt(page) - 1) * parseInt(limit);
-    
+
     const [shipments, total] = await Promise.all([
-      Shipment.find(filter)
+      Shipment.find(query)
         .populate('truck', 'licensePlate displayPlate brand model')
         .populate('driver', 'name phone')
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(parseInt(limit)),
-      Shipment.countDocuments(filter)
+      Shipment.countDocuments(query)
     ]);
-    
+
     res.status(200).json({
       success: true,
       count: shipments.length,
@@ -42,21 +62,21 @@ class ShipmentController {
     const shipment = await Shipment.findById(req.params.id)
       .populate('truck', 'licensePlate displayPlate brand model capacity type status')
       .populate('driver', 'name phone licenseNumber score');
-    
-    if (!shipment) {
-      throw new AppError('Shipment not found', 404);
+
+    if (!shipment) throw new AppError('Shipment not found', 404);
+
+    if (!this._checkAccess(shipment, req.user)) {
+      throw new AppError('You do not have permission to view this shipment', 403);
     }
-    
-    res.status(200).json({
-      success: true,
-      data: shipment
-    });
+
+    res.status(200).json({ success: true, data: shipment });
   });
 
   // POST /api/shipments
   createShipment = catchAsync(async (req, res) => {
-    const shipment = await Shipment.create(req.body);
-    
+    const shipmentData = { ...req.body, createdBy: req.user._id };
+    const shipment = await Shipment.create(shipmentData);
+
     res.status(201).json({
       success: true,
       message: 'Shipment created successfully',
@@ -67,23 +87,35 @@ class ShipmentController {
   // PUT /api/shipments/:id
   updateShipment = catchAsync(async (req, res) => {
     const shipment = await Shipment.findById(req.params.id);
-    
-    if (!shipment) {
-      throw new AppError('Shipment not found', 404);
+    if (!shipment) throw new AppError('Shipment not found', 404);
+    if (!this._checkAccess(shipment, req.user)) {
+      throw new AppError('You do not have permission to update this shipment', 403);
     }
-    
-    // Don't allow update if shipment is in progress or completed
-    if (shipment.status === 'in_progress' || shipment.status === 'completed') {
-      throw new AppError(`Cannot update shipment with status: ${shipment.status}`, 400);
+
+    const { status } = shipment;
+
+    if (status === 'in_progress' || status === 'completed') {
+      throw new AppError(`Cannot update a shipment with status: ${status}`, 400);
     }
-    
+
+    // For assigned status, restrict which fields can be updated
+    if (status === 'assigned') {
+      const allowedFields = ['description', 'customer', 'plannedLoadingDurationMinutes', 'notes'];
+      const requestedFields = Object.keys(req.body);
+      const invalidFields = requestedFields.filter(f => !allowedFields.includes(f));
+      if (invalidFields.length > 0) {
+        throw new AppError(`Cannot update fields: ${invalidFields.join(', ')} when shipment is assigned.`, 400);
+      }
+    }
+
+    // For pending, allow full update (but you may also restrict some fields if desired)
     const updatedShipment = await Shipment.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true, runValidators: true }
     ).populate('truck', 'licensePlate brand model')
-     .populate('driver', 'name phone');
-    
+    .populate('driver', 'name phone');
+
     res.status(200).json({
       success: true,
       message: 'Shipment updated successfully',
@@ -94,36 +126,83 @@ class ShipmentController {
   // DELETE /api/shipments/:id
   deleteShipment = catchAsync(async (req, res) => {
     const shipment = await Shipment.findById(req.params.id);
-    
-    if (!shipment) {
-      throw new AppError('Shipment not found', 404);
+    if (!shipment) throw new AppError('Shipment not found', 404);
+
+    if (!this._checkAccess(shipment, req.user)) {
+      throw new AppError('You do not have permission to delete this shipment', 403);
     }
-    
-    // Don't allow delete if shipment is assigned, in progress, or completed
+
     if (shipment.status !== 'pending') {
-      throw new AppError(`Cannot delete shipment with status: ${shipment.status}`, 400);
+      throw new AppError(`Cannot delete shipment with status: ${shipment.status}. Only pending shipments can be deleted.`, 400);
     }
-    
+
+    const mission = await Mission.findOne({ shipment: shipment._id });
+    if (mission) {
+      throw new AppError('Cannot delete shipment that has an associated mission. Please cancel the shipment first.', 400);
+    }
+
+    const trip = await TripHistory.findOne({ shipment: shipment._id });
+    if (trip) await trip.deleteOne();
+
     await shipment.deleteOne();
-    
+
     res.status(200).json({
       success: true,
       message: 'Shipment deleted successfully'
     });
   });
 
+  // Force delete shipment (admin only) - no ownership check, but ensure admin role
+  forceDeleteShipment = catchAsync(async (req, res) => {
+    if (req.user.role !== 'admin') {
+      throw new AppError('Only admins can force delete shipments', 403);
+    }
+
+    const shipment = await Shipment.findById(req.params.id);
+    if (!shipment) throw new AppError('Shipment not found', 404);
+
+    const mission = await Mission.findOne({ shipment: shipment._id });
+    if (mission) {
+      if (mission.truck) {
+        const truck = await Truck.findById(mission.truck);
+        if (truck) {
+          truck.status = 'available';
+          truck.driver = null;
+          await truck.save();
+        }
+      }
+      if (mission.driver) {
+        const driver = await Driver.findById(mission.driver);
+        if (driver) {
+          driver.status = 'available';
+          driver.assignedTruck = null;
+          await driver.save();
+        }
+      }
+      await TripHistory.deleteMany({ mission: mission._id });
+      await mission.deleteOne();
+    }
+
+    await shipment.deleteOne();
+    res.status(200).json({
+      success: true,
+      message: 'Shipment and all associated data force deleted successfully'
+    });
+  });
+
   // POST /api/shipments/assign
   assignShipment = catchAsync(async (req, res) => {
     const { shipmentId, truckId, driverId } = req.body;
-    
-    // Validate required fields
-    if (!shipmentId || !truckId) {
-      throw new AppError('Shipment ID and Truck ID are required', 400);
+    if (!shipmentId || !truckId) throw new AppError('Shipment ID and Truck ID are required', 400);
+
+    const shipment = await Shipment.findById(shipmentId);
+    if (!shipment) throw new AppError('Shipment not found', 404);
+
+    if (!this._checkAccess(shipment, req.user)) {
+      throw new AppError('You do not have permission to assign this shipment', 403);
     }
-    
-    // driverId (can be null/undefined)
-    const result = await ShipmentService.assignShipment(shipmentId, truckId, driverId);
-    
+
+    const result = await ShipmentService.assignShipment(shipmentId, truckId, driverId, req.io);
     res.status(200).json({
       success: true,
       message: result.message,
@@ -134,72 +213,19 @@ class ShipmentController {
       }
     });
   });
-  
-  // POST /api/shipments/start-mission
-  // startMission = catchAsync(async (req, res) => {
-  //   const { missionId } = req.body;
-    
-  //   if (!missionId) {
-  //     throw new AppError('Mission ID is required', 400);
-  //   }
-    
-  //   const result = await ShipmentService.startMission(missionId);
-    
-  //   res.status(200).json({
-  //     success: true,
-  //     message: result.message,
-  //     data: result.mission
-  //   });
-  // });
-
-  // POST /api/shipments/:id/start-mission
-  // startMission = catchAsync(async (req, res) => {
-  //   const { missionId } = req.body;
-    
-  //   if (!missionId) {
-  //     throw new AppError('Mission ID is required', 400);
-  //   }
-    
-  //   const mission = await ShipmentService.startMission(missionId);
-    
-  //   res.status(200).json({
-  //     success: true,
-  //     message: 'Mission started successfully',
-  //     data: mission
-  //   });
-  // });
-
-  // // POST /api/shipments/:id/complete-mission
-  // completeMission = catchAsync(async (req, res) => {
-  //   const { missionId } = req.body;
-    
-  //   if (!missionId) {
-  //     throw new AppError('Mission ID is required', 400);
-  //   }
-    
-  //   const mission = await ShipmentService.completeMission(missionId);
-    
-  //   res.status(200).json({
-  //     success: true,
-  //     message: 'Mission completed successfully',
-  //     data: mission
-  //   });
-  // });
 
   // GET /api/shipments/status/:status
   getShipmentsByStatus = catchAsync(async (req, res) => {
     const { status } = req.params;
     const validStatuses = ['pending', 'assigned', 'in_progress', 'completed', 'cancelled'];
-    
-    if (!validStatuses.includes(status)) {
-      throw new AppError(`Invalid status. Must be one of: ${validStatuses.join(', ')}`, 400);
-    }
-    
-    const shipments = await Shipment.find({ status })
+    if (!validStatuses.includes(status)) throw new AppError(`Invalid status`, 400);
+
+    const query = this._buildBaseQuery(req.user, { status });
+    const shipments = await Shipment.find(query)
       .populate('truck', 'licensePlate brand model')
       .populate('driver', 'name phone')
       .sort({ createdAt: -1 });
-    
+
     res.status(200).json({
       success: true,
       count: shipments.length,
@@ -210,11 +236,11 @@ class ShipmentController {
   // GET /api/shipments/truck/:truckId
   getShipmentsByTruck = catchAsync(async (req, res) => {
     const { truckId } = req.params;
-    
-    const shipments = await Shipment.find({ truck: truckId })
+    const query = this._buildBaseQuery(req.user, { truck: truckId });
+    const shipments = await Shipment.find(query)
       .populate('driver', 'name phone')
       .sort({ createdAt: -1 });
-    
+
     res.status(200).json({
       success: true,
       count: shipments.length,
@@ -225,11 +251,11 @@ class ShipmentController {
   // GET /api/shipments/driver/:driverId
   getShipmentsByDriver = catchAsync(async (req, res) => {
     const { driverId } = req.params;
-    
-    const shipments = await Shipment.find({ driver: driverId })
+    const query = this._buildBaseQuery(req.user, { driver: driverId });
+    const shipments = await Shipment.find(query)
       .populate('truck', 'licensePlate brand model')
       .sort({ createdAt: -1 });
-    
+
     res.status(200).json({
       success: true,
       count: shipments.length,
@@ -239,33 +265,35 @@ class ShipmentController {
 
   // GET /api/shipments/stats
   getShipmentStats = catchAsync(async (req, res) => {
+    // For stats, we must also filter by user's shipments (non‑admin)
+    const baseQuery = this._buildBaseQuery(req.user, {});
     const [total, pending, assigned, inProgress, completed, cancelled] = await Promise.all([
-      Shipment.countDocuments(),
-      Shipment.countDocuments({ status: 'pending' }),
-      Shipment.countDocuments({ status: 'assigned' }),
-      Shipment.countDocuments({ status: 'in_progress' }),
-      Shipment.countDocuments({ status: 'completed' }),
-      Shipment.countDocuments({ status: 'cancelled' })
+      Shipment.countDocuments(baseQuery),
+      Shipment.countDocuments({ ...baseQuery, status: 'pending' }),
+      Shipment.countDocuments({ ...baseQuery, status: 'assigned' }),
+      Shipment.countDocuments({ ...baseQuery, status: 'in_progress' }),
+      Shipment.countDocuments({ ...baseQuery, status: 'completed' }),
+      Shipment.countDocuments({ ...baseQuery, status: 'cancelled' })
     ]);
-    
-    // Get total weight and average
+
     const weightStats = await Shipment.aggregate([
+      { $match: baseQuery },
       { $group: {
         _id: null,
         totalWeight: { $sum: '$weightKg' },
         avgWeight: { $avg: '$weightKg' }
       }}
     ]);
-    
-    // Get shipments by type
+
     const byType = await Shipment.aggregate([
+      { $match: baseQuery },
       { $group: {
         _id: '$shipmentType',
         count: { $sum: 1 },
         totalWeight: { $sum: '$weightKg' }
       }}
     ]);
-    
+
     res.status(200).json({
       success: true,
       stats: {
@@ -286,49 +314,57 @@ class ShipmentController {
   // GET /api/shipments/:id/mission
   getShipmentMission = catchAsync(async (req, res) => {
     const { id } = req.params;
-    
+    const shipment = await Shipment.findById(id);
+    if (!shipment) throw new AppError('Shipment not found', 404);
+    if (!this._checkAccess(shipment, req.user)) {
+      throw new AppError('You do not have permission to view this mission', 403);
+    }
+
     const mission = await Mission.findOne({ shipment: id })
       .populate('truck', 'licensePlate brand model')
       .populate('driver', 'name phone');
-    
-    if (!mission) {
-      throw new AppError('No mission found for this shipment', 404);
-    }
-    
-    res.status(200).json({
-      success: true,
-      data: mission
-    });
+
+    if (!mission) throw new AppError('No mission found for this shipment', 404);
+
+    res.status(200).json({ success: true, data: mission });
   });
 
   // PUT /api/shipments/:id/cancel
   cancelShipment = catchAsync(async (req, res) => {
-    const shipment = await Shipment.findById(req.params.id);
-    
-    if (!shipment) {
-      throw new AppError('Shipment not found', 404);
+    const { id } = req.params;
+    const { reason } = req.body;
+
+    const shipment = await Shipment.findById(id);
+    if (!shipment) throw new AppError('Shipment not found', 404);
+    if (!this._checkAccess(shipment, req.user)) {
+      throw new AppError('You do not have permission to cancel this shipment', 403);
     }
-    
-    if (shipment.status === 'completed') {
-      throw new AppError('Cannot cancel completed shipment', 400);
-    }
-    
-    if (shipment.status === 'in_progress') {
-      // If in progress, also cancel the mission
-      await Mission.findOneAndUpdate(
-        { shipment: shipment._id, status: 'in_progress' },
-        { status: 'cancelled' }
-      );
-    }
-    
-    shipment.status = 'cancelled';
-    await shipment.save();
-    
+
+    const result = await ShipmentService.cancelShipment(id, reason, req.io);
     res.status(200).json({
       success: true,
-      message: 'Shipment cancelled successfully',
-      data: shipment
+      message: result.message,
+      data: result.shipment
     });
+  });
+
+  // PUT /api/shipments/:id/loading-duration
+  updateLoadingDuration = catchAsync(async (req, res) => {
+    const { durationMinutes } = req.body;
+    if (!durationMinutes || durationMinutes < 0) {
+      throw new AppError('Valid duration in minutes is required', 400);
+    }
+
+    const shipment = await Shipment.findById(req.params.id);
+    if (!shipment) throw new AppError('Shipment not found', 404);
+    if (!this._checkAccess(shipment, req.user)) {
+      throw new AppError('You do not have permission to modify this shipment', 403);
+    }
+
+    shipment.plannedLoadingDurationMinutes = durationMinutes;
+    await shipment.save();
+
+    res.json({ success: true, data: shipment });
   });
 }
 

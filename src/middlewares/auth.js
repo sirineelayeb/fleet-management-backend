@@ -13,7 +13,7 @@ exports.protect = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
+    const user = await User.findById(decoded.id).select('+password');
 
     if (!user) {
       return res.status(401).json({ message: 'User not found' });
@@ -35,21 +35,11 @@ exports.restrictTo = (...roles) => {
   };
 };
 
-// Add this missing middleware
 exports.checkUserAccess = (req, res, next) => {
-  // Admin can access any user
-  if (req.user.role === 'admin') {
-    return next();
-  }
-  
-  // Regular users can only access themselves
+  if (req.user.role === 'admin') return next();
   const userId = req.params.id;
   if (userId && userId !== req.user.id) {
-    return res.status(403).json({
-      success: false,
-      message: 'You can only access your own profile'
-    });
+    return res.status(403).json({ success: false, message: 'You can only access your own profile' });
   }
-  
   next();
 };

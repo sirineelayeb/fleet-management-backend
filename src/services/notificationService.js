@@ -50,19 +50,19 @@ class NotificationService {
         severity: 'critical',
         title: '🚫 Access Denied',
         message: `Unauthorized truck ${data.licensePlate} attempted to ${data.accessType} at ${data.gateName}`,
-        targetRoles: ['admin', 'shipment_manager']
+        targetRoles: ['admin']
       },
       gate_full: {
         severity: 'warning',
         title: '⚠️ Gate Full',
         message: `${data.gateName} is at full capacity (${data.currentQueue}/${data.queueCapacity})`,
-        targetRoles: ['admin', 'shipment_manager']
+        targetRoles: ['admin']
       },
       after_hours_access: {
         severity: 'warning',
         title: '🕐 After Hours Access',
         message: `Truck ${data.licensePlate} requested ${data.accessType} outside operating hours at ${data.gateName}`,
-        targetRoles: ['admin', 'shipment_manager']
+        targetRoles: ['admin']
       },
       
       // Truck Events
@@ -70,7 +70,7 @@ class NotificationService {
         severity: 'warning',
         title: '🚨 Speed Violation',
         message: `Truck ${data.licensePlate} exceeded speed limit: ${data.speed} km/h at ${data.location}`,
-        targetRoles: ['admin', 'shipment_manager']
+        targetRoles: ['admin']
       },
       maintenance_required: {
         severity: 'info',
@@ -84,27 +84,27 @@ class NotificationService {
         severity: 'info',
         title: '⭐ Driver Score Updated',
         message: `Driver ${data.driverName} score changed from ${data.oldScore} to ${data.newScore}`,
-        targetRoles: ['admin', 'shipment_manager']
+        targetRoles: ['admin']
       },
       
       // Shipment Events
-      shipment_assigned: {  // ✅ ADD THIS
+      shipment_assigned: { 
         severity: 'info',
         title: '📦 Shipment Assigned',
         message: `Shipment ${data.shipmentNumber || data.shipmentId} assigned to truck ${data.truckPlate} (Driver: ${data.driverName})`,
-        targetRoles: ['admin', 'shipment_manager']
+        targetRoles: ['admin']  // Only admin needs this
       },
       mission_started: {
         severity: 'info',
         title: '🚚 Mission Started',
         message: `Mission ${data.missionNumber} started for shipment from ${data.origin} to ${data.destination}`,
-        targetRoles: ['shipment_manager']
+        targetRoles: ['shipment_manager', 'admin']
       },
       mission_completed: {
         severity: 'info',
         title: '✅ Mission Completed',
         message: `Mission ${data.missionNumber} completed. Distance: ${data.distance}km, Duration: ${data.duration}h`,
-        targetRoles: ['shipment_manager']
+        targetRoles: ['shipment_manager','admin']
       },
       delivery_delayed: {
         severity: 'warning',
@@ -125,6 +125,12 @@ class NotificationService {
         title: '🔋 Low Battery',
         message: `Device ${data.deviceId} battery at ${data.batteryLevel}%. Truck: ${data.licensePlate}`,
         targetRoles: ['admin']
+      },
+      loading_overtime: {
+        severity: 'warning',
+        title: '⏰ Loading Overtime',
+        message: `Loading overtime for truck ${data.truckLicense} at gate ${data.gateName}: planned ${data.plannedMinutes} min, actual ${data.actualMinutes} min, overtime ${data.overtimeMinutes} min`,
+        targetRoles: ['admin', 'shipment_manager']
       }
     };
     
@@ -136,9 +142,15 @@ class NotificationService {
     };
   }
   
-  // Get all notifications with filters
-  async getNotifications(filters = {}, page = 1, limit = 50) {
+  // Get all notifications with filters + role‑based filtering
+  async getNotifications(filters = {}, page = 1, limit = 50, userRole = null) {
     const query = {};
+
+    // Apply role‑based filter: admin sees all, shipment_manager sees only those with targetRoles containing 'shipment_manager'
+    if (userRole === 'shipment_manager') {
+      query.targetRoles = { $in: ['shipment_manager'] };
+    }
+    // For admin, no extra filter (admin sees everything)
     
     if (filters.read !== undefined) query.read = filters.read === 'true';
     if (filters.severity) query.severity = filters.severity;
@@ -173,21 +185,22 @@ class NotificationService {
     return notification;
   }
   
-  // Mark all as read
-  async markAllAsRead() {
-    await Notification.updateMany({ read: false }, { read: true, readAt: new Date() });
-    return { success: true };
-  }
-  
-  // Get unread count
-  async getUnreadCount(userRole = null) {
+  // Mark all as read (for current user – only notifications visible to them)
+  async markAllAsRead(userRole) {
     const query = { read: false };
-    
-    // If user is shipment_manager, only show relevant notifications
     if (userRole === 'shipment_manager') {
       query.targetRoles = { $in: ['shipment_manager'] };
     }
-    
+    await Notification.updateMany(query, { read: true, readAt: new Date() });
+    return { success: true };
+  }
+  
+  // Get unread count (role‑based)
+  async getUnreadCount(userRole = null) {
+    const query = { read: false };
+    if (userRole === 'shipment_manager') {
+      query.targetRoles = { $in: ['shipment_manager'] };
+    }
     return await Notification.countDocuments(query);
   }
   

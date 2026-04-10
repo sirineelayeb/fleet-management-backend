@@ -1,10 +1,8 @@
-// backend/src/routes/gateRoutes.js
 const express = require('express');
 const router = express.Router();
 const gateController = require('../controllers/gateController');
 const { protect, restrictTo } = require('../middlewares/auth');
 
-// All routes require authentication
 router.use(protect);
 
 // ============================================================
@@ -12,12 +10,11 @@ router.use(protect);
 // ============================================================
 router.get('/stats', restrictTo('admin'), gateController.getGateStats);
 router.get('/active', gateController.getActiveGates);
-router.get('/access', gateController.requestAccess); // POST, but GET for docs
 
 // ============================================================
-// GATE ACCESS
+// GATE ACCESS (only POST)
 // ============================================================
-router.post('/access', gateController.requestAccess);
+router.post('/access', gateController.requestAccess); 
 
 // ============================================================
 // GATE MANAGEMENT
@@ -27,7 +24,7 @@ router.route('/')
   .post(restrictTo('admin'), gateController.createGate);
 
 // ============================================================
-// GATE QUEUE
+// GATE QUEUE & LOGS
 // ============================================================
 router.get('/:id/queue', gateController.getGateQueue);
 router.get('/:id/access-logs', restrictTo('admin'), gateController.getAccessLogs);

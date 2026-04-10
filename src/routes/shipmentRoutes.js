@@ -48,11 +48,16 @@ router
 // ============================================================
 router.get('/:id/mission', shipmentController.getShipmentMission);
 router.put('/:id/cancel', restrictTo('shipment_manager', 'admin'), shipmentController.cancelShipment);
-
+router.delete('/:id/force', 
+  restrictTo('admin'), 
+  shipmentController.forceDeleteShipment
+);
 router
   .route('/:id')
   .get(shipmentController.getShipment)
   .put(restrictTo('shipment_manager', 'admin'), shipmentController.updateShipment)
   .delete(restrictTo('admin'), shipmentController.deleteShipment);
+  
+  router.put('/:id/loading-duration', restrictTo('shipment_manager', 'admin'), shipmentController.updateLoadingDuration);
 
 module.exports = router;

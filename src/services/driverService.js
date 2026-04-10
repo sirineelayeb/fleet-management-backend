@@ -2,6 +2,8 @@ const Driver = require('../models/Driver');
 const Truck = require('../models/Truck');
 const Shipment = require('../models/Shipment');
 const Mission = require('../models/Mission');
+const ScoreConfig = require('../models/ScoreConfig');
+const DriverScoreLog = require('../models/DriverScoreLog');
 const AppError = require('../utils/AppError');
 const path = require('path');
 const fs = require('fs');
@@ -26,13 +28,15 @@ class DriverService {
     }
 
     const [drivers, total] = await Promise.all([
-      Driver.find(filter)
-        .populate('assignedTruck', 'licensePlate displayPlate brand model status type capacity')
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit),
-      Driver.countDocuments(filter),
-    ]);
+    Driver.find(filter)
+      .populate('assignedTruck', 'licensePlate displayPlate brand model status type capacity')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit),
+    Driver.countDocuments(filter),
+  ]);
+
+  // console.log(drivers.map(d => ({ name: d.name, photo: d.photo })));
 
     return {
       drivers,
@@ -251,13 +255,12 @@ class DriverService {
   }
 
   // ── Photo ─────────────────────────────────────────────────────────────────
-
   async uploadDriverPhoto(id, file) {
     const driver = await Driver.findById(id);
     if (!driver) throw new AppError('Driver not found', 404);
 
-    if (driver.profilePhoto?.url) {
-      this._deleteFile(driver.profilePhoto.url);
+    if (driver.photo?.url) {
+      this._deleteFile(driver.photo.url);
     }
 
     const normalizedPath = file.path.replace(/\\/g, '/');
@@ -266,8 +269,8 @@ class DriverService {
       ? normalizedPath.slice(uploadsIndex)
       : normalizedPath;
 
-    driver.profilePhoto = {
-      url: cleanPath,
+    driver.photo = {
+      url: `/` + cleanPath, // consistent URL for frontend
       filename: file.filename,
       uploadedAt: new Date(),
     };
@@ -280,12 +283,12 @@ class DriverService {
     const driver = await Driver.findById(id);
     if (!driver) throw new AppError('Driver not found', 404);
 
-    if (!driver.profilePhoto?.url) {
+    if (!driver.photo?.url) {
       throw new AppError('No photo to delete', 400);
     }
 
-    this._deleteFile(driver.profilePhoto.url);
-    driver.profilePhoto = undefined;
+    this._deleteFile(driver.photo.url);
+    driver.photo = undefined;
     await driver.save();
 
     return driver.populate('assignedTruck', 'licensePlate displayPlate brand model status');
@@ -442,6 +445,116 @@ class DriverService {
       if (err) console.error('Delete error:', err);
     });
   }
+  // ── Driver Scoring System ─────────────────────────────────────────────────
+
+  async getScoreConfig() {
+  let config = await ScoreConfig.findOne();
+  if (!config) {
+    // Create default config if none exists
+    config = await ScoreConfig.create({});
+  }
+  return config;
+}
+
+async updateScoreConfig(data) {
+  let config = await ScoreConfig.findOne();
+  if (!config) {
+    config = new ScoreConfig();
+  }
+  Object.assign(config, data);
+  await config.save();
+  return config;
+}
+
+async getDriverScoreLogs(driverId, limit = 50) {
+  const logs = await DriverScoreLog.find({ driver: driverId })
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .populate('mission', 'shipment startTime endTime')
+    .populate('admin', 'name email');
+  return logs;
+}
+
+async adjustDriverScoreManually(driverId, changeAmount, remark, adminId) {
+  const driver = await Driver.findById(driverId);
+  if (!driver) throw new AppError('Driver not found', 404);
+
+  let newScore = driver.score + changeAmount;
+  newScore = Math.min(100, Math.max(0, newScore)); // clamp 0-100
+
+  driver.score = newScore;
+  await driver.save();
+
+  // Log the manual adjustment
+  await DriverScoreLog.create({
+    driver: driverId,
+    changeAmount,
+    newScore,
+    reason: 'manual_adjustment',
+    remark,
+    admin: adminId
+  });
+
+  return driver;
+}
+
+// This will be called when a mission is completed
+async updateDriverScoreForMission(missionId, actualDeliveryDate) {
+  const mission = await Mission.findById(missionId)
+    .populate('shipment')
+    .populate('driver');
+  if (!mission) throw new AppError('Mission not found', 404);
+  if (mission.status !== 'completed') return null; // only completed missions
+
+  const shipment = mission.shipment;
+  if (!shipment.plannedDeliveryDate) return null; // no planned date
+
+  const config = await this.getScoreConfig();
+  const plannedDate = new Date(shipment.plannedDeliveryDate);
+  const actualDate = new Date(actualDeliveryDate);
+  const diffHours = (actualDate - plannedDate) / (1000 * 60 * 60);
+
+  let changeAmount = 0;
+  let reason = '';
+
+  if (actualDate <= plannedDate) {
+    // On time or early
+    if (diffHours < -config.earlyThresholdHours) {
+      changeAmount = config.earlyPoints;
+      reason = 'early_delivery';
+    } else {
+      changeAmount = config.onTimePoints;
+      reason = 'on_time_delivery';
+    }
+  } else {
+    // Late
+    changeAmount = config.latePenalty;
+    reason = 'late_delivery';
+  }
+
+  if (changeAmount === 0) return null;
+
+  const driver = mission.driver;
+  let newScore = driver.score + changeAmount;
+  newScore = Math.min(100, Math.max(0, newScore));
+
+  driver.score = newScore;
+  await driver.save();
+
+  // Log the score change
+  await DriverScoreLog.create({
+    driver: driver._id,
+    changeAmount,
+    newScore,
+    reason,
+    mission: missionId,
+    remark: `Planned: ${plannedDate.toISOString()}, Actual: ${actualDate.toISOString()}`
+  });
+
+  return { driver, changeAmount, newScore, reason };
+}
+
+  
 }
 
 module.exports = new DriverService();
