@@ -92,23 +92,6 @@ class ShipmentController {
       throw new AppError('You do not have permission to update this shipment', 403);
     }
 
-    const { status } = shipment;
-
-    if (status === 'in_progress' || status === 'completed') {
-      throw new AppError(`Cannot update a shipment with status: ${status}`, 400);
-    }
-
-    // For assigned status, restrict which fields can be updated
-    if (status === 'assigned') {
-      const allowedFields = ['description', 'customer', 'plannedLoadingDurationMinutes', 'notes'];
-      const requestedFields = Object.keys(req.body);
-      const invalidFields = requestedFields.filter(f => !allowedFields.includes(f));
-      if (invalidFields.length > 0) {
-        throw new AppError(`Cannot update fields: ${invalidFields.join(', ')} when shipment is assigned.`, 400);
-      }
-    }
-
-    // For pending, allow full update (but you may also restrict some fields if desired)
     const updatedShipment = await Shipment.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -127,42 +110,16 @@ class ShipmentController {
   deleteShipment = catchAsync(async (req, res) => {
     const shipment = await Shipment.findById(req.params.id);
     if (!shipment) throw new AppError('Shipment not found', 404);
-
     if (!this._checkAccess(shipment, req.user)) {
       throw new AppError('You do not have permission to delete this shipment', 403);
     }
 
-    if (shipment.status !== 'pending') {
-      throw new AppError(`Cannot delete shipment with status: ${shipment.status}. Only pending shipments can be deleted.`, 400);
-    }
-
+    // Find associated mission
     const mission = await Mission.findOne({ shipment: shipment._id });
+
+    // If there is a mission, clean up all related data
     if (mission) {
-      throw new AppError('Cannot delete shipment that has an associated mission. Please cancel the shipment first.', 400);
-    }
-
-    const trip = await TripHistory.findOne({ shipment: shipment._id });
-    if (trip) await trip.deleteOne();
-
-    await shipment.deleteOne();
-
-    res.status(200).json({
-      success: true,
-      message: 'Shipment deleted successfully'
-    });
-  });
-
-  // Force delete shipment (admin only) - no ownership check, but ensure admin role
-  forceDeleteShipment = catchAsync(async (req, res) => {
-    if (req.user.role !== 'admin') {
-      throw new AppError('Only admins can force delete shipments', 403);
-    }
-
-    const shipment = await Shipment.findById(req.params.id);
-    if (!shipment) throw new AppError('Shipment not found', 404);
-
-    const mission = await Mission.findOne({ shipment: shipment._id });
-    if (mission) {
+      // Free the truck if assigned
       if (mission.truck) {
         const truck = await Truck.findById(mission.truck);
         if (truck) {
@@ -171,6 +128,7 @@ class ShipmentController {
           await truck.save();
         }
       }
+      // Free the driver if assigned
       if (mission.driver) {
         const driver = await Driver.findById(mission.driver);
         if (driver) {
@@ -179,17 +137,23 @@ class ShipmentController {
           await driver.save();
         }
       }
+      // Delete trip history
       await TripHistory.deleteMany({ mission: mission._id });
+      // Delete the mission
       await mission.deleteOne();
     }
 
+    // Also delete any trip history directly linked to the shipment (if any)
+    await TripHistory.deleteMany({ shipment: shipment._id });
+
+    // Finally delete the shipment
     await shipment.deleteOne();
+
     res.status(200).json({
       success: true,
-      message: 'Shipment and all associated data force deleted successfully'
+      message: 'Shipment and all associated data deleted successfully'
     });
   });
-
   // POST /api/shipments/assign
   assignShipment = catchAsync(async (req, res) => {
     const { shipmentId, truckId, driverId } = req.body;
