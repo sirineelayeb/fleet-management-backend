@@ -6,3 +6,5 @@ outputs/
 # data/raw/
 models/
 node_modules/
+.env
+package-lock.json
