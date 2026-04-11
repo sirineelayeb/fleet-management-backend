@@ -2,36 +2,35 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-// Create directories if they don't exist
-const createUploadDirs = () => {
-  const dirs = [
-    'uploads/drivers/photos',
-  ];
-  
-  dirs.forEach(dir => {
-    const fullPath = path.join(__dirname, '../../', dir);
-    if (!fs.existsSync(fullPath)) {
-      fs.mkdirSync(fullPath, { recursive: true });
-      console.log(`Created directory: ${fullPath}`);
-    }
-  });
-};
+const projectRoot = path.resolve(__dirname, '../..');
+const uploadsBaseDir = path.join(projectRoot, 'uploads');
 
-// Call the function
-createUploadDirs();
+// Ensure base uploads directory exists
+if (!fs.existsSync(uploadsBaseDir)) {
+  fs.mkdirSync(uploadsBaseDir, { recursive: true });
+  console.log(`Created uploads directory: ${uploadsBaseDir}`);
+}
+
+// Ensure driver photos directory exists
+const driverPhotosDir = path.join(uploadsBaseDir, 'drivers', 'photos');
+if (!fs.existsSync(driverPhotosDir)) {
+  fs.mkdirSync(driverPhotosDir, { recursive: true });
+  console.log(`Created driver photos directory: ${driverPhotosDir}`);
+}
 
 // Configure storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    let folder = 'uploads/drivers/photos';
-    
+    let folder = driverPhotosDir; // default
+
     if (file.fieldname === 'document') {
-      const documentType = req.params.documentType;
-      folder = `uploads/drivers/documents/${documentType}`;
+      const documentType = req.params.documentType || 'general';
+      folder = path.join(uploadsBaseDir, 'drivers', 'documents', documentType);
+      if (!fs.existsSync(folder)) {
+        fs.mkdirSync(folder, { recursive: true });
+      }
     }
-    
-    const fullPath = path.join(__dirname, '../../', folder);
-    cb(null, fullPath);
+    cb(null, folder);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -44,7 +43,7 @@ const storage = multer.diskStorage({
 // File filter
 const fileFilter = (req, file, cb) => {
   const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
-  
+
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
