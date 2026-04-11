@@ -6,7 +6,6 @@ const Driver = require('../models/Driver');
 const ShipmentService = require('../services/shipmentService');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
-const TripHistory = require('../models/TripHistory');
 
 class ShipmentController {
   // Helper to check if user can access a shipment
