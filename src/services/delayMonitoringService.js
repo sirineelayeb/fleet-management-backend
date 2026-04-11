@@ -1,7 +1,7 @@
 const Shipment = require('../models/Shipment');
 const Mission = require('../models/Mission');
 const notificationService = require('./notificationService');
-
+const Notification = require('../models/Notification');  
 class DelayMonitoringService {
   
   /**
