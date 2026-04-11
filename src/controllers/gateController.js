@@ -110,149 +110,149 @@ class GateController {
   // GATE ACCESS CONTROL (with direct shipment loading tracking)
   // ============================================================
   
-requestAccess = catchAsync(async (req, res) => {
-  const { licensePlate, gateId, accessType } = req.body;
+  requestAccess = catchAsync(async (req, res) => {
+    const { licensePlate, gateId, accessType } = req.body;
 
-  if (!licensePlate || !gateId || !accessType) {
-    throw new AppError('License plate, gate ID, and access type are required', 400);
-  }
-  if (!['entry', 'exit'].includes(accessType)) {
-    throw new AppError('Access type must be "entry" or "exit"', 400);
-  }
+    if (!licensePlate || !gateId || !accessType) {
+      throw new AppError('License plate, gate ID, and access type are required', 400);
+    }
+    if (!['entry', 'exit'].includes(accessType)) {
+      throw new AppError('Access type must be "entry" or "exit"', 400);
+    }
 
-  const truck = await Truck.findOne({ licensePlate: licensePlate.toUpperCase() });
-  if (!truck) {
-    await AccessLog.create({
+    const truck = await Truck.findOne({ licensePlate: licensePlate.toUpperCase() });
+    if (!truck) {
+      await AccessLog.create({
+        gate: gateId,
+        truck: null,
+        licensePlate,
+        accessType,
+        status: 'denied',
+        reason: 'Truck not found'
+      });
+      await notificationService.createNotification('access_denied', {
+        licensePlate,
+        accessType,
+        gateName: 'Unknown Gate',
+        reason: 'Truck not found in system'
+      }, req.app.get('io'));
+      throw new AppError('Truck not found', 404);
+    }
+
+    const gate = await Gate.findById(gateId);
+    if (!gate) throw new AppError('Gate not found', 404);
+
+    // Queue capacity check (only for entry)
+    if (accessType === 'entry' && gate.currentQueue >= gate.queueCapacity) {
+      await notificationService.createNotification('gate_full', {
+        gateName: gate.name,
+        currentQueue: gate.currentQueue,
+        queueCapacity: gate.queueCapacity
+      }, req.app.get('io'));
+      throw new AppError('Gate queue is full, please wait', 400);
+    }
+
+    // Authorization check
+    const isAuthorized = gate.authorizedTrucks.some(t => t.toString() === truck._id.toString());
+    const status = isAuthorized ? 'authorized' : 'denied';
+    const reason = isAuthorized ? null : 'Truck not authorized for this gate';
+
+    // Create access log
+    const accessLog = await AccessLog.create({
       gate: gateId,
-      truck: null,
+      truck: truck._id,
       licensePlate,
       accessType,
-      status: 'denied',
-      reason: 'Truck not found'
+      status,
+      reason,
+      timestamp: new Date()
     });
-    await notificationService.createNotification('access_denied', {
-      licensePlate,
-      accessType,
-      gateName: 'Unknown Gate',
-      reason: 'Truck not found in system'
-    }, req.app.get('io'));
-    throw new AppError('Truck not found', 404);
-  }
 
-  const gate = await Gate.findById(gateId);
-  if (!gate) throw new AppError('Gate not found', 404);
+    if (!isAuthorized) {
+      await notificationService.createNotification('access_denied', {
+        licensePlate,
+        accessType,
+        gateName: gate.name,
+        reason
+      }, req.app.get('io'));
+      throw new AppError('Access denied: Truck not authorized for this gate', 403);
+    }
 
-  // Queue capacity check (only for entry)
-  if (accessType === 'entry' && gate.currentQueue >= gate.queueCapacity) {
-    await notificationService.createNotification('gate_full', {
-      gateName: gate.name,
-      currentQueue: gate.currentQueue,
-      queueCapacity: gate.queueCapacity
-    }, req.app.get('io'));
-    throw new AppError('Gate queue is full, please wait', 400);
-  }
-
-  // Authorization check
-  const isAuthorized = gate.authorizedTrucks.some(t => t.toString() === truck._id.toString());
-  const status = isAuthorized ? 'authorized' : 'denied';
-  const reason = isAuthorized ? null : 'Truck not authorized for this gate';
-
-  // Create access log
-  const accessLog = await AccessLog.create({
-    gate: gateId,
-    truck: truck._id,
-    licensePlate,
-    accessType,
-    status,
-    reason,
-    timestamp: new Date()
-  });
-
-  if (!isAuthorized) {
-    await notificationService.createNotification('access_denied', {
-      licensePlate,
-      accessType,
-      gateName: gate.name,
-      reason
-    }, req.app.get('io'));
-    throw new AppError('Access denied: Truck not authorized for this gate', 403);
-  }
-
-  // Update queue counter
-  if (accessType === 'entry') {
-    gate.currentQueue += 1;
-  } else {
-    gate.currentQueue = Math.max(0, gate.currentQueue - 1);
-  }
-  await gate.save();
-
-  // ============================================================
-  // LOADING DURATION TRACKING (FIXED)
-  // ============================================================
-  if (gate.isLoadingZone) {
+    // Update queue counter
     if (accessType === 'entry') {
-      const mission = await Mission.findOne({ truck: truck._id, status: 'in_progress' });
-      if (mission) {
-        const shipment = await Shipment.findById(mission.shipment);
-        if (shipment && !shipment.loadingStartedAt) {
-          await Shipment.findByIdAndUpdate(shipment._id, {
-            loadingStartedAt: new Date()
-          });
-        }
-      }
-    } else if (accessType === 'exit') {
-      const mission = await Mission.findOne({ truck: truck._id, status: 'in_progress' });
-      if (mission) {
-        const shipment = await Shipment.findById(mission.shipment);
-        if (shipment && shipment.loadingStartedAt && !shipment.loadingCompletedAt) {
-          const completedAt = new Date();
-          const actualMinutes = (completedAt - shipment.loadingStartedAt) / (1000 * 60);
-          
-          // ✅ Convert planned duration to number (safely)
-          const plannedMinutes = Number(shipment.plannedLoadingDurationMinutes);
-          
-          await Shipment.findByIdAndUpdate(shipment._id, {
-            loadingCompletedAt: completedAt,
-            actualLoadingDurationMinutes: actualMinutes
-          });
+      gate.currentQueue += 1;
+    } else {
+      gate.currentQueue = Math.max(0, gate.currentQueue - 1);
+    }
+    await gate.save();
 
-          // ✅ Overtime notification (only if plannedMinutes is valid and actual > planned)
-          if (!isNaN(plannedMinutes) && actualMinutes > plannedMinutes) {
-            await notificationService.createNotification('loading_overtime', {
-              truckLicense: truck.licensePlate,
-              gateName: gate.name,
-              plannedMinutes: plannedMinutes,
-              actualMinutes: actualMinutes,
-              overtimeMinutes: actualMinutes - plannedMinutes
-            }, req.app.get('io'));
+    // ============================================================
+    // LOADING DURATION TRACKING (FIXED)
+    // ============================================================
+    if (gate.isLoadingZone) {
+      if (accessType === 'entry') {
+        const mission = await Mission.findOne({ truck: truck._id, status: 'in_progress' });
+        if (mission) {
+          const shipment = await Shipment.findById(mission.shipment);
+          if (shipment && !shipment.loadingStartedAt) {
+            await Shipment.findByIdAndUpdate(shipment._id, {
+              loadingStartedAt: new Date()
+            });
+          }
+        }
+      } else if (accessType === 'exit') {
+        const mission = await Mission.findOne({ truck: truck._id, status: 'in_progress' });
+        if (mission) {
+          const shipment = await Shipment.findById(mission.shipment);
+          if (shipment && shipment.loadingStartedAt && !shipment.loadingCompletedAt) {
+            const completedAt = new Date();
+            const actualMinutes = (completedAt - shipment.loadingStartedAt) / (1000 * 60);
+            
+            // ✅ Convert planned duration to number (safely)
+            const plannedMinutes = Number(shipment.plannedLoadingDurationMinutes);
+            
+            await Shipment.findByIdAndUpdate(shipment._id, {
+              loadingCompletedAt: completedAt,
+              actualLoadingDurationMinutes: actualMinutes
+            });
+
+            // ✅ Overtime notification (only if plannedMinutes is valid and actual > planned)
+            if (!isNaN(plannedMinutes) && actualMinutes > plannedMinutes) {
+              await notificationService.createNotification('loading_overtime', {
+                truckLicense: truck.licensePlate,
+                gateName: gate.name,
+                plannedMinutes: plannedMinutes,
+                actualMinutes: actualMinutes,
+                overtimeMinutes: actualMinutes - plannedMinutes
+              }, req.app.get('io'));
+            }
           }
         }
       }
     }
-  }
 
-  res.status(200).json({
-    success: true,
-    message: `${accessType} ${status}`,
-    data: {
-      authorized: true,
-      gate: {
-        id: gate._id,
-        name: gate.name,
-        type: gate.type,
-        currentQueue: gate.currentQueue,
-        queueCapacity: gate.queueCapacity
-      },
-      truck: {
-        id: truck._id,
-        licensePlate: truck.licensePlate,
-        brand: truck.brand,
-        model: truck.model
-      },
-      accessLog
-    }
+    res.status(200).json({
+      success: true,
+      message: `${accessType} ${status}`,
+      data: {
+        authorized: true,
+        gate: {
+          id: gate._id,
+          name: gate.name,
+          type: gate.type,
+          currentQueue: gate.currentQueue,
+          queueCapacity: gate.queueCapacity
+        },
+        truck: {
+          id: truck._id,
+          licensePlate: truck.licensePlate,
+          brand: truck.brand,
+          model: truck.model
+        },
+        accessLog
+      }
+    });
   });
-});
   // ============================================================
   // ACCESS LOGS & QUEUE (unchanged)
   // ============================================================

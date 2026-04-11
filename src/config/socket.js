@@ -12,10 +12,13 @@ class SocketManager {
   initialize() {
     this.io = socketIo(this.server, {
       cors: {
-        origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-        credentials: true,
-        methods: ['GET', 'POST']
-      },
+      origin: [
+        "http://localhost:5173",
+        "https://fleet-management-frontend-ebon.vercel.app"
+      ],
+      methods: ["GET", "POST"],
+      credentials: true
+    },
       pingTimeout: 60000,
       pingInterval: 25000
     });

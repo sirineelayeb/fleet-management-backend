@@ -7,11 +7,17 @@ const { initSocket } = require('./socket/socketManager');
 const app = express();
 const server = http.createServer(app);
 
-const io = initSocket(server);
+    initSocket(server);
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+    app.use(cors({
+    origin: [
+        "http://localhost:5173",
+        "https://fleet-management-frontend-ebon.vercel.app"
+    ],
+    credentials: true
+    }));
+
+    app.use(express.json());
 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
