@@ -6,6 +6,7 @@ const Driver = require('../models/Driver');
 const ShipmentService = require('../services/shipmentService');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+const TripHistory = require('../models/TripHistory');
 
 class ShipmentController {
   // Helper to check if user can access a shipment
@@ -92,6 +93,16 @@ class ShipmentController {
       throw new AppError('You do not have permission to update this shipment', 403);
     }
 
+    const oldStatus = shipment.status;
+    const newStatus = req.body.status;
+    const statusChanged = oldStatus !== newStatus;
+
+    // Prevent changing completed shipments (historical data)
+    if (oldStatus === 'completed') {
+      throw new AppError('Cannot change status of a completed shipment', 400);
+    }
+
+    // 1. Update shipment fields
     const updatedShipment = await Shipment.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -99,13 +110,54 @@ class ShipmentController {
     ).populate('truck', 'licensePlate brand model')
     .populate('driver', 'name phone');
 
+    // 2. Handle status change side effects
+    if (statusChanged) {
+      const mission = await Mission.findOne({ shipment: shipment._id });
+
+      // Case: moving from assigned/in_progress to pending or cancelled
+      if (mission && (oldStatus === 'assigned' || oldStatus === 'in_progress') && 
+          (newStatus === 'pending' || newStatus === 'cancelled')) {
+        
+        // Free truck
+        const truck = await Truck.findById(mission.truck);
+        if (truck) {
+          truck.status = 'available';
+          truck.driver = null;
+          await truck.save();
+        }
+        // Free driver
+        const driver = await Driver.findById(mission.driver);
+        if (driver) {
+          driver.status = 'available';
+          driver.assignedTruck = null;
+          await driver.save();
+        }
+        // Cancel mission
+        mission.status = 'cancelled';
+        mission.endTime = new Date();
+        await mission.save();
+        // Cancel trip history
+        await TripHistory.updateMany(
+          { mission: mission._id },
+          { status: 'cancelled', endTime: new Date() }
+        );
+      }
+
+      // Case: moving to assigned – ensure truck and driver are present
+      if (newStatus === 'assigned' && (!updatedShipment.truck || !updatedShipment.driver)) {
+        // Revert status change to avoid inconsistency
+        updatedShipment.status = oldStatus;
+        await updatedShipment.save();
+        throw new AppError('Cannot set status to "assigned" without a truck and driver. Use the Assign button.', 400);
+      }
+    }
+
     res.status(200).json({
       success: true,
       message: 'Shipment updated successfully',
       data: updatedShipment
     });
   });
-
   // DELETE /api/shipments/:id
   deleteShipment = catchAsync(async (req, res) => {
     const shipment = await Shipment.findById(req.params.id);
