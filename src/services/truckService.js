@@ -16,7 +16,7 @@ class TruckService {
       throw new AppError('License plate already exists', 400);
     }
 
-    // Check if VIN is unique (if provided)
+    // Check if VIN is unique
     if (truckData.vin) {
       const existingVin = await Truck.findOne({ 
         vin: truckData.vin.toUpperCase() 
