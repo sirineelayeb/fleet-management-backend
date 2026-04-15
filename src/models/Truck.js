@@ -1,122 +1,149 @@
 const mongoose = require('mongoose');
 
-// ─── Helper ───────────────────────────────────────────────────────────────────
-function normalizePlate(plate) {
+// Helper: Format Tunisian license plate for display
+function formatTunisianPlate(plate) {
   if (!plate) return plate;
-
-  if (plate.includes('تونس')) {
-    plate = plate.replace('تونس', 'TN');
-  }
-
+  if (plate.includes(' TN ') || plate.includes('تونس')) return plate;
+  
   const numbers = plate.replace(/[^0-9]/g, '');
-
   if (numbers.length >= 4) {
     const half = Math.floor(numbers.length / 2);
     return `${numbers.substring(0, half)} TN ${numbers.substring(half)}`;
   }
-
   return plate;
 }
 
-// ─── Schema ───────────────────────────────────────────────────────────────────
+// Schema Definition
 const truckSchema = new mongoose.Schema({
-  licensePlate: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true
-  },
-
+  // Identity
+  licensePlate: { type: String, required: true, unique: true, trim: true },
+  displayPlate: { type: String, trim: true },
   plateNumbers: { type: String, index: true },
-
-  vin: {
-    type: String,
-    unique: true,
-    sparse: true,
-    trim: true
-  },
-
+  
+  // Vehicle Information
   brand: { type: String, required: true },
   model: { type: String, required: true },
-  capacity: { type: Number, required: true },
-
+  year: { type: Number },
+  capacity: { type: Number, required: true }, // in kg
+  
+  // Truck Type
   type: {
     type: String,
     enum: ['normal', 'refrigerated', 'fragile'],
     default: 'normal'
   },
-
+  
+  // Status
   status: {
     type: String,
     enum: ['available', 'in_mission', 'maintenance'],
     default: 'available'
   },
-
-  driver: {
-    type: mongoose.Schema.Types.ObjectId,
+  
+  // References
+  driver: { 
+    type: mongoose.Schema.Types.ObjectId, 
     ref: 'Driver',
-    default: null
-  }
-
+    index: true
+  },
+  devices: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Device' }],
+  
+  // Location & Telemetry
+  currentLocation: {
+    lat: Number,
+    lng: Number
+  },
+  currentSpeed: { type: Number, default: 0, min: 0 },
+  lastTelemetryAt: Date
+  
 }, { timestamps: true });
 
+// Indexes
+truckSchema.index({ licensePlate: 1 });
+truckSchema.index({ status: 1 });
+truckSchema.index({ type: 1 });
+truckSchema.index({ driver: 1 });
 
-// ─── INDEXES ──────────────────────────────────────────────────────────────────
-truckSchema.index({ licensePlate: 1 }, { unique: true });
-truckSchema.index({ vin: 1 }, { unique: true, sparse: true });
-
-
-// ─── NORMALIZATION ────────────────────────────────────────────────────────────
-truckSchema.pre('validate', function (next) {
+// Middleware: Before Save
+truckSchema.pre('save', function(next) {
+  if (this.driver === '') this.driver = null;
+  
   if (this.licensePlate) {
-    const normalized = normalizePlate(this.licensePlate);
-
-    this.licensePlate = normalized;
-    this.plateNumbers = normalized.replace(/[^0-9]/g, '');
+    this.plateNumbers = this.licensePlate.replace(/[^0-9]/g, '');
+    this.displayPlate = formatTunisianPlate(this.licensePlate);
   }
+  
   next();
 });
 
-
-// ─── DUPLICATE CHECK (EXTRA SAFETY) ───────────────────────────────────────────
-truckSchema.pre('save', async function (next) {
-  const existing = await mongoose.models.Truck.findOne({
-    licensePlate: this.licensePlate,
-    _id: { $ne: this._id }
-  });
-
-  if (existing) {
-    return next(new Error('License plate already exists'));
+// Middleware: Before Update
+truckSchema.pre('findOneAndUpdate', function(next) {
+  const update = this.getUpdate();
+  
+  if (update.licensePlate) {
+    update.plateNumbers = update.licensePlate.replace(/[^0-9]/g, '');
+    update.displayPlate = formatTunisianPlate(update.licensePlate);
   }
-
-  if (this.vin) {
-    const vinExists = await mongoose.models.Truck.findOne({
-      vin: this.vin,
-      _id: { $ne: this._id }
-    });
-
-    if (vinExists) {
-      return next(new Error('VIN already exists'));
-    }
-  }
-
+  
   next();
 });
 
+// Instance Methods
+truckSchema.methods.getFormattedPlate = function() {
+  return this.displayPlate || formatTunisianPlate(this.licensePlate);
+};
 
-// ─── SEARCH ───────────────────────────────────────────────────────────────────
-truckSchema.statics.findByPlate = function (plate) {
-  const normalized = normalizePlate(plate);
-  const numbers = normalized.replace(/[^0-9]/g, '');
+truckSchema.methods.isCompatibleWithShipment = function(shipment) {
+  // Check capacity
+  if (shipment.weightKg > this.capacity) {
+    return { compatible: false, reason: `Insufficient capacity (need ${shipment.weightKg}kg, have ${this.capacity}kg)` };
+  }
+  
+  // Check type compatibility
+  const typeCompatibility = {
+    'normal': ['normal'],
+    'refrigerated': ['normal', 'refrigerated'],
+    'fragile': ['normal', 'fragile']
+  };
+  
+  if (!typeCompatibility[this.type].includes(shipment.shipmentType)) {
+    return { compatible: false, reason: `Truck type '${this.type}' cannot handle '${shipment.shipmentType}' shipments` };
+  }
+  
+  // Check status
+  if (this.status !== 'available') {
+    return { compatible: false, reason: `Truck is ${this.status}` };
+  }
+  
+  return { compatible: true };
+};
 
+// Static Methods
+truckSchema.statics.findByPlate = function(plate) {
+  const numbers = plate.replace(/[^0-9]/g, '');
   return this.findOne({
     $or: [
-      { licensePlate: normalized },
+      { licensePlate: plate },
+      { displayPlate: plate },
       { plateNumbers: numbers }
     ]
   });
 };
 
+truckSchema.statics.findCompatibleTrucks = async function(shipment) {
+  const typeCompatibility = {
+    'normal': ['normal'],
+    'refrigerated': ['normal', 'refrigerated'],
+    'fragile': ['normal', 'fragile']
+  };
+  
+  return this.find({
+    status: 'available',
+    capacity: { $gte: shipment.weightKg },
+    type: { $in: typeCompatibility[shipment.shipmentType] },
+    driver: { $ne: null }
+  }).populate('driver', 'name phone score');
+};
 
-// ─── EXPORT ───────────────────────────────────────────────────────────────────
+// Export
 module.exports = mongoose.model('Truck', truckSchema);
