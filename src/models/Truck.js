@@ -19,12 +19,13 @@ const truckSchema = new mongoose.Schema({
   licensePlate: { type: String, required: true, unique: true, trim: true },
   displayPlate: { type: String, trim: true },
   plateNumbers: { type: String, index: true },
+  vin: { type: String, unique: true, sparse: true, trim: true, uppercase: true }, 
   
   // Vehicle Information
   brand: { type: String, required: true },
   model: { type: String, required: true },
   year: { type: Number },
-  capacity: { type: Number, required: true }, // in kg
+  capacity: { type: Number, required: true }, // in kg or tons (your choice)
   
   // Truck Type
   type: {
@@ -36,10 +37,10 @@ const truckSchema = new mongoose.Schema({
   // Status
   status: {
     type: String,
-    enum: ['available', 'in_mission', 'maintenance'],
+    enum: ['available', 'in_mission', 'maintenance', 'inactive'], // Added 'inactive'
     default: 'available'
   },
-  
+
   // References
   driver: { 
     type: mongoose.Schema.Types.ObjectId, 
@@ -63,10 +64,15 @@ truckSchema.index({ licensePlate: 1 });
 truckSchema.index({ status: 1 });
 truckSchema.index({ type: 1 });
 truckSchema.index({ driver: 1 });
+truckSchema.index({ vin: 1 }); 
 
 // Middleware: Before Save
 truckSchema.pre('save', function(next) {
   if (this.driver === '') this.driver = null;
+  
+  if (this.vin) {
+    this.vin = this.vin.toUpperCase();
+  }
   
   if (this.licensePlate) {
     this.plateNumbers = this.licensePlate.replace(/[^0-9]/g, '');
@@ -79,6 +85,10 @@ truckSchema.pre('save', function(next) {
 // Middleware: Before Update
 truckSchema.pre('findOneAndUpdate', function(next) {
   const update = this.getUpdate();
+  
+  if (update.vin) {
+    update.vin = update.vin.toUpperCase();
+  }
   
   if (update.licensePlate) {
     update.plateNumbers = update.licensePlate.replace(/[^0-9]/g, '');
