@@ -23,17 +23,17 @@ class TripHistoryService {
     }
 
     const trip = new TripHistory({
-      mission: mission._id,
-      shipment: shipment._id,
-      truck: truck._id,
-      driver: driver._id,
-      origin: shipment.origin,
-      destination: shipment.destination,
-      plannedDistanceKm: parseFloat(plannedDistanceKm.toFixed(2)),
-      plannedDurationHours: parseFloat(plannedDurationHours.toFixed(2)),
-      startTime: mission.startTime || new Date(),
-      status: mission.status === 'in_progress' ? 'in_progress' : 'planned'
-    });
+    mission:              mission._id,
+    shipment:             shipment._id,
+    truck:                truck._id,
+    driver:               driver._id,      //
+    origin:               shipment.origin,
+    destination:          shipment.destination,
+    plannedDistanceKm:    parseFloat(plannedDistanceKm.toFixed(2)),
+    plannedDurationHours: parseFloat(plannedDurationHours.toFixed(2)),
+    startTime:            mission.startTime || null, 
+    status:               'planned'                 
+  });
 
     return await trip.save();
   }
@@ -90,13 +90,29 @@ class TripHistoryService {
     trip.originCoordinates = { type: 'Point', coordinates: firstLoc };
     trip.destinationCoordinates = { type: 'Point', coordinates: lastLoc };
 
-    // 4. Set end time and duration (FIXED)
+    // 4. Set end time
     trip.endTime = endTime || new Date();
-    const effectiveStart = trip.actualStartTime || trip.startTime;
-    const durationMs = trip.endTime - effectiveStart;
+    
+    // ✅ FIX: Use the FIRST location timestamp as actual start time if not set
+    if (!trip.actualStartTime && locations.length > 0) {
+      trip.actualStartTime = locations[0].timestamp;
+    }
+    
+    // ✅ FIX: Calculate duration using the FIRST and LAST location timestamps
+    const firstLocationTime = locations[0].timestamp;
+    const lastLocationTime = locations[locations.length - 1].timestamp;
+    const durationMs = lastLocationTime - firstLocationTime;
     trip.actualDurationHours = durationMs / (1000 * 60 * 60);
+    
+    console.log('📊 Duration calculation:', {
+      firstLocationTime,
+      lastLocationTime,
+      durationMs,
+      actualDurationHours: trip.actualDurationHours,
+      minutes: trip.actualDurationHours * 60
+    });
 
-    // 5. Average speed
+    // 5. Average speed (km/h)
     if (trip.actualDurationHours > 0) {
       trip.averageSpeed = trip.actualDistanceKm / trip.actualDurationHours;
       if (trip.averageSpeed > 120) trip.averageSpeed = 120;
@@ -122,7 +138,7 @@ class TripHistoryService {
   async getTripWithRoute(tripId) {
     const trip = await TripHistory.findById(tripId)
       .populate('truck', 'licensePlate')
-      .populate('driver', 'name')
+      .populate('driver', 'name licenseNumber phone cin')
       .populate('shipment', 'description origin destination');
 
     if (!trip) throw new AppError('Trip not found', 404);
@@ -167,9 +183,23 @@ class TripHistoryService {
   }
 
   // Get all trips (admin) – simple list with key info
-async getAllTrips(userRole, userId, filters = {}, page = 1, limit = 50) {
+  async getAllTrips(userRole, userId, filters = {}, page = 1, limit = 10) {
     try {
-      const query = { ...filters };
+      const query = {};
+
+      // Handle status filter
+      if (filters.status) {
+        query.status = filters.status;
+      }
+
+      // Handle search
+      if (filters.search) {
+        query.$or = [
+          { tripNumber: { $regex: filters.search, $options: 'i' } },
+          { origin: { $regex: filters.search, $options: 'i' } },
+          { destination: { $regex: filters.search, $options: 'i' } }
+        ];
+      }
 
       // Role‑based filter: non‑admin users see only trips from their own shipments
       if (userRole !== 'admin') {
@@ -179,20 +209,30 @@ async getAllTrips(userRole, userId, filters = {}, page = 1, limit = 50) {
       }
 
       const skip = (page - 1) * limit;
-      const trips = await TripHistory.find(query)
-        .populate('truck', 'licensePlate')
-        .populate('driver', 'name')
-        .populate('shipment', 'origin destination description')
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit);
-      const total = await TripHistory.countDocuments(query);
-      return { trips, total, page, pages: Math.ceil(total / limit), limit };
+      const [trips, total] = await Promise.all([
+        TripHistory.find(query)
+          .populate('truck', 'licensePlate brand model')
+          .populate('driver', 'name phone licenseNumber cin')
+          .populate('shipment', 'origin destination description')
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(parseInt(limit)),
+        TripHistory.countDocuments(query)
+      ]);
+
+      return { 
+        trips, 
+        total, 
+        page: parseInt(page), 
+        pages: Math.ceil(total / limit), 
+        limit: parseInt(limit) 
+      };
     } catch (error) {
       console.error('Error in getAllTrips:', error);
       throw error;
     }
   }
+
   // Helper: Haversine distance (km) between two [lng, lat] points
   calculateDistance(coord1, coord2) {
     const R = 6371;

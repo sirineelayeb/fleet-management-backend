@@ -39,7 +39,7 @@ const tripHistorySchema = new mongoose.Schema({
   averageFuelEfficiency: { type: Number, default: null },
 
   // Timeline
-  startTime: { type: Date, required: true },        // trip creation / assignment time
+  startTime: { type: Date},      // trip creation / assignment time
   actualStartTime: { type: Date },                  // when truck first moves (speed > 5)
   endTime: { type: Date },
 
@@ -60,8 +60,8 @@ const tripHistorySchema = new mongoose.Schema({
 tripHistorySchema.index({ truck: 1, startTime: -1 });
 tripHistorySchema.index({ driver: 1, startTime: -1 });
 tripHistorySchema.index({ status: 1 });
-tripHistorySchema.index({ originCoordinates: '2dsphere' });
-tripHistorySchema.index({ destinationCoordinates: '2dsphere' });
-tripHistorySchema.index({ routePath: '2dsphere' });
+tripHistorySchema.index({ originCoordinates: '2dsphere' }, { sparse: true });
+tripHistorySchema.index({ destinationCoordinates: '2dsphere' }, { sparse: true });
+tripHistorySchema.index({ routePath: '2dsphere' }, { sparse: true });
 
 module.exports = mongoose.model('TripHistory', tripHistorySchema);

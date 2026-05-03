@@ -16,6 +16,7 @@ router.use((req, res, next) => {
 // Admin only
 router.get('/', restrictTo('admin'), userController.getAllUsers);
 router.get('/stats', restrictTo('admin'), userController.getUserStats);
+router.get('/shipment-managers', restrictTo('admin'), userController.getShipmentManagers); 
 router.post('/', restrictTo('admin'), userController.createUser);
 router.put('/:id/role', restrictTo('admin'), userController.updateUserRole);
 router.delete('/:id', restrictTo('admin'), userController.deleteUser);

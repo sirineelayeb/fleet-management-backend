@@ -1,106 +1,92 @@
+const cron = require('node-cron');
 const Shipment = require('../models/Shipment');
-const Mission = require('../models/Mission');
 const notificationService = require('./notificationService');
-const Notification = require('../models/Notification');  
+
 class DelayMonitoringService {
   
-  /**
-   * Check all active shipments for delays and create notifications.
-   * @param {Object} io - Socket.IO instance (optional)
-   */
-  async checkAllActiveShipments(io = null) {
-    const now = new Date();
-    
-    // Active = not completed, not cancelled
-    const shipments = await Shipment.find({
-      status: { $in: ['assigned', 'in_progress'] },
-      plannedDepartureDate: { $exists: true },
-      plannedDeliveryDate: { $exists: true }
-    }).populate('truck', 'licensePlate');
-    
-    for (const shipment of shipments) {
-      const mission = await Mission.findOne({ shipment: shipment._id });
-      await this.checkDepartureDelay(shipment, mission, now, io);
-      await this.checkDeliveryDelay(shipment, mission, now, io);
-    }
+  constructor() {
+    this.io = null;
   }
-  
-  async checkDepartureDelay(shipment, mission, now, io) {
-    let isDelayed = false;
-    let delayMinutes = 0;
-    let actualDeparture = mission?.startTime;
-    
-    if (actualDeparture && actualDeparture > shipment.plannedDepartureDate) {
-      isDelayed = true;
-      delayMinutes = Math.floor((actualDeparture - shipment.plannedDepartureDate) / 60000);
-    } else if (!actualDeparture && now > shipment.plannedDepartureDate) {
-      isDelayed = true;
-      delayMinutes = Math.floor((now - shipment.plannedDepartureDate) / 60000);
-    }
-    
-    if (isDelayed) {
-      await this.createOrUpdateDelayNotification(shipment, 'departure', delayMinutes, io);
-    }
-  }
-  
-  async checkDeliveryDelay(shipment, mission, now, io) {
-    let isDelayed = false;
-    let delayMinutes = 0;
-    let actualDelivery = mission?.endTime;
-    
-    if (actualDelivery && actualDelivery > shipment.plannedDeliveryDate) {
-      isDelayed = true;
-      delayMinutes = Math.floor((actualDelivery - shipment.plannedDeliveryDate) / 60000);
-    } else if (!actualDelivery && now > shipment.plannedDeliveryDate) {
-      isDelayed = true;
-      delayMinutes = Math.floor((now - shipment.plannedDeliveryDate) / 60000);
-    }
-    
-    if (isDelayed) {
-      await this.createOrUpdateDelayNotification(shipment, 'delivery', delayMinutes, io);
-    }
-  }
-  
-  async createOrUpdateDelayNotification(shipment, delayType, delayMinutes, io) {
-    const existing = await Notification.findOne({
-      type: 'delivery_delayed',
-      'data.shipmentId': shipment._id.toString(),
-      'data.delayType': delayType,
-      resolved: false
+
+  start(io) {
+    this.io = io;
+    // Run every hour to check for newly delayed shipments
+    cron.schedule('0 * * * *', () => {
+      this.checkDelayedShipments();
     });
-    
-    const title = delayType === 'departure' ? '⏰ Departure Delayed' : '⏰ Delivery Delayed';
-    const message = `Shipment ${shipment.shipmentId} is delayed (${delayType}) by ${delayMinutes} minutes.`;
-    
-    if (existing) {
-      // Update existing notification with new delay minutes (avoid spam)
-      existing.data.delayMinutes = delayMinutes;
-      existing.message = message;
-      await existing.save();
-      if (io) io.emit('notification', existing);
-    } else {
-      await notificationService.createNotification('delivery_delayed', {
-        shipmentId: shipment.shipmentId,
-        shipmentNumber: shipment.shipmentId,
-        delayType: delayType,
-        delayMinutes: delayMinutes,
-        plannedDate: delayType === 'departure' ? shipment.plannedDepartureDate : shipment.plannedDeliveryDate,
-        currentStatus: shipment.status,
-        origin: shipment.origin,
-        destination: shipment.destination
-      }, io);
+    console.log('✅ Delay monitoring service started (checks every hour)');
+  }
+  
+  async checkDelayedShipments() {
+    try {
+      console.log('🔍 Checking for newly delayed shipments...');
+      const now = new Date();
+      
+      // Find shipments that:
+      // 1. Are not completed or cancelled
+      // 2. Have passed delivery date
+      // 3. Have NOT been notified yet (sends only once)
+      const delayedShipments = await Shipment.find({
+        status: { $in: ['assigned', 'in_progress'] },
+        plannedDeliveryDate: { $lt: now },
+        delayNotified: { $ne: true }
+      }).populate('truck', 'licensePlate')
+        .populate('assignedTo', 'name email role');
+      
+      if (delayedShipments.length === 0) {
+        console.log('✅ No newly delayed shipments found');
+        return;
+      }
+      
+      console.log(`📦 Found ${delayedShipments.length} newly delayed shipment(s)`);
+      
+      for (const shipment of delayedShipments) {
+        // Calculate delay duration
+        const plannedDate = new Date(shipment.plannedDeliveryDate);
+        const delayMs = now - plannedDate;
+        const delayMinutes = Math.floor(delayMs / (1000 * 60));
+        const delayHours = Math.floor(delayMinutes / 60);
+        const delayDays = Math.floor(delayHours / 24);
+        
+        console.log(`⏰ Delay detected: ${shipment.shipmentId}`);
+        console.log(`   Planned: ${plannedDate.toLocaleString()}`);
+        console.log(`   Current: ${now.toLocaleString()}`);
+        console.log(`   Delay: ${delayDays}d ${delayHours % 24}h ${delayMinutes % 60}m`);
+        
+        // ✅ Send notification with io instance
+        await notificationService.createNotification('delivery_delayed', {
+          shipmentId: shipment._id,
+          shipmentNumber: shipment.shipmentId,
+          delayMinutes: delayMinutes,
+          delayHours: delayHours,
+          delayDays: delayDays,
+          origin: shipment.origin,
+          destination: shipment.destination,
+          plannedDeliveryDate: shipment.plannedDeliveryDate,
+          truckPlate: shipment.truck?.licensePlate || 'Unknown',
+          currentStatus: shipment.status,
+          managerId: shipment.assignedTo?._id?.toString(),
+          managerName: shipment.assignedTo?.name
+        }, this.io);  // ✅ Pass io here
+        
+        // Mark as notified - this ensures it's sent only ONCE
+        shipment.delayNotified = true;
+        await shipment.save();
+        
+        console.log(`✅ Delay notification sent for ${shipment.shipmentId}`);
+      }
+      
+      console.log(`📧 Processed ${delayedShipments.length} delay notification(s)`);
+      
+    } catch (error) {
+      console.error('❌ Error checking delayed shipments:', error);
     }
   }
   
-  /**
-   * Manually resolve all delay notifications for a shipment once it's back on track.
-   * Called when departure finally happens or delivery completes.
-   */
-  async resolveDelaysForShipment(shipmentId) {
-    await Notification.updateMany(
-      { 'data.shipmentId': shipmentId.toString(), type: 'delivery_delayed', resolved: false },
-      { resolved: true, resolvedAt: new Date() }
-    );
+  // For manual testing (call this from an API endpoint)
+  async checkNow() {
+    console.log('🔧 Manual delay check triggered');
+    await this.checkDelayedShipments();
   }
 }
 

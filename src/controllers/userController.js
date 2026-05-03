@@ -2,11 +2,53 @@
 const User = require('../models/User');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+const PaginatedResponse = require('../utils/pagination');
 
 // ─── Admin only ──────────────────────────────────────────────────────────────
 exports.getAllUsers = catchAsync(async (req, res) => {
-  const users = await User.find().select('-password');
-  res.json({ success: true, count: users.length, users });
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const search = req.query.search || '';
+  
+  // Build search query
+  let query = {};
+  if (search) {
+    query.$or = [
+      { name: { $regex: search, $options: 'i' } },
+      { email: { $regex: search, $options: 'i' } }
+    ];
+  }
+  
+  // Use pagination helper
+  const paginatedResult = await PaginatedResponse.fromQuery(User, query, page, limit);
+  
+  // Remove passwords from user objects
+  const usersWithoutPassword = paginatedResult.data.map(user => {
+    const userObj = user.toObject();
+    delete userObj.password;
+    return userObj;
+  });
+  
+  res.json({
+    success: true,
+    count: usersWithoutPassword.length,
+    users: usersWithoutPassword,
+    pagination: paginatedResult.pagination
+  });
+});
+
+// Get all shipment managers (for assignment dropdown)
+exports.getShipmentManagers = catchAsync(async (req, res) => {
+  const managers = await User.find({ 
+    role: 'shipment_manager', 
+    isActive: true 
+  }).select('name email isActive');
+  
+  res.json({ 
+    success: true, 
+    count: managers.length, 
+    data: managers 
+  });
 });
 
 exports.createUser = catchAsync(async (req, res) => {
@@ -45,15 +87,13 @@ exports.getUserStats = catchAsync(async (req, res) => {
   const activeUsers = await User.countDocuments({ isActive: true });
   const inactiveUsers = await User.countDocuments({ isActive: false });
 
+  // Return stats directly (not nested) for easier frontend consumption
   res.json({
-    success: true,
-    stats: {
-      total: totalUsers,
-      admins: adminCount,
-      shipmentManagers: shipmentManagerCount,
-      active: activeUsers,
-      inactive: inactiveUsers,
-    },
+    total: totalUsers,
+    admins: adminCount,
+    shipmentManagers: shipmentManagerCount,
+    active: activeUsers,
+    inactive: inactiveUsers
   });
 });
 
@@ -129,7 +169,7 @@ exports.updateUser = catchAsync(async (req, res) => {
   if (updates.name) user.name = updates.name;
   if (updates.email && requestingUser.role === 'admin') user.email = updates.email;
   if (updates.role && requestingUser.role === 'admin') user.role = updates.role;
-  if (updates.password) user.password = updates.password; // hashed by pre-save
+  if (updates.password) user.password = updates.password;
   if (updates.isActive !== undefined && requestingUser.role === 'admin') user.isActive = updates.isActive;
 
   await user.save();
@@ -140,11 +180,15 @@ exports.updateUser = catchAsync(async (req, res) => {
   res.json({ success: true, user: userObj, message: 'User updated successfully' });
 });
 
-// ─── Self update (uses token, not ID) ────────────────────────────────────────
+// ─── Self update ─────────────────────────────────────────────────────────────
 exports.updateMe = async (req, res, next) => {
   try {
     const { name, email, currentPassword, password } = req.body;
-    const user = req.user; // already includes password field
+    let user = await User.findById(req.user.id).select('+password');
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
 
     if (name) user.name = name;
     if (email) user.email = email;
@@ -153,25 +197,30 @@ exports.updateMe = async (req, res, next) => {
       if (!currentPassword) {
         return res.status(400).json({ success: false, message: 'Current password required' });
       }
+
       const isMatch = await user.comparePassword(currentPassword);
       if (!isMatch) {
         return res.status(401).json({ success: false, message: 'Current password is incorrect' });
       }
-      user.password = password; // will be hashed in pre-save hook
+
+      user.password = password;
     }
 
     await user.save();
 
+    const updatedUser = await User.findById(user._id);
+
     res.json({
       success: true,
       user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        createdAt: user.createdAt
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        createdAt: updatedUser.createdAt // always correct now
       },
     });
+
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

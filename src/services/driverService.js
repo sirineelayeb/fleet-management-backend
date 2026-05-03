@@ -11,37 +11,37 @@ const fs = require('fs');
 class DriverService {
 
   // ── Read ──────────────────────────────────────────────────────────────────
-
-  async getAllDrivers({ status, search, limit = 100, skip = 0 } = {}) {
-    const filter = {};
-
-    if (status) filter.status = status;
-
+  
+  async getAllDrivers({ status, search, limit = 10, page = 1 }) {
+    const filters = {};
+    
+    if (status) filters.status = status;
     if (search) {
-      const re = new RegExp(search, 'i');
-      filter.$or = [
-        { name: re },
-        { licenseNumber: re },
-        { phone: re },
-        { email: re },
+      filters.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+        { phone: { $regex: search, $options: 'i' } },
+        { cin: { $regex: search, $options: 'i' } },
+        { licenseNumber: { $regex: search, $options: 'i' } }
       ];
     }
-
-    const [drivers, total] = await Promise.all([
-    Driver.find(filter)
-      .populate('assignedTruck', 'licensePlate displayPlate brand model status type capacity')
+    
+    const skip = (page - 1) * limit;
+    const total = await Driver.countDocuments(filters);
+    const pages = Math.ceil(total / limit);
+    
+    const drivers = await Driver.find(filters)
+      .populate('assignedTruck', 'licensePlate brand model')
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limit),
-    Driver.countDocuments(filter),
-  ]);
-
-  // console.log(drivers.map(d => ({ name: d.name, photo: d.photo })));
-
+      .limit(parseInt(limit));
+    
     return {
       drivers,
       total,
-      pages: Math.ceil(total / limit),
+      page: parseInt(page),
+      pages,
+      limit: parseInt(limit)
     };
   }
 
@@ -65,6 +65,14 @@ class DriverService {
   // ── Write ─────────────────────────────────────────────────────────────────
 
   async createDriver(data) {
+    // Validate required fields
+    const requiredFields = ['cin', 'name', 'licenseNumber', 'phone'];
+    for (const field of requiredFields) {
+      if (!data[field]) {
+        throw new AppError(`${field} is required`, 400);
+      }
+    }
+
     // Format name if firstName/lastName are provided (for backward compatibility)
     if (data.firstName || data.lastName) {
       data.name = `${data.firstName || ''} ${data.lastName || ''}`.trim();
@@ -72,7 +80,21 @@ class DriverService {
       delete data.lastName;
     }
 
-    const driver = await Driver.create(data);
+    // Create driver with only allowed fields
+    const driverData = {
+      cin: data.cin,
+      name: data.name,
+      licenseNumber: data.licenseNumber,
+      phone: data.phone,
+      email: data.email || null,
+      photo: data.photo || null,
+      hireDate: data.hireDate || new Date(),
+      status: 'available', // default status
+      score: 100, // default score
+      isActive: true // default active
+    };
+
+    const driver = await Driver.create(driverData);
     return driver.populate('assignedTruck', 'licensePlate displayPlate brand model');
   }
 
@@ -498,61 +520,59 @@ async adjustDriverScoreManually(driverId, changeAmount, remark, adminId) {
   return driver;
 }
 
-// This will be called when a mission is completed
-async updateDriverScoreForMission(missionId, actualDeliveryDate) {
-  const mission = await Mission.findById(missionId)
-    .populate('shipment')
-    .populate('driver');
-  if (!mission) throw new AppError('Mission not found', 404);
-  if (mission.status !== 'completed') return null; // only completed missions
+  async updateDriverScoreForMission(missionId, actualDeliveryDate) {
+    const mission = await Mission.findById(missionId)
+      .populate('shipment')
+      .populate('driver');
+    if (!mission) throw new AppError('Mission not found', 404);
+    if (mission.status !== 'completed') return null;
 
-  const shipment = mission.shipment;
-  if (!shipment.plannedDeliveryDate) return null; // no planned date
+    const shipment = mission.shipment;
+    if (!shipment.plannedDeliveryDate) return null;
 
-  const config = await this.getScoreConfig();
-  const plannedDate = new Date(shipment.plannedDeliveryDate);
-  const actualDate = new Date(actualDeliveryDate);
-  const diffHours = (actualDate - plannedDate) / (1000 * 60 * 60);
+    const config = await this.getScoreConfig();
+    const plannedDate = new Date(shipment.plannedDeliveryDate);
+    const actualDate = new Date(actualDeliveryDate);
 
-  let changeAmount = 0;
-  let reason = '';
+    // Compare by date (ignoring time)
+    const isEarly = actualDate < plannedDate;
+    const isOnTime = actualDate.toDateString() === plannedDate.toDateString();
+    const isLate = actualDate > plannedDate;
 
-  if (actualDate <= plannedDate) {
-    // On time or early
-    if (diffHours < -config.earlyThresholdHours) {
+    let changeAmount = 0;
+    let reason = '';
+
+    if (isEarly) {
       changeAmount = config.earlyPoints;
       reason = 'early_delivery';
-    } else {
+    } else if (isOnTime) {
       changeAmount = config.onTimePoints;
       reason = 'on_time_delivery';
+    } else {
+      changeAmount = config.latePenalty;
+      reason = 'late_delivery';
     }
-  } else {
-    // Late
-    changeAmount = config.latePenalty;
-    reason = 'late_delivery';
+
+    if (changeAmount === 0) return null;
+
+    const driver = mission.driver;
+    let newScore = driver.score + changeAmount;
+    newScore = Math.min(100, Math.max(0, newScore));
+
+    driver.score = newScore;
+    await driver.save();
+
+    await DriverScoreLog.create({
+      driver: driver._id,
+      changeAmount,
+      newScore,
+      reason,
+      mission: missionId,
+      remark: `Planned: ${plannedDate.toISOString()}, Actual: ${actualDate.toISOString()}`
+    });
+
+    return { driver, changeAmount, newScore, reason };
   }
-
-  if (changeAmount === 0) return null;
-
-  const driver = mission.driver;
-  let newScore = driver.score + changeAmount;
-  newScore = Math.min(100, Math.max(0, newScore));
-
-  driver.score = newScore;
-  await driver.save();
-
-  // Log the score change
-  await DriverScoreLog.create({
-    driver: driver._id,
-    changeAmount,
-    newScore,
-    reason,
-    mission: missionId,
-    remark: `Planned: ${plannedDate.toISOString()}, Actual: ${actualDate.toISOString()}`
-  });
-
-  return { driver, changeAmount, newScore, reason };
-}
 
   
 }

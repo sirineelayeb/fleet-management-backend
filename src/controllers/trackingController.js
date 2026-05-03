@@ -1,308 +1,189 @@
 const LocationHistory = require('../models/LocationHistory');
 const Truck = require('../models/Truck');
-const Mission = require('../models/Mission');
-const TripHistory = require('../models/TripHistory');
 const Shipment = require('../models/Shipment');
+const Mission = require('../models/Mission');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 
 class TrackingController {
-  // Helper: Get truck IDs that a shipment manager can see
-  async _getAllowedTruckIds(user) {
-    if (user.role === 'admin') return null; // null means "all trucks"
-    
-    const shipments = await Shipment.find({
-      createdBy: user._id,
-      truck: { $ne: null }
-    }).select('truck');
-    
-    const truckIds = [...new Set(shipments.map(s => s.truck.toString()))];
-    return truckIds;
-  }
 
-  // Helper: Check if user can access a specific truck
-  async _canAccessTruck(user, truckId) {
-    if (user.role === 'admin') return true;
-    
-    const shipment = await Shipment.findOne({
-      createdBy: user._id,
-      truck: truckId
-    });
-    return !!shipment;
-  }
-
-  // GET /api/tracking/live
   getLiveTracking = catchAsync(async (req, res) => {
-    const allowedTruckIds = await this._getAllowedTruckIds(req.user);
+    let query = {};
     
-    // Build filter
-    let truckFilter = {};
-    if (allowedTruckIds !== null) {
-      truckFilter._id = { $in: allowedTruckIds };
+    if (req.user.role === 'shipment_manager') {
+      const activeShipments = await Shipment.find({ 
+        status: { $in: ['in_progress', 'assigned', 'pending'] }
+      }).select('truck');
+      
+      const truckIds = activeShipments.map(s => s.truck).filter(Boolean);
+      if (truckIds.length > 0) {
+        query._id = { $in: truckIds };
+      } else {
+        return res.json({ success: true, data: [] });
+      }
     }
     
-    const trucks = await Truck.find(truckFilter)
-      .select('licensePlate brand model status currentLocation currentSpeed lastTelemetryAt')
-      .populate('driver', 'name phone');
-    
-    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
-    
-    const trucksWithLiveLocation = await Promise.all(
-      trucks.map(async (truck) => {
-        const latestLocation = await LocationHistory.findOne({ truck: truck._id })
-          .sort({ timestamp: -1 });
+    const trucks = await Truck.find(query)
+  .populate('driver', 'name phone email')
+  .populate('devices', 'deviceId status lastSeen batteryLevel');
 
-        const isOnline = truck.lastTelemetryAt && new Date(truck.lastTelemetryAt) > tenMinutesAgo;
-        
-        let currentLocation = null;
-        if (latestLocation?.location?.coordinates) {
-          currentLocation = {
-            lat: latestLocation.location.coordinates[1],
-            lng: latestLocation.location.coordinates[0]
-          };
-        } else if (truck.currentLocation?.lat && truck.currentLocation?.lng) {
-          currentLocation = truck.currentLocation;
-        }
-
-        const mission = await Mission.findOne({
-          truck: truck._id,
-          status: { $in: ['not_started', 'in_progress'] }
-        }).populate('shipment');
-
-        let shipmentInfo = null;
-        let loadingInfo = null;
-        let tripInfo = null;
-
-        if (mission) {
-          const shipment = mission.shipment;
-          if (shipment) {
-            shipmentInfo = {
-              id: shipment._id,
-              shipmentId: shipment.shipmentId,
-              description: shipment.description,
-              origin: shipment.origin,
-              destination: shipment.destination,
-              weight: shipment.weightKg,
-              type: shipment.shipmentType,
-              priority: shipment.isPriority
-            };
-            
-            loadingInfo = {
-              startedAt: shipment.loadingStartedAt,
-              completedAt: shipment.loadingCompletedAt,
-              actualDurationMinutes: shipment.actualLoadingDurationMinutes,
-              plannedDurationMinutes: shipment.plannedLoadingDurationMinutes
-            };
-          }
-          
-          const trip = await TripHistory.findOne({ mission: mission._id });
-          if (trip) {
-            tripInfo = {
-              status: trip.status,
-              distanceCovered: trip.actualDistanceKm,
-              avgSpeed: trip.averageSpeed,
-              maxSpeed: trip.maxSpeed,
-              startTime: trip.actualStartTime || trip.startTime,
-              estimatedArrival: null
-            };
-          }
-        }
-
-        return {
-          id: truck._id,
-          licensePlate: truck.licensePlate,
-          brand: truck.brand,
-          model: truck.model,
-          status: truck.status,
-          driver: truck.driver,
-          currentLocation,
-          currentSpeed: latestLocation?.speed || truck.currentSpeed || 0,
-          lastUpdate: latestLocation?.timestamp || truck.lastTelemetryAt,
-          isOnline: isOnline || false,
-          missionStatus: mission?.status || null,
-          shipment: shipmentInfo,
-          loading: loadingInfo,
-          trip: tripInfo
-        };
-      })
-    );
-    
-    res.status(200).json({ success: true, count: trucksWithLiveLocation.length, data: trucksWithLiveLocation });
+  // Get active shipments
+  const shipments = await Shipment.find({
+    truck: { $in: trucks.map(t => t._id) },
+    status: { $in: ['assigned', 'in_progress'] }
   });
-  
-  // GET /api/tracking/truck/:truckId
+
+  const formattedTrucks = trucks.map(truck => {
+    const truckObj = truck.toObject();
+
+    // attach shipment
+    const shipment = shipments.find(
+      s => s.truck.toString() === truck._id.toString()
+    );
+
+    truckObj.shipment = shipment || null;
+
+    truckObj.currentLocation = truck.currentLocation || null;
+    truckObj.currentSpeed = truck.currentSpeed || 0;
+    truckObj.lastUpdate = truck.lastTelemetryAt || truck.updatedAt;
+
+    return truckObj;
+  });
+
+    res.json({
+      success: true,
+      data: formattedTrucks
+    });
+  });
+
   getTruckLocations = catchAsync(async (req, res) => {
-    const { truckId } = req.params;
-    const { limit = 50, startDate, endDate } = req.query;
+    const { limit = 500, from, to } = req.query;
+    const query = { truck: req.params.truckId };
     
-    // Check access
-    if (!(await this._canAccessTruck(req.user, truckId))) {
-      throw new AppError('You do not have permission to view this truck', 403);
+    if (from || to) {
+      query.timestamp = {};
+      if (from) query.timestamp.$gte = new Date(from);
+      if (to) query.timestamp.$lte = new Date(to);
     }
     
-    const filter = { truck: truckId };
-    if (startDate) filter.timestamp = { $gte: new Date(startDate) };
-    if (endDate) filter.timestamp = { ...filter.timestamp, $lte: new Date(endDate) };
-    
-    const locations = await LocationHistory.find(filter)
+    const locations = await LocationHistory.find(query)
       .sort({ timestamp: -1 })
       .limit(parseInt(limit));
-    
-    res.status(200).json({
+
+    res.json({
       success: true,
       count: locations.length,
       data: locations
     });
   });
-  
-  // GET /api/tracking/live/truck/:truckId
+
   getTruckLiveLocation = catchAsync(async (req, res) => {
-    const { truckId } = req.params;
+    const truck = await Truck.findById(req.params.truckId)
+      .populate('driver', 'name phone email')
+      .populate('devices', 'deviceId status lastSeen batteryLevel');
+
+    if (!truck) throw new AppError('Truck not found', 404);
+
+    // Find active mission separately
+    const activeMission = await Mission.findOne({
+      truck: truck._id,
+      status: { $in: ['not_started', 'in_progress'] }
+    }).populate('shipment', 'shipmentId origin destination status plannedDeliveryDate');
+
+    const truckObj = truck.toObject();
+    truckObj.currentLocation = truck.currentLocation || null;
+    truckObj.currentSpeed = truck.currentSpeed || 0;
+    truckObj.lastUpdate = truck.lastTelemetryAt || truck.updatedAt;
     
-    if (!(await this._canAccessTruck(req.user, truckId))) {
-      throw new AppError('You do not have permission to view this truck', 403);
+    if (activeMission?.shipment) {
+      truckObj.currentMission = {
+        missionId: activeMission._id,
+        missionNumber: activeMission.missionNumber,
+        status: activeMission.status,
+        shipment: activeMission.shipment
+      };
+    }
+
+    res.json({
+      success: true,
+      data: truckObj
+    });
+  });
+
+  getShipmentLocation = catchAsync(async (req, res) => {
+    const { shipmentId } = req.params;
+    
+    const shipment = await Shipment.findById(shipmentId).populate('truck');
+    if (!shipment) throw new AppError('Shipment not found', 404);
+    
+    if (!shipment.truck) {
+      return res.json({
+        success: true,
+        data: {
+          hasLocation: false,
+          message: 'No truck assigned to this shipment'
+        }
+      });
     }
     
-    const truck = await Truck.findById(truckId)
-      .select('licensePlate brand model status currentLocation currentSpeed lastTelemetryAt')
-      .populate('driver', 'name phone');
-    
-    if (!truck) throw new AppError('Truck not found', 404);
-    
-    const latestLocation = await LocationHistory.findOne({ truck: truckId })
+    const truck = shipment.truck;
+    const latestLocation = await LocationHistory.findOne({ truck: truck._id })
       .sort({ timestamp: -1 });
     
-    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
-    const isOnline = truck.lastTelemetryAt && 
-      new Date(truck.lastTelemetryAt) > tenMinutesAgo;
-    
-    let currentLocation = null;
-    if (latestLocation?.location?.coordinates) {
-      currentLocation = {
-        lat: latestLocation.location.coordinates[1],
-        lng: latestLocation.location.coordinates[0]
-      };
-    } else if (truck.currentLocation?.lat && truck.currentLocation?.lng) {
-      currentLocation = truck.currentLocation;
-    }
-    
-    res.status(200).json({
+    res.json({
       success: true,
       data: {
-        truck: {
-          id: truck._id,
-          licensePlate: truck.licensePlate,
-          brand: truck.brand,
-          model: truck.model,
-          status: truck.status,
-          driver: truck.driver
-        },
-        location: {
-          lat: currentLocation?.lat || null,
-          lng: currentLocation?.lng || null,
-          speed: latestLocation?.speed || truck.currentSpeed || 0,
-          timestamp: latestLocation?.timestamp || truck.lastTelemetryAt
-        },
-        isOnline
+        truckId: truck._id,
+        licensePlate: truck.licensePlate,
+        currentLocation: truck.currentLocation,
+        currentSpeed: truck.currentSpeed,
+        lastUpdate: truck.lastTelemetryAt,
+        latestHistory: latestLocation,
+        shipmentStatus: shipment.status
       }
     });
   });
-  
-  // GET /api/tracking/history/truck/:truckId
-  getTruckHistory = catchAsync(async (req, res) => {
+
+  getTruckRoute = catchAsync(async (req, res) => {
     const { truckId } = req.params;
-    const { days = 7, page = 1, limit = 100 } = req.query;
+    const { from, to, limit = 1000 } = req.query;
     
-    if (!(await this._canAccessTruck(req.user, truckId))) {
-      throw new AppError('You do not have permission to view this truck', 403);
+    const query = { truck: truckId };
+    if (from || to) {
+      query.timestamp = {};
+      if (from) query.timestamp.$gte = new Date(from);
+      if (to) query.timestamp.$lte = new Date(to);
     }
     
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - parseInt(days));
+    const locations = await LocationHistory.find(query)
+      .sort({ timestamp: 1 })
+      .limit(parseInt(limit));
     
-    const skip = (parseInt(page) - 1) * parseInt(limit);
+    // Format for map display
+    const route = locations.map(loc => ({
+      lat: loc.location.coordinates[1],
+      lng: loc.location.coordinates[0],
+      timestamp: loc.timestamp,
+      speed: loc.speed,
+      heading: loc.heading
+    }));
     
-    const [locations, total] = await Promise.all([
-      LocationHistory.find({
-        truck: truckId,
-        timestamp: { $gte: startDate }
-      })
-        .sort({ timestamp: -1 })
-        .skip(skip)
-        .limit(parseInt(limit)),
-      LocationHistory.countDocuments({
-        truck: truckId,
-        timestamp: { $gte: startDate }
-      })
-    ]);
-    
-    res.status(200).json({
+    res.json({
       success: true,
-      count: locations.length,
-      data: locations,
-      pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        total,
-        pages: Math.ceil(total / parseInt(limit))
-      }
+      count: route.length,
+      data: route
     });
   });
-  
-  // GET /api/tracking/summary/truck/:truckId
-  getTruckTrackingSummary = catchAsync(async (req, res) => {
-    const { truckId } = req.params;
-    const { days = 30 } = req.query;
-    
-    if (!(await this._canAccessTruck(req.user, truckId))) {
-      throw new AppError('You do not have permission to view this truck', 403);
-    }
-    
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - parseInt(days));
-    
-    const [totalPoints, lastLocation, stats, uniqueDaysResult] = await Promise.all([
-      LocationHistory.countDocuments({
-        truck: truckId,
-        timestamp: { $gte: startDate }
-      }),
-      LocationHistory.findOne({ truck: truckId }).sort({ timestamp: -1 }),
-      LocationHistory.aggregate([
-        { $match: { truck: truckId, timestamp: { $gte: startDate } } },
-        { $group: { _id: null, avgSpeed: { $avg: "$speed" }, maxSpeed: { $max: "$speed" } } }
-      ]),
-      LocationHistory.aggregate([
-        { $match: { truck: truckId, timestamp: { $gte: startDate } } },
-        { $group: { _id: { $dateToString: { format: "%Y-%m-%d", date: "$timestamp" } } } },
-        { $group: { _id: null, count: { $sum: 1 } } }
-      ])
-    ]);
-    
-    const activeDays = uniqueDaysResult[0]?.count || 0;
-    
-    let lastKnownLocation = null;
-    if (lastLocation?.location?.coordinates) {
-      lastKnownLocation = {
-        lat: lastLocation.location.coordinates[1],
-        lng: lastLocation.location.coordinates[0]
-      };
-    }
-    
-    res.status(200).json({
-      success: true,
-      data: {
-        truckId,
-        period: `${days} days`,
-        summary: {
-          totalLocations: totalPoints,
-          activeDays,
-          averageSpeed: stats[0]?.avgSpeed?.toFixed(2) || 0,
-          maxSpeed: stats[0]?.maxSpeed || 0,
-          lastUpdate: lastLocation?.timestamp || null,
-          lastKnownLocation
-        }
-      }
-    });
+
+  reverseGeocode = catchAsync(async (req, res) => {
+    const { lat, lng } = req.query;
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+      { headers: { 'Accept-Language': 'en', 'User-Agent': 'SmartFleet/1.0' } }
+    );
+    const data = await response.json();
+    const name = data.display_name?.split(',').slice(0, 2).join(', ') || `${lat}, ${lng}`;
+    res.json({ success: true, name });
   });
 }
 

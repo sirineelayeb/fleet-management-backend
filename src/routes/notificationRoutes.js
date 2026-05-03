@@ -1,40 +1,32 @@
-// backend/src/routes/notificationRoutes.js
-const express = require('express');
-const router = express.Router();
-const notificationController = require('../controllers/notificationController');
+const express    = require('express');
+const router     = express.Router();
+const notificationController       = require('../controllers/notificationController');
 const { protect, restrictTo } = require('../middlewares/auth');
 
 // All routes require authentication
 router.use(protect);
 
-// ============================================================
-// STATIC ROUTES (must come before :id routes)
-// ============================================================
+// ── Static routes (must be declared before /:id) ──────────────────────────
 
-// Get unread count (most specific first)
-router.get('/unread/count', protect, notificationController.getUnreadCount);
+// Both admins and managers can fetch their notifications
+router.get('/',                restrictTo('admin', 'shipment_manager'), notificationController.getAll);
 
-// Mark all as read
-router.put('/read-all', restrictTo('admin'), notificationController.markAllAsRead);
+// Both can see their own unread count
+router.get('/unread/count',    restrictTo('admin', 'shipment_manager'), notificationController.getUnreadCount);
 
-// ============================================================
-// COLLECTION ROUTES
-// ============================================================
+// Both can mark all of their notifications as read
+router.put('/read-all',        restrictTo('admin', 'shipment_manager'), notificationController.markAllAsRead);
 
-// Get all notifications (with filters)
-router.get('/', protect, restrictTo('admin', 'shipment_manager'), notificationController.getAll);
+// Admin bulk-delete
+router.delete('/',             restrictTo('admin'), notificationController.deleteAll);
 
-// ============================================================
-// DYNAMIC ROUTES (with :id) - MUST BE LAST
-// ============================================================
+// ── Dynamic /:id routes ───────────────────────────────────────────────────
 
-// Mark single notification as read
-router.put('/:id/read', restrictTo('admin', 'shipment_manager'), notificationController.markAsRead);
+// Both can mark a single notification as read
+router.put('/:id/read',        restrictTo('admin', 'shipment_manager'), notificationController.markAsRead);
 
-// Resolve notification (for critical alerts)
-router.put('/:id/resolve', restrictTo('admin'), notificationController.resolve);
-
-// Delete notification (admin only)
-router.delete('/:id', restrictTo('admin'), notificationController.delete);
+// Only admins can resolve or delete individual notifications
+router.put('/:id/resolve',     restrictTo('admin'), notificationController.resolve);
+router.delete('/:id',          restrictTo('admin'), notificationController.delete);
 
 module.exports = router;

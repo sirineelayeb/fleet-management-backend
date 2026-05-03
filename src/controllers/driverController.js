@@ -1,30 +1,30 @@
 const driverService = require('../services/driverService');
 const catchAsync = require('../utils/catchAsync');
+const PaginatedResponse = require('../utils/pagination');
 const AppError = require('../utils/AppError');
 
 class DriverController {
 
   // GET /drivers
   getAllDrivers = catchAsync(async (req, res) => {
-    const { status, search, limit = 100, page = 1 } = req.query;
-
+    const { status, search, limit = 10, page = 1 } = req.query;
+    
     const result = await driverService.getAllDrivers({
       status,
       search,
       limit: parseInt(limit),
-      skip: (page - 1) * parseInt(limit),
+      page: parseInt(page)
     });
-    // console.log('First truck driver:', JSON.stringify(trucks[0]?.driver, null, 2));
 
     res.status(200).json({
       success: true,
       data: result.drivers,
       pagination: {
         total: result.total,
-        page: parseInt(page),
+        page: result.page,
         pages: result.pages,
-        limit: parseInt(limit),
-      },
+        limit: result.limit
+      }
     });
   });
 

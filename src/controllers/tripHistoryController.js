@@ -5,19 +5,26 @@ const AppError = require('../utils/AppError');
 
 class TripHistoryController {
   
-getAllTrips = catchAsync(async (req, res) => {
-    const { page = 1, limit = 50 } = req.query;
+  // GET /api/trips
+  getAllTrips = catchAsync(async (req, res) => {
+    const { page = 1, limit = 10, status, search } = req.query;
     const userId = req.user._id || req.user.id;
+    
+    // Build filters from query params
+    const filters = {};
+    if (status) filters.status = status;
+    if (search) filters.search = search;
+    
     const result = await TripHistoryService.getAllTrips(
       req.user.role,
       userId,
-      {},
+      filters,
       parseInt(page),
       parseInt(limit)
     );
+    
     res.status(200).json({
       success: true,
-      count: result.trips.length,
       data: result.trips,
       pagination: {
         page: result.page,
@@ -72,34 +79,57 @@ getAllTrips = catchAsync(async (req, res) => {
 
   // GET /api/trips/truck/:truckId/stats
   getTruckTripStats = catchAsync(async (req, res) => {
-    const { truckId } = req.params;
-    const { startDate, endDate } = req.query;
-    // Implement or call service method if needed
-    const stats = await TripHistory.aggregate([
-      { $match: { truck: truckId, status: 'completed' } },
-      { $group: { _id: null, totalTrips: { $sum: 1 }, totalDistance: { $sum: '$actualDistanceKm' } } }
-    ]);
-    res.status(200).json({ success: true, data: stats[0] || {} });
-  });
+      const { truckId } = req.params;
+      const { startDate, endDate } = req.query;
+
+      const match = {
+        truck: new mongoose.Types.ObjectId(truckId),
+        status: 'completed'
+      };
+      if (startDate) match.startTime = { $gte: new Date(startDate) };
+      if (endDate)   match.endTime   = { ...match.endTime, $lte: new Date(endDate) };
+
+      const stats = await TripHistory.aggregate([
+        { $match: match },
+        { $group: {
+            _id: null,
+            totalTrips:    { $sum: 1 },
+            totalDistance: { $sum: '$actualDistanceKm' },
+            totalDuration: { $sum: '$actualDurationHours' },
+            avgSpeed:      { $avg: '$averageSpeed' }
+        }}
+      ]);
+
+      res.status(200).json({ success: true, data: stats[0] || {} });
+    });
 
   // GET /api/trips/driver/:driverId
   getDriverTrips = catchAsync(async (req, res) => {
     const { driverId } = req.params;
     const { startDate, endDate, page = 1, limit = 50 } = req.query;
+
     const filter = { driver: driverId };
     if (startDate) filter.startTime = { $gte: new Date(startDate) };
-    if (endDate) filter.endTime = { $lte: new Date(endDate) };
+    if (endDate)   filter.endTime   = { $lte: new Date(endDate) };
+
     const trips = await TripHistory.find(filter)
       .populate('truck', 'licensePlate')
-      .populate('shipment', 'originAddress destinationAddress')
+      .populate('shipment', 'origin destination') // ← was originAddress destinationAddress
       .sort({ startTime: -1 })
-      .skip((page-1)*limit)
+      .skip((page - 1) * limit)
       .limit(parseInt(limit));
+
     const total = await TripHistory.countDocuments(filter);
+
     res.status(200).json({
       success: true,
       data: trips,
-      pagination: { page: parseInt(page), limit: parseInt(limit), total, pages: Math.ceil(total/limit) }
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / limit)
+      }
     });
   });
 
@@ -107,10 +137,25 @@ getAllTrips = catchAsync(async (req, res) => {
   getDriverTripStats = catchAsync(async (req, res) => {
     const { driverId } = req.params;
     const { startDate, endDate } = req.query;
+
+    const match = {
+      driver: new mongoose.Types.ObjectId(driverId),
+      status: 'completed'
+    };
+    if (startDate) match.startTime = { $gte: new Date(startDate) };
+    if (endDate)   match.endTime   = { $lte: new Date(endDate) };
+
     const stats = await TripHistory.aggregate([
-      { $match: { driver: driverId, status: 'completed' } },
-      { $group: { _id: null, totalTrips: { $sum: 1 }, totalDistance: { $sum: '$actualDistanceKm' } } }
+      { $match: match },
+      { $group: {
+          _id: null,
+          totalTrips:    { $sum: 1 },
+          totalDistance: { $sum: '$actualDistanceKm' },
+          totalDuration: { $sum: '$actualDurationHours' },
+          avgSpeed:      { $avg: '$averageSpeed' }
+      }}
     ]);
+
     res.status(200).json({ success: true, data: stats[0] || {} });
   });
 

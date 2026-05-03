@@ -10,7 +10,7 @@ const createDefaultAdmin = async () => {
       
       const admin = new User({
         name: process.env.DEFAULT_ADMIN_NAME || 'Admin',
-        email: process.env.DEFAULT_ADMIN_EMAIL || 'admin@fleet.com',
+        email: process.env.DEFAULT_ADMIN_EMAIL || 'admin@smartfleet.com',
         password: process.env.DEFAULT_ADMIN_PASSWORD || 'Admin123!',
         role: 'admin',
         isActive: true

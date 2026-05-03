@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const cron = require('node-cron');
 const { server, io } = require('./app');  
 const createDefaultAdmin = require('./seeders/adminSeeder');
-const delayMonitoring = require('./services/delayMonitoringService');
 const mqttService = require('./services/mqttService');
+const delayMonitoringService = require('./services/delayMonitoringService');
+const { startDeviceWatchdog } = require('./jobs/deviceWatchdogJob'); 
 
 dotenv.config();
 
@@ -17,17 +17,11 @@ const startServer = async () => {
     await createDefaultAdmin();
     mqttService.start(io);
     console.log('✅ MQTT service started, listening to fleet/gps');
-    // Store reference to the cron job
-    const delayMonitorJob = cron.schedule('*/30 * * * *', async () => {
-      console.log('[DelayMonitor] Running scheduled delay check...');
-      try {
-        await delayMonitoring.checkAllActiveShipments(io);
-      } catch (err) {
-        console.error('[DelayMonitor] Error:', err);
-      }
-    });
-    console.log('✅ Delay monitoring scheduler started (every 30 minutes)');
-
+    
+    // ✅ Pass io to delay monitoring service
+    delayMonitoringService.start(io);
+    startDeviceWatchdog(io);
+    
     const PORT = process.env.PORT || 5000;
     const serverInstance = server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
@@ -35,18 +29,20 @@ const startServer = async () => {
     });
 
     // ============================================================
-    // GRACEFUL SHUTDOWN – Stop cron job here
+    // GRACEFUL SHUTDOWN
     // ============================================================
     const shutdown = async (signal) => {
       console.log(`\n${signal} received. Shutting down gracefully...`);
       
-      // Stop the cron job (prevents new executions)
-      delayMonitorJob.stop();
-      console.log('⏹️ Cron job stopped');
-      
       // Close HTTP server
       serverInstance.close(async () => {
         console.log('HTTP server closed');
+        
+        // Stop MQTT service
+        if (mqttService && mqttService.stop) {
+          await mqttService.stop();
+          console.log('MQTT service stopped');
+        }
         
         // Close database connection
         await mongoose.connection.close();

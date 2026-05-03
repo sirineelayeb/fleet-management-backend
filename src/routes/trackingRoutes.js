@@ -1,25 +1,36 @@
-// backend/src/routes/trackingRoutes.js
 const express = require('express');
 const router = express.Router();
 const trackingController = require('../controllers/trackingController');
-const { protect } = require('../middlewares/auth');
+const { protect, restrictTo } = require('../middlewares/auth');
 
-// ============================================================
-// ALL ROUTES REQUIRE AUTHENTICATION
-// ============================================================
-router.use(protect);
+// =====================
+// LIVE TRACKING
+// =====================
+// Get all live truck locations
+router.get('/live', protect, restrictTo('admin', 'shipment_manager'), trackingController.getLiveTracking);
 
-// ============================================================
-// LIVE TRACKING (For dashboard map)
-// ============================================================
-router.get('/live', trackingController.getLiveTracking);
-router.get('/live/truck/:truckId', trackingController.getTruckLiveLocation);
+// Get live location for a specific truck
+router.get('/live/truck/:truckId', protect, restrictTo('admin', 'shipment_manager'), trackingController.getTruckLiveLocation);
 
-// ============================================================
-// LOCATION HISTORY (For reports and playback)
-// ============================================================
-router.get('/truck/:truckId', trackingController.getTruckLocations);
-router.get('/history/truck/:truckId', trackingController.getTruckHistory);
-router.get('/summary/truck/:truckId', trackingController.getTruckTrackingSummary);
+// =====================
+// TRACKING HISTORY
+// =====================
+// Get location history for a specific truck
+router.get('/truck/:truckId/history', protect, restrictTo('admin', 'shipment_manager'), trackingController.getTruckLocations);
+
+// Get route/path for a specific truck (for map display)
+router.get('/truck/:truckId/route', protect, restrictTo('admin', 'shipment_manager'), trackingController.getTruckRoute);
+
+// =====================
+// SHIPMENT TRACKING
+// =====================
+// Get current location for a shipment (via its assigned truck)
+router.get('/shipment/:shipmentId/location', protect, restrictTo('admin', 'shipment_manager'), trackingController.getShipmentLocation);
+
+// =====================
+// UTILITIES
+// =====================
+// Reverse geocoding (convert lat/lng to address)
+router.get('/reverse-geocode', protect, restrictTo('admin', 'shipment_manager'), trackingController.reverseGeocode);
 
 module.exports = router;
