@@ -11,12 +11,8 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
-const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://fleet-management-frontend-ebon.vercel.app']
-  : ['http://localhost:5173', 'http://localhost:3000'];
-
 app.use(cors({
-  origin: allowedOrigins,
+  origin: true, // temporary — allow all
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
