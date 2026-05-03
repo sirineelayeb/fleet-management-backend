@@ -21,7 +21,7 @@ locationHistorySchema.index({ truck: 1, timestamp: -1 }); // main query index
 locationHistorySchema.index({ mission: 1, timestamp: 1 }); // mission replay
 locationHistorySchema.index({ trip: 1, timestamp: 1 });    // trip replay
 
-// ✅ TTL: auto-delete records older than 30 days
+// TTL: auto-delete records older than 30 days
 locationHistorySchema.index(
   { timestamp: 1 },
   { expireAfterSeconds: 2592000 }

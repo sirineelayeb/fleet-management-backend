@@ -10,7 +10,7 @@ const deviceSchema = new mongoose.Schema({
   lastSeen:        { type: Date, default: Date.now },
   temperature:     { type: Number },
 
-  // ✅ Reflects actual connectivity, not just manually set
+  // Reflects actual connectivity, not just manually set
   status: {
     type: String,
     enum: ['active', 'inactive', 'maintenance'],

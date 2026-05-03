@@ -1,5 +1,5 @@
 const Truck = require('../models/Truck');
-const TruckService = require('../services/TruckService');
+const TruckService = require('../services/truckService');
 const catchAsync = require('../utils/catchAsync');
 const PaginatedResponse = require('../utils/pagination');
 const AppError = require('../utils/AppError');

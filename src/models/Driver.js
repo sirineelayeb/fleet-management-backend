@@ -53,7 +53,7 @@ const driverSchema = new mongoose.Schema(
       type: String,
       required: false,
       unique: true,
-      sparse: true,   // ✅ allows multiple null/missing emails without unique conflicts
+      sparse: true,   // allows multiple null/missing emails without unique conflicts
       trim: true,
       lowercase: true,
     },

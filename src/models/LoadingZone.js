@@ -6,7 +6,7 @@ const loadingZoneSchema = new mongoose.Schema({
   location: {
   lat: { type: Number, required: true },
   lng: { type: Number, required: true },
-  placeName: { type: String, default: '' }  // add this
+  placeName: { type: String, default: '' }  
 },
   radiusMeters: { type: Number, default: 30, required: true },
   status: { type: String, enum: ['active', 'inactive'], default: 'active' }

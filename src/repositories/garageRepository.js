@@ -1,4 +1,3 @@
-// backend/src/repositories/garageRepository.js
 const Garage = require('../models/Garage');
 const AccessLog = require('../models/AccessLog');
 
