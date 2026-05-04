@@ -7,6 +7,7 @@ const DriverScoreLog = require('../models/DriverScoreLog');
 const AppError = require('../utils/AppError');
 const path = require('path');
 const fs = require('fs');
+const cloudinary = require('cloudinary').v2;
 
 class DriverService {
 
@@ -264,8 +265,8 @@ class DriverService {
       }
 
       // Delete profile photo if exists
-      if (driver.profilePhoto?.url) {
-        this._deleteFile(driver.profilePhoto.url);
+      if (driver.photo?.publicId) {
+        await cloudinary.uploader.destroy(driver.photo.publicId);
       }
 
       await driver.deleteOne();
@@ -286,10 +287,9 @@ class DriverService {
       await cloudinary.uploader.destroy(driver.photo.publicId);
     }
 
-    // Cloudinary gives us file.path (the URL) and file.filename (the public_id)
     driver.photo = {
-      url: file.path,           // full https://res.cloudinary.com/... URL
-      publicId: file.filename,  // e.g. fleet/drivers/photos/photo-abc123
+      url:       file.path,      // https://res.cloudinary.com/... URL
+      publicId:  file.filename,  // Cloudinary public_id
       uploadedAt: new Date(),
     };
 

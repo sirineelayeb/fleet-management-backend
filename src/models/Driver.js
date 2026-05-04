@@ -61,7 +61,7 @@ const driverSchema = new mongoose.Schema(
     // ── Photo ────────────────────────────────
     photo: {
       url:        { type: String },
-      filename:   { type: String },
+      publicId:   { type: String },   // Cloudinary public_id for deletion
       uploadedAt: { type: Date },
     },
 
