@@ -281,19 +281,15 @@ class DriverService {
     const driver = await Driver.findById(id);
     if (!driver) throw new AppError('Driver not found', 404);
 
-    if (driver.photo?.url) {
-      this._deleteFile(driver.photo.url);
+    // Delete old photo from Cloudinary if exists
+    if (driver.photo?.publicId) {
+      await cloudinary.uploader.destroy(driver.photo.publicId);
     }
 
-    const normalizedPath = file.path.replace(/\\/g, '/');
-    const uploadsIndex = normalizedPath.indexOf('uploads/');
-    const cleanPath = uploadsIndex !== -1
-      ? normalizedPath.slice(uploadsIndex)
-      : normalizedPath;
-
+    // Cloudinary gives us file.path (the URL) and file.filename (the public_id)
     driver.photo = {
-      url: `/` + cleanPath, // consistent URL for frontend
-      filename: file.filename,
+      url: file.path,           // full https://res.cloudinary.com/... URL
+      publicId: file.filename,  // e.g. fleet/drivers/photos/photo-abc123
       uploadedAt: new Date(),
     };
 
@@ -304,15 +300,14 @@ class DriverService {
   async deleteDriverPhoto(id) {
     const driver = await Driver.findById(id);
     if (!driver) throw new AppError('Driver not found', 404);
+    if (!driver.photo?.url) throw new AppError('No photo to delete', 400);
 
-    if (!driver.photo?.url) {
-      throw new AppError('No photo to delete', 400);
+    if (driver.photo.publicId) {
+      await cloudinary.uploader.destroy(driver.photo.publicId);
     }
 
-    this._deleteFile(driver.photo.url);
     driver.photo = undefined;
     await driver.save();
-
     return driver.populate('assignedTruck', 'licensePlate displayPlate brand model status');
   }
 

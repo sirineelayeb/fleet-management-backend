@@ -110,17 +110,19 @@ class DriverController {
   uploadPhoto = catchAsync(async (req, res) => {
     if (!req.file) throw new AppError('No file uploaded', 400);
 
-    req.file.path = req.file.path.replace(/\\/g, '/');
+    // Remove this line - no longer needed with Cloudinary:
+    // req.file.path = req.file.path.replace(/\\/g, '/');
+
     const driver = await driverService.uploadDriverPhoto(req.params.id, req.file);
 
     res.status(200).json({
       success: true,
-      data: driver, // driver already has driver.photo from the service
+      data: driver,
       message: 'Photo uploaded successfully',
     });
   });
 
-  // DELETE /drivers/:id/photo
+  // DELETE /drivers/:id/photo — no changes needed
   deletePhoto = catchAsync(async (req, res) => {
     const driver = await driverService.deleteDriverPhoto(req.params.id);
     res.status(200).json({
