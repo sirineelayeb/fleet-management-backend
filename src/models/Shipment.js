@@ -53,6 +53,10 @@ const shipmentSchema = new mongoose.Schema({
   },
   actualDepartureDate: { type: Date, default: null },
   actualDeliveryDate:  { type: Date, default: null },
+  
+  loadingStartedAt:          { type: Date, default: null },
+  loadingCompletedAt:        { type: Date, default: null },
+  actualLoadingDurationMinutes: { type: Number, default: null }, // computed when loadingCompletedAt is set
 
   notes: [{
     content:       String,

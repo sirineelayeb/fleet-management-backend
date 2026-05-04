@@ -56,7 +56,7 @@ class LprService {
             entryStatus = 'on_time';
           }
 
-          // ✅ FIX: Save loading start time when truck enters
+          // Save loading start time when truck enters
           await Shipment.findByIdAndUpdate(matchedShipment._id, {
             loadingStartedAt: now,
             $unset: { loadingCompletedAt: 1, actualLoadingDurationMinutes: 1 } // Clear exit data if any
@@ -65,7 +65,7 @@ class LprService {
 
         // 4 — Calculate loading duration on EXIT
         if (direction === 'exit') {
-          // ✅ FIX: Find the most recent entry event for this truck and shipment
+          // Find the most recent entry event for this truck and shipment
           const entryEvent = await LprEvent.findOne({
             truck: truck._id,
             direction: 'entry',
