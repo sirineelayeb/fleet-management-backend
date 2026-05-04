@@ -385,10 +385,11 @@ class TrackingService {
 
   isAtDestination(currentLocation, destinationCoordinates) {
     if (!destinationCoordinates?.lat) return false;
-    return this.calculateDistance(
+    const distanceMeters = this.calculateDistance(
       currentLocation.lat, currentLocation.lng,
       destinationCoordinates.lat, destinationCoordinates.lng
-    ) * 1000 <= 100; // km → meters, threshold 100m
+    ) * 1000;
+    return distanceMeters <= 200; // 200 meters tolerance
   }
 
   calculateDistance(lat1, lon1, lat2, lon2) {
