@@ -25,9 +25,18 @@ class DeviceController {
   });
 
   registerDevice = catchAsync(async (req, res) => {
-    const device = await Device.create(req.body);
+    const { deviceId, firmwareVersion } = req.body;
+
+    // Upsert — create if not exists, update firmware if already registered
+    const device = await Device.findOneAndUpdate(
+      { deviceId },                          // find by deviceId
+      { deviceId, firmwareVersion },         // update these fields
+      { upsert: true, new: true }            // create if not found
+    );
+
     res.status(201).json({ success: true, data: device });
   });
+
 
   updateDevice = catchAsync(async (req, res) => {
     const device = await Device.findByIdAndUpdate(req.params.id, req.body, { new: true });
