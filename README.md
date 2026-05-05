@@ -1,279 +1,371 @@
-# 📡 NoGPS WiFi Geolocation — Mahdia, Tunisia
+# 🚛 Smart Fleet Management — Backend API
 
-> A WiFi fingerprinting data collection and visualization pipeline built for outdoor positioning research without GPS dependency.  
-> Collected and developed by **Sirine Elayeb** — PFE Internship Project.
+A RESTful Node.js backend powering a smart fleet management platform for Tunisian truck fleets. Handles real-time GPS tracking, license plate recognition events, driver performance scoring, shipment management, and IoT device telemetry.
+
+> 🎓 PFE Internship Project — Syrine Elayeb
 
 ---
 
-## 🗺️ Project Overview
+## ✨ Features
 
-This project is part of a **truck fleet management system** for the city of **Mahdia, Tunisia**. It uses WiFi fingerprinting as an alternative positioning method — allowing trucks to be tracked in areas where GPS is unavailable, unreliable, or too costly.
+- 🗺️ **Real-time GPS tracking** — live truck positions cached in Redis, pushed via Socket.io
+- 📷 **LPR event logging** — receives plate detection events from the LPR microservice
+- 👨‍✈️ **Driver management** — profiles, photo uploads, assignments, performance scoring
+- 🚚 **Truck & device management** — IoT device registration, truck assignment
+- 📦 **Shipment tracking** — full shipment lifecycle management
+- 🔔 **Real-time notifications** — Socket.io powered alerts
+- 📊 **Performance analytics** — driver score logs and reports
+- 🔐 **Role-based access control** — admin and user roles with JWT auth
+- 🌍 **Loading zone management** — geo-fenced zone monitoring
+- ⏱️ **Device watchdog** — cron job marks devices inactive on missed heartbeat
 
-WiFi scan data was collected across the city (by bicycle), cleaned, and visualized as interactive maps — building the fingerprint dataset that will feed the positioning model.
+---
 
-**The goal:** *Track and manage a fleet of trucks using only the WiFi networks visible around them — without GPS.*
+## 🧱 Tech Stack
 
-### What the pipeline produces
+| Technology | Purpose |
+|---|---|
+| Node.js + Express | REST API server |
+| MongoDB + Mongoose | Primary database (MongoDB Atlas) |
+| Redis | Live location cache |
+| Socket.io | Real-time communication |
+| MQTT | IoT device messaging (HiveMQ Cloud) |
+| JWT | Authentication |
+| Multer | Driver photo uploads |
+| Node-cron | Scheduled background jobs |
 
-| Output | Description |
-|--------|-------------|
-| `wifi_map.html` | Interactive map showing scan points, AP locations, and coverage circles |
-| `wifi_heatmap.html` | Signal strength heatmap over the surveyed area |
 ---
 
 ## 📁 Project Structure
 
 ```
-NoGPSgeolocalisation/
+backend/
+├── src/
+│   ├── config/
+│   │   ├── database.js            # MongoDB connection
+│   │   ├── redis.js               # Redis client setup
+│   │   └── upload.js              # Multer file upload config
+│   │
+│   ├── controllers/               # Route handlers (thin layer, delegates to services)
+│   │   ├── authController.js
+│   │   ├── customerController.js
+│   │   ├── deviceController.js
+│   │   ├── driverController.js
+│   │   ├── loadingZoneController.js
+│   │   ├── lprController.js
+│   │   ├── notificationController.js
+│   │   ├── performanceController.js
+│   │   ├── shipmentController.js
+│   │   ├── trackingController.js
+│   │   ├── tripHistoryController.js
+│   │   ├── truckController.js
+│   │   └── userController.js
+│   │
+│   ├── services/                  # Business logic layer
+│   │   ├── trackingService.js     # GPS processing, Redis cache, Socket.io emit
+│   │   ├── lprService.js          # License plate event handling
+│   │   ├── driverService.js       # Driver scoring & evaluation
+│   │   ├── shipmentService.js     # Shipment lifecycle
+│   │   ├── tripHistoryService.js  # Trip recording & history
+│   │   ├── truckService.js        # Truck business logic
+│   │   ├── notificationService.js # Notification creation & delivery
+│   │   ├── mqttService.js         # MQTT broker integration
+│   │   └── delayMonitoringService.js # Shipment delay detection
+│   │
+│   ├── models/                    # Mongoose schemas
+│   │   ├── User.js
+│   │   ├── Truck.js
+│   │   ├── Driver.js
+│   │   ├── Device.js
+│   │   ├── Shipment.js
+│   │   ├── Mission.js
+│   │   ├── Customer.js
+│   │   ├── LoadingZone.js
+│   │   ├── LprEvent.js
+│   │   ├── LocationHistory.js
+│   │   ├── TripHistory.js
+│   │   ├── Notification.js
+│   │   ├── DriverScoreLog.js
+│   │   └── ScoreConfig.js
+│   │
+│   ├── routes/                    # Express route definitions
+│   │   ├── authRoutes.js
+│   │   ├── customerRoutes.js
+│   │   ├── deviceRoutes.js
+│   │   ├── driverRoutes.js
+│   │   ├── LoadingZoneRoutes.js
+│   │   ├── lprRoutes.js
+│   │   ├── notificationRoutes.js
+│   │   ├── performanceRoutes.js
+│   │   ├── shipmentRoutes.js
+│   │   ├── trackingRoutes.js
+│   │   ├── tripHistoryRoutes.js
+│   │   ├── truckRoutes.js
+│   │   ├── userRoutes.js
+│   │   └── alertRoutes.js
+│   │
+│   ├── middlewares/
+│   │   ├── auth.js                # JWT verification + role guard
+│   │   ├── lprAuth.js             # LPR service API key authentication
+│   │   ├── errorHandler.js        # Global error handler
+│   │   ├── requestLogger.js       # HTTP request logging
+│   │   └── validation.js          # Request body validation
+│   │
+│   ├── repositories/              # DB query abstraction layer
+│   │   ├── driverRepository.js
+│   │   ├── truckRepository.js
+│   │   └── garageRepository.js
+│   │
+│   ├── jobs/
+│   │   └── deviceWatchdogJob.js   # Cron: marks devices inactive on missed heartbeat
+│   │
+│   ├── socket/
+│   │   └── socketManager.js       # Socket.io event handlers & room management
+│   │
+│   ├── seeders/
+│   │   └── adminSeeder.js         # Seeds default admin account
+│   │
+│   ├── utils/
+│   │   ├── AppError.js            # Custom error class with status code
+│   │   ├── catchAsync.js          # Async error wrapper for controllers
+│   │   └── pagination.js          # Reusable pagination helper
+│   │
+│   ├── app.js                     # Express app setup, middleware, routes
+│   └── server.js                  # HTTP + Socket.io server entry point
 │
-├── data/
-│   ├── raw/
-│   │   └── mahdia_wifi_scans.txt       # Raw scan logs from Android logger
-│   └── processed/
-│       ├── wifi_fingerprint_clean.json # Cleaned structured data (JSON)
-│       └── wifi_fingerprint_clean.csv  # Flat CSV for ML ingestion
+├── uploads/
+│   └── drivers/photos/            # Uploaded driver profile photos
 │
-├── outputs/
-│   ├── wifi_map.html                   # Interactive coverage map
-│   ├── wifi_heatmap.html               # Signal heatmap
-│
-├── scripts/
-│   ├── clean_wifi_dataset.py           # Stage 1 — Parse and filter raw data
-│   ├── data_processing.py              # Stage 2 — Restructure into per-MAC profiles
-│   ├── analysis.py                     # Math functions (RSSI→distance, signal quality)
-│   ├── visualization.py                # Generate all maps and charts
-│   └── report.py                       # Print summary statistics
-│
-├── config.py                           # All settings, thresholds, and paths
-├── main.py                             # Entry point — runs the full pipeline
-└── requirements.txt                    # Python dependencies
+├── .env                           # Environment variables (not in git)
+├── .gitignore
+├── package.json
+└── README.md
 ```
 
 ---
 
-## ⚙️ Pipeline Stages
+## 🔌 API Endpoints
+
+### Auth `/api/auth`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| POST | `/login` | ❌ | Login and receive JWT token |
+| POST | `/logout` | ✅ | Logout current session |
+| GET | `/me` | ✅ | Get current user profile |
+
+### Users `/api/users`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/` | Admin | List all users |
+| POST | `/` | Admin | Create user |
+| PUT | `/:id` | Admin | Update user |
+| DELETE | `/:id` | Admin | Delete user |
+
+### Trucks `/api/trucks`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/` | ✅ | List all trucks |
+| POST | `/` | Admin | Add truck |
+| PUT | `/:id` | Admin | Update truck |
+| DELETE | `/:id` | Admin | Delete truck |
+
+### Drivers `/api/drivers`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/` | ✅ | List all drivers |
+| POST | `/` | Admin | Add driver (with photo upload) |
+| PUT | `/:id` | Admin | Update driver |
+| DELETE | `/:id` | Admin | Delete driver |
+
+### Devices `/api/devices`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/` | Admin | List all devices |
+| POST | `/register` | Admin | Register device (upsert by deviceId) |
+| PUT | `/:id` | Admin | Update device |
+| DELETE | `/:id` | Admin | Delete device |
+| POST | `/:id/assign-truck` | Admin | Assign device to truck |
+| PATCH | `/:id/unassign` | Admin | Unassign device from truck |
+| POST | `/tracking` | IoT | Receive GPS telemetry from device |
+
+### Tracking `/api/tracking`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/live` | ✅ | Get all live truck positions |
+| GET | `/:truckId` | ✅ | Get location history for a truck |
+
+### LPR `/api/lpr`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| POST | `/detect` | LPR key | Receive plate detection event from LPR service |
+| GET | `/events` | Admin | List all LPR events |
+
+### Shipments `/api/shipments`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/` | ✅ | List all shipments |
+| POST | `/` | Admin | Create shipment |
+| PUT | `/:id` | Admin | Update shipment |
+| DELETE | `/:id` | Admin | Delete shipment |
+
+### Trip History `/api/trip-history`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/` | ✅ | List all trips |
+| GET | `/:truckId` | ✅ | Trips for a specific truck |
+
+### Performance `/api/performance`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/drivers` | Admin | All driver performance scores |
+| GET | `/drivers/:id` | Admin | Single driver score breakdown |
+
+### Notifications `/api/notifications`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/` | ✅ | Get current user notifications |
+| PATCH | `/:id/read` | ✅ | Mark notification as read |
+
+### Loading Zones `/api/loading-zones`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/` | ✅ | List all loading zones |
+| POST | `/` | Admin | Create loading zone |
+| DELETE | `/:id` | Admin | Delete loading zone |
+
+### Customers `/api/customers`
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| GET | `/` | ✅ | List all customers |
+| POST | `/` | Admin | Create customer |
+| PUT | `/:id` | Admin | Update customer |
+| DELETE | `/:id` | Admin | Delete customer |
+
+---
+
+## 🔐 Authentication & Authorization
+
+JWT-based authentication with two roles: `admin` and `user`.
 
 ```
-raw text file
-      │
-      ▼
-clean_wifi_dataset.py   →   Filter hotspots, weak signals, exact duplicates
-      │
-      ▼
-wifi_fingerprint_clean.json / .csv
-      │
-      ▼
-data_processing.py      →   Flatten + compute per-MAC profiles
-      │
-      ▼
-analysis.py             →   RSSI → distance, signal quality labels
-      │
-      ▼
-visualization.py        →   Interactive HTML maps + PNG charts
-      │
-      ▼
-report.py               →   Terminal statistics summary
+Request → auth.js (verify JWT token)
+               ↓
+         restrictTo('admin')   ← admin-only routes
+               ↓
+         controller → service
+```
+
+The LPR microservice uses a separate API key authenticated by `lprAuth.js`:
+```
+Authorization: Bearer <LPR_API_SECRET>
 ```
 
 ---
 
-## 🚀 Getting Started
+## ⚡ Real-time Architecture
 
-### 1. Clone the repository
+```
+GPS Device (MQTT or HTTP POST /api/devices/tracking)
+       ↓
+trackingService.js
+       ├──▶ Redis        (caches latest position per truck)
+       ├──▶ MongoDB      (persists to LocationHistory)
+       └──▶ socketManager.js ──▶ Socket.io ──▶ Frontend dashboard
+```
 
+---
+
+## 🌱 Environment Variables
+
+Create a `.env` file at the project root:
+
+```env
+# Server
+PORT=5000
+NODE_ENV=production
+
+# Database (MongoDB Atlas)
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/<dbname>
+
+# Authentication
+JWT_SECRET=your_jwt_secret_here
+JWT_EXPIRES_IN=7d
+
+# Email (Gmail SMTP)
+EMAIL_SERVICE=gmail
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_gmail_app_password
+EMAIL_FROM=your_email@gmail.com
+EMAIL_SECURE=true
+EMAIL_PORT=465
+
+# MQTT Broker (HiveMQ Cloud — TLS)
+MQTT_BROKER_URL=mqtts://<your-cluster>.s1.eu.hivemq.cloud:8883
+MQTT_USER=your_mqtt_username
+MQTT_PASS=your_mqtt_password
+
+# LPR Service API Key (must match lpr-service API_SECRET_KEY)
+LPR_API_SECRET=your_lpr_secret_key
+```
+
+---
+
+## 🚀 Deployment (Render)
+
+The backend is deployed on **Render** as a web service.
+
+### Steps
+
+1. Push your code to GitHub
+2. Create a new **Web Service** on [render.com](https://render.com)
+3. Connect your GitHub repository
+4. Set the following:
+
+| Setting | Value |
+|---|---|
+| Runtime | Node |
+| Build Command | `npm install` |
+| Start Command | `node src/server.js` |
+| Environment | Add all `.env` variables in Render dashboard |
+
+5. Deploy — API will be available at your Render URL:
+```
+https://your-service.onrender.com
+```
+
+### Seed admin account (first deploy only)
+
+Run once via Render shell or locally pointing to the production DB:
 ```bash
-git clone https://github.com/tliliIlyes/NoGPSgeolocalisation.git
-cd NoGPSgeolocalisation
-```
-
-### 2. Create and activate a virtual environment
-
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
-# macOS / Linux
-python -m venv venv
-source venv/bin/activate
-```
-
-### 3. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Add your raw data
-
-Place your scan log file at:
-```
-data/raw/mahdia_wifi_scans.txt
-```
-
-The expected format per scan entry (separated by `━━━━━━━━━━━━━━━━━`):
-```
-⏰ 2024-03-15 14:32:10
-📍 GPS: 35.5042, 11.0622
-101|45231|Tunisie_Telecom-2.4G,AA:BB:CC:DD:EE:FF,-72;Ooredoo-Home,11:22:33:44:55:66,-81
+node src/seeders/adminSeeder.js
 ```
 
 ---
 
-## ▶️ Running the Pipeline
+## 🔮 Roadmap
 
-### Step 1 — Clean and parse raw data
-
-```bash
-python -m scripts.clean_wifi_dataset
-```
-
-Expected output:
-```
-🔹 Parsing raw data...
-Scans after parsing: 573
-🔹 Removing exact duplicates...
-Scans after duplicate removal: 573
-✅ Cleaning finished! JSON saved to: data\processed\wifi_fingerprint_clean.json
-```
-
-### Step 2 — Generate all visualizations
-
-```bash
-python -m main
-```
-
-Expected output:
-```
-===================================
- NoGPS WiFi Geolocation System
- Location: Mahdia - Tunisia
-===================================
-
-=== WiFi Fingerprinting Statistics ===
-Total scans         : 573
-Unique positions    : 475
-Total distance      : 35379.0 m
-Unique networks     : 943
-Total detections    : 2427
-
-✅ Interactive map saved: outputs\wifi_map.html
-✅ Heatmap saved: outputs\wifi_heatmap.html
-✅ All visualizations generated in: outputs
-```
-
-Then open any `.html` file in your browser to explore the interactive maps.
+- [ ] Fuel consumption tracking
+- [ ] Advanced alert rules engine
+- [ ] Multi-tenant support
+- [ ] API rate limiting
 
 ---
 
-## 🔧 Configuration
+## 🤝 Contributing
 
-All tunable parameters live in `config.py` — you never need to touch individual scripts:
-
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `RSSI_MIN` | `-95` | Discard networks weaker than this |
-| `RSSI_MAX` | `-30` | Maximum expected RSSI |
-| `TX_POWER` | `20` | Transmit power for distance estimation (dBm) |
-| `PATH_LOSS_EXPONENT` | `3` | Environment factor (2=free space, 3=urban outdoor) |
-| `DEFAULT_ZOOM` | `17` | Initial map zoom level |
-| `MAP_TILES` | `OpenStreetMap` | Default map tile layer |
-
----
-
-## 🗂️ Data Cleaning — What Gets Filtered
-
-The cleaning stage (`clean_wifi_dataset.py`) applies these filters in order:
-
-**1. Mobile hotspot / phone SSIDs removed**
-Any network whose SSID contains brand names like `Android`, `iPhone`, `Galaxy`, `Huawei`, `Redmi`, `OPPO`, `Xiaomi`, etc. is discarded as it belongs to a moving device.
-
----
-
-## 📊 Dataset Statistics (Mahdia Collection)
-
-| Metric | Value |
-|--------|-------|
-| Total scans | 573 |
-| Unique GPS positions | 475 |
-| Total route distance | ~35.4 km |
-| Unique access points | 943 |
-| Total AP detections | 2,427 |
-| Avg detections per AP | 2.6 |
-| RSSI range | -90 to -54 dBm |
-| Average RSSI | -82.9 dBm |
-
----
-
-## 🗺️ Map Features
-
-The interactive map (`wifi_map.html`) includes:
-
-- **Blue polyline** — your exact data collection route
-- **Colored dots** — estimated position of each unique access point
-- **Translucent circles** — signal coverage area per AP (size = signal strength)
-- **Clickable popups** — SSID, MAC, average RSSI, signal quality, estimated distance
-- **Layer switcher** — toggle between OpenStreetMap, Light, Dark, and Satellite views
-- **Minimap** — overview navigation panel
-- **Fullscreen** button
-
-The heatmap (`wifi_heatmap.html`) shows signal density across the area:
-
-| Color | Signal Range |
-|-------|-------------|
-| 🔴 Red | Excellent (-40 to -60 dBm) |
-| 🟠 Orange | Very Good (-60 to -70 dBm) |
-| 🟡 Yellow | Good (-70 to -75 dBm) |
-| 🟢 Green | Fair (-75 to -80 dBm) |
-| 🔵 Cyan | Weak (-80 to -85 dBm) |
-| ⚫ Blue | Very Weak (-85 to -95 dBm) |
-
----
-
-## 📦 Dependencies
-
-```
-folium
-numpy
-matplotlib
-```
-
-Install all at once:
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 🔬 Signal-to-Distance Model
-
-Distance is estimated using the **log-distance path loss model**:
-
-```
-distance = 10 ^ ((TxPower - RSSI) / (10 × n))
-```
-
-Where:
-- `TxPower = 20 dBm` (typical router transmit power)  
-- `n = 3` (path loss exponent for urban outdoor environments)
-- `RSSI` = measured signal strength in dBm
-
----
-
-## 📌 Known Limitations
-
-- AP map position = mean of detection points, not true router location
-- Generic SSIDs (e.g. `SFR-XXXX`) may not be filtered as hotspots
-- Single-pass outdoor routes give fewer detections per AP than indoor datasets
-
----
-
-## 👩‍💻 Author
-
-**Sirine Elayeb**  . PFE Internship  . 2026
+1. Fork the repo
+2. Create a branch: `git checkout -b feature/your-feature`
+3. Commit your changes
+4. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-This project is for academic and research purposes.
+MIT License
+
+---
+
+## 👩‍💻 Author
+
+**Syrine Elayeb** — PFE Internship Project
