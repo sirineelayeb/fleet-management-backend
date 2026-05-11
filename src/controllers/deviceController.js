@@ -3,7 +3,7 @@ const Truck = require('../models/Truck');
 const trackingService = require('../services/trackingService');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
-
+const PaginatedResponse = require('../utils/pagination');
 class DeviceController {
 
   handleTrackingData = catchAsync(async (req, res) => {
@@ -14,8 +14,27 @@ class DeviceController {
   });
 
   getAllDevices = catchAsync(async (req, res) => {
-    const devices = await Device.find().populate('truck');
-    res.json({ success: true, data: devices });
+    const { page = 1, limit = 10, status, search } = req.query;
+
+    const filter = {};
+
+    if (status) {
+      filter.status = status;
+    }
+
+    if (search) {
+      filter.deviceId = { $regex: search, $options: 'i' };
+    }
+
+    const result = await PaginatedResponse.fromQuery(
+      Device,
+      filter,
+      parseInt(page),
+      parseInt(limit),
+      [{ path: 'truck', select: 'licensePlate brand model' }]
+    );
+
+    res.json({ success: true, ...result });
   });
 
   getDevice = catchAsync(async (req, res) => {

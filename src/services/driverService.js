@@ -66,93 +66,76 @@ class DriverService {
   // ── Write ─────────────────────────────────────────────────────────────────
 
   async createDriver(data) {
-    // Validate required fields
     const requiredFields = ['cin', 'name', 'licenseNumber', 'phone'];
     for (const field of requiredFields) {
-      if (!data[field]) {
-        throw new AppError(`${field} is required`, 400);
-      }
+      if (!data[field]) throw new AppError(`${field} is required`, 400);
     }
 
-    // Format name if firstName/lastName are provided (for backward compatibility)
     if (data.firstName || data.lastName) {
       data.name = `${data.firstName || ''} ${data.lastName || ''}`.trim();
       delete data.firstName;
       delete data.lastName;
     }
 
-    // Create driver with only allowed fields
     const driverData = {
       cin: data.cin,
       name: data.name,
       licenseNumber: data.licenseNumber,
       phone: data.phone,
-      email: data.email || null,
-      photo: data.photo || null,
       hireDate: data.hireDate || new Date(),
-      status: 'available', // default status
-      score: 100, // default score
-      isActive: true // default active
+      status: 'available',
+      score: 100,
+      isActive: true,
     };
 
-    const driver = await Driver.create(driverData);
+    if (data.email && data.email.trim()) {
+      driverData.email = data.email.trim().toLowerCase();
+    }
+
+    if (data.photo) {
+      driverData.photo = data.photo;
+    }
+
+    const driver = await Driver.create(driverData);  // ✅ was missing
     return driver.populate('assignedTruck', 'licensePlate displayPlate brand model');
-  }
+  }                                                   // ✅ closing brace was missing
 
   async updateDriver(id, data) {
     try {
       const driver = await Driver.findById(id);
       if (!driver) throw new AppError('Driver not found', 404);
 
-      // Handle name from firstName/lastName (backward compatibility)
       if (data.firstName || data.lastName) {
         data.name = `${data.firstName || ''} ${data.lastName || ''}`.trim();
         delete data.firstName;
         delete data.lastName;
       }
 
-      // Handle truck assignment
+      // ✅ Handle empty email to avoid sparse index conflicts
+      if (data.email === '' || data.email === null || data.email === undefined) {
+        delete data.email;
+      } else if (data.email) {
+        data.email = data.email.trim().toLowerCase();
+      }
+
       if (data.assignedTruck !== undefined && data.assignedTruck !== driver.assignedTruck?.toString()) {
-        
         if (data.assignedTruck) {
           const truck = await Truck.findById(data.assignedTruck);
           if (!truck) throw new AppError('Truck not found', 404);
-
-          // Check if truck already has a driver
           if (truck.driver && truck.driver.toString() !== driver._id.toString()) {
             throw new AppError('Truck is already assigned to another driver', 400);
           }
-
-          // Clear previous truck assignment if exists
           if (driver.assignedTruck) {
-            await Truck.findByIdAndUpdate(
-              driver.assignedTruck,
-              { driver: null }
-            );
+            await Truck.findByIdAndUpdate(driver.assignedTruck, { driver: null });
           }
-
-          // Assign new truck
-          await Truck.findByIdAndUpdate(
-            data.assignedTruck,
-            { driver: driver._id }
-          );
-        } 
-        else if (data.assignedTruck === null && driver.assignedTruck) {
-          // Unassign from current truck
-          await Truck.findByIdAndUpdate(
-            driver.assignedTruck,
-            { driver: null }
-          );
+          await Truck.findByIdAndUpdate(data.assignedTruck, { driver: driver._id });
+        } else if (data.assignedTruck === null && driver.assignedTruck) {
+          await Truck.findByIdAndUpdate(driver.assignedTruck, { driver: null });
         }
       }
 
       const updatedDriver = await Driver.findByIdAndUpdate(
-        id,
-        data,
-        { 
-          new: true, 
-          runValidators: true
-        }
+        id, data, { new: true, runValidators: true }
       ).populate('assignedTruck', 'licensePlate displayPlate brand model status type capacity');
 
       return updatedDriver;
