@@ -99,9 +99,6 @@ class TrackingService {
 
     const alertState = this._getAlertState(deviceId);
 
-    // ── Offline reconnect: check gap BEFORE updating lastSeen ──────────────
-    // If lastSeen was stale the device was offline — fire once on reconnect.
-    // The watchdog job handles the "still offline, no ping arriving" path.
     if (device.lastSeen) {
       const gapMs      = Date.now() - new Date(device.lastSeen).getTime();
       const wasOffline = gapMs > OFFLINE_THRESHOLD_MS;
@@ -117,21 +114,14 @@ class TrackingService {
         console.log(`📡 Device ${deviceId} back online after ${Math.round(gapMs / 60000)} min`);
       }
 
-      if (!wasOffline) {
-        alertState.offlineSent = false;
-      }
+      if (!wasOffline) alertState.offlineSent = false;
     }
 
-    // lastSeen update triggers pre('save') → status becomes 'active' automatically ✅
-    device.lastSeen = new Date();
-
-    // ── Persist latest telemetry ───────────────────────────────────────────
     device.lastSeen = new Date();
     if (batteryLevel !== undefined) device.batteryLevel = batteryLevel;
     if (temperature  !== undefined) device.temperature  = temperature;
     await device.save();
 
-    // ── Low battery: check AFTER saving so DB reflects latest value ────────
     if (batteryLevel !== undefined) {
       if (batteryLevel < BATTERY_LOW_PCT && !alertState.lowBatterySent) {
         alertState.lowBatterySent = true;
@@ -142,13 +132,9 @@ class TrackingService {
         }, io);
         console.log(`🔋 Device ${deviceId} low battery: ${batteryLevel}%`);
       }
-
-      if (batteryLevel >= BATTERY_LOW_PCT) {
-        alertState.lowBatterySent = false; // battery recovered — allow next alert
-      }
+      if (batteryLevel >= BATTERY_LOW_PCT) alertState.lowBatterySent = false;
     }
 
-    // ── Resolve truck ──────────────────────────────────────────────────────
     if (!device.truck) {
       console.log(`⚠️ No truck assigned to device: ${deviceId}`);
       return {};
@@ -163,13 +149,17 @@ class TrackingService {
     return { device, truck };
   }
 
+
   // ─── Step 2: Active mission + trip ────────────────────────────────────────
 
   async _getActiveMissionAndTrip(truckId) {
     const activeMission = await Mission.findOne({
       truck:  truckId,
       status: { $in: ['not_started', 'in_progress'] }
-    }).populate('shipment');
+    }).populate({
+      path:   'shipment',
+      select: 'shipmentId origin destination destinationCoordinates assignedTo actualDepartureDate'
+    }); // select assignedTo so no extra fetch needed later
 
     let activeTrip = null;
     if (activeMission) {
@@ -181,7 +171,6 @@ class TrackingService {
 
     return { activeMission, activeTrip };
   }
-
   // ─── Step 3: Persist location ─────────────────────────────────────────────
 
   async _updateLocation({
@@ -252,9 +241,7 @@ class TrackingService {
       });
     }
 
-    // ✅ Get the assigned manager from the shipment
-    const shipment = await Shipment.findById(mission.shipment._id).select('assignedTo');
-    const managerId = shipment?.assignedTo?.toString() || null;
+    const managerId = mission.shipment?.assignedTo?.toString() || null;
 
     await notificationService.createNotification('mission_started', {
       shipmentNumber: mission.shipment?.shipmentId,
@@ -262,7 +249,7 @@ class TrackingService {
       destination:    mission.shipment?.destination,
       truckPlate:     truck.licensePlate,
       missionNumber:  mission.missionNumber,
-      managerId,      // ← pass the specific manager
+      managerId,
     }, io);
 
     console.log(`🚛 Mission ${mission.missionNumber} started for truck ${truck.licensePlate}`);
@@ -292,7 +279,8 @@ class TrackingService {
       actualDeliveryDate: new Date()
     });
 
-    // Persist to DB (bell icon) + emit to dashboard rooms
+    const managerId = mission.shipment?.assignedTo?.toString() || null;
+
     await notificationService.createNotification('mission_completed', {
       shipmentNumber: mission.shipment?.shipmentId,
       origin:         mission.shipment?.origin,
@@ -300,13 +288,12 @@ class TrackingService {
       truckPlate:     truck.licensePlate,
       missionNumber:  mission.missionNumber,
       distance:       mission.totalDistance,
-      managerId, 
+      managerId,      // ✅ now correctly in scope
     }, io);
 
     console.log(`✅ Mission ${mission.missionNumber} completed for truck ${truck.licensePlate}`);
     this._emitMissionEvent(io, 'mission_completed', mission, truck);
   }
-
   // ─── Step 5: Real-time emit ───────────────────────────────────────────────
 
   _emitMissionEvent(io, event, mission, truck) {

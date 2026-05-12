@@ -46,7 +46,6 @@ class DeviceController {
   registerDevice = catchAsync(async (req, res) => {
     const { deviceId, firmwareVersion, truckId } = req.body;
 
-    // Check if device already exists
     const existing = await Device.findOne({ deviceId });
     if (existing) {
       return res.status(409).json({
@@ -54,11 +53,20 @@ class DeviceController {
         message: `Device "${deviceId}" is already registered`
       });
     }
+
     const device = await Device.create({ 
       deviceId, 
       firmwareVersion, 
-      truckId: truckId || undefined  
+      truck: truckId || null
     });
+
+    // Keep the Truck side of the relationship in sync
+    if (truckId) {
+      await Truck.findByIdAndUpdate(truckId, {
+        $addToSet: { devices: device._id }
+      });
+    }
+
     res.status(201).json({ success: true, data: device });
   });
 
