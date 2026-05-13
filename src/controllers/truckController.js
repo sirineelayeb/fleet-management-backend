@@ -11,8 +11,7 @@ class TruckController {
 
     const filters = {};
 
-    // ✅ Filter archived trucks unless explicitly requested
-    filters.isArchived = archived === 'true';
+    filters.isArchived = archived === 'true' ? true : { $ne: true };
 
     if (status) filters.status = status;
     if (search) {
