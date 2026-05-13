@@ -38,6 +38,8 @@ router
   .get(driverController.getDriver)
   .put(restrictTo('admin'), driverController.updateDriver)
   .delete(restrictTo('admin'), driverController.deleteDriver);
+router.patch('/:id/archive', restrictTo('admin'), driverController.archiveDriver);
+router.patch('/:id/unarchive', restrictTo('admin'), driverController.unarchiveDriver);
 
 // ============================================================
 // PHOTO ROUTES

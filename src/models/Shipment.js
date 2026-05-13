@@ -39,6 +39,8 @@ const shipmentSchema = new mongoose.Schema({
   loadingZone: { type: mongoose.Schema.Types.ObjectId, ref: 'LoadingZone',  default: null },
 
   isPriority: { type: Boolean, default: false },
+  isArchived: { type: Boolean, default: false },
+  archivedAt: { type: Date, default: null },
 
   plannedDepartureDate: { type: Date, required: true },
   plannedDeliveryDate: {
@@ -81,6 +83,7 @@ shipmentSchema.index({ assignedTo: 1 });
 shipmentSchema.index({ shipmentType: 1 });
 shipmentSchema.index({ plannedDepartureDate: 1 });
 shipmentSchema.index({ createdAt: -1 });
+shipmentSchema.index({ isArchived: 1 });
 shipmentSchema.index({ plannedDeliveryDate: 1, status: 1 });
 
 module.exports = mongoose.model('Shipment', shipmentSchema);

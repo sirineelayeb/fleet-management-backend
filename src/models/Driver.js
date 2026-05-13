@@ -81,6 +81,7 @@ const driverSchema = new mongoose.Schema(
     // ── Employment ───────────────────────────
     hireDate: { type: Date, default: Date.now },
     isActive:  { type: Boolean, default: true },
+    isArchived: { type: Boolean, default: false },
 
     // ── Relations ────────────────────────────
     assignedTruck: {
@@ -89,6 +90,7 @@ const driverSchema = new mongoose.Schema(
       default: null,
     },
   },
+  
   { timestamps: true }
 );
 

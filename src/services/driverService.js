@@ -12,10 +12,14 @@ const cloudinary = require('cloudinary').v2;
 class DriverService {
 
   // ── Read ──────────────────────────────────────────────────────────────────
-  
-  async getAllDrivers({ status, search, limit = 10, page = 1 }) {
+  async getAllDrivers({ status, search, limit = 10, page = 1, archived }) {   // ← add archived
     const filters = {};
-    
+
+    // Apply archive filter (use isActive field)
+    if (archived !== undefined) {
+      filters.isActive = archived === 'false';   // note the inversion
+    }
+
     if (status) filters.status = status;
     if (search) {
       filters.$or = [
@@ -26,17 +30,17 @@ class DriverService {
         { licenseNumber: { $regex: search, $options: 'i' } }
       ];
     }
-    
+
     const skip = (page - 1) * limit;
     const total = await Driver.countDocuments(filters);
     const pages = Math.ceil(total / limit);
-    
+
     const drivers = await Driver.find(filters)
       .populate('assignedTruck', 'licensePlate brand model')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit));
-    
+
     return {
       drivers,
       total,
@@ -223,6 +227,28 @@ class DriverService {
       throw error;
     }
   }
+
+  // Archive driver (soft delete)
+async archiveDriver(id) {
+  const driver = await Driver.findById(id);
+  if (!driver) throw new AppError('Driver not found', 404);
+  if (!driver.isActive) throw new AppError('Driver is already archived', 400);
+
+  driver.isActive = false;
+  await driver.save();
+  return driver;
+}
+
+// Unarchive driver (restore)
+async unarchiveDriver(id) {
+  const driver = await Driver.findById(id);
+  if (!driver) throw new AppError('Driver not found', 404);
+  if (driver.isActive) throw new AppError('Driver is already active', 400);
+
+  driver.isActive = true;
+  await driver.save();
+  return driver;
+}
 
   async deleteDriver(id) {
     try {

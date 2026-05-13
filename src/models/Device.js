@@ -19,6 +19,7 @@ const deviceSchema = new mongoose.Schema({
   isArchived: { type: Boolean, default: false },
   archivedAt: { type: Date, default: null }
 }, { timestamps: true });
+
 deviceSchema.index({ deviceId: 1 });
 deviceSchema.index({ truck: 1 });
 deviceSchema.index({ status: 1 });

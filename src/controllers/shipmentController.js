@@ -40,10 +40,18 @@ class ShipmentController {
   // ============================================================
 
   getAllShipments = catchAsync(async (req, res) => {
-    const { status, customer, page = 1, limit = 50 } = req.query;
+    const { status, customer, page = 1, limit = 50, archived } = req.query;   // <-- add archived
     const filter = {};
-    if (status)   filter.status   = status;
+    if (status)   filter.status = status;
     if (customer) filter.customer = customer;
+
+    // Apply archive filter
+    if (archived !== undefined) {
+      filter.isArchived = archived === 'true';
+    } else {
+      // By default, hide archived shipments (show only active ones)
+      filter.isArchived = { $ne: true };
+    }
 
     const query = this._buildBaseQuery(req.user, filter);
     const skip  = (parseInt(page) - 1) * parseInt(limit);
@@ -144,6 +152,24 @@ class ShipmentController {
       message: 'Shipment updated successfully',
       data: updatedShipment
     });
+  });
+
+  // PATCH /api/shipments/:id/archive
+  archiveShipment = catchAsync(async (req, res) => {
+    if (req.user.role !== 'admin') {
+      throw new AppError('Only admins can archive shipments', 403);
+    }
+    const shipment = await shipmentService.archiveShipment(req.params.id);
+    res.status(200).json({ success: true, message: 'Shipment archived', data: shipment });
+  });
+
+  // PATCH /api/shipments/:id/unarchive
+  unarchiveShipment = catchAsync(async (req, res) => {
+    if (req.user.role !== 'admin') {
+      throw new AppError('Only admins can unarchive shipments', 403);
+    }
+    const shipment = await shipmentService.unarchiveShipment(req.params.id);
+    res.status(200).json({ success: true, message: 'Shipment restored', data: shipment });
   });
 
   deleteShipment = catchAsync(async (req, res) => {

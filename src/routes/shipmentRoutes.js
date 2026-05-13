@@ -85,7 +85,10 @@ router.put('/:id/cancel',
 router.route('/')
   .get(shipmentController.getAllShipments)
   .post(restrictTo('shipment_manager', 'admin'), shipmentController.createShipment);
-
+  // Archive / Unarchive (soft delete)
+  router.patch('/:id/archive', restrictTo('admin'), shipmentController.archiveShipment);
+  router.patch('/:id/unarchive', restrictTo('admin'), shipmentController.unarchiveShipment);
+  
 // ============================================================
 // DYNAMIC ROUTES (with :id parameter) - MUST BE LAST
 // ============================================================

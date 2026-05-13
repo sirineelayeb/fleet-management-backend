@@ -286,6 +286,30 @@ class ShipmentService {
       mission
     };
   }
+  async archiveShipment(id) {
+    const shipment = await Shipment.findById(id);
+    if (!shipment) throw new AppError('Shipment not found', 404);
+    if (shipment.isArchived) throw new AppError('Shipment is already archived', 400);
+    if (shipment.status !== 'completed' && shipment.status !== 'cancelled') {
+      throw new AppError('Only completed or cancelled shipments can be archived', 400);
+    }
+
+    shipment.isArchived = true;
+    shipment.archivedAt = new Date();
+    await shipment.save();
+    return shipment;
+  }
+
+  async unarchiveShipment(id) {
+    const shipment = await Shipment.findById(id);
+    if (!shipment) throw new AppError('Shipment not found', 404);
+    if (!shipment.isArchived) throw new AppError('Shipment is not archived', 400);
+
+    shipment.isArchived = false;
+    shipment.archivedAt = null;
+    await shipment.save();
+    return shipment;
+  }
 
   // ─── Validation ───────────────────────────────────────────────────────────
 

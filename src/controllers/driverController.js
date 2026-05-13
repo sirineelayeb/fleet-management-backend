@@ -7,13 +7,14 @@ class DriverController {
 
   // GET /drivers
   getAllDrivers = catchAsync(async (req, res) => {
-    const { status, search, limit = 10, page = 1 } = req.query;
-    
+    const { status, search, limit = 10, page = 1, archived } = req.query;   
+
     const result = await driverService.getAllDrivers({
       status,
       search,
       limit: parseInt(limit),
-      page: parseInt(page)
+      page: parseInt(page),
+      archived 
     });
 
     res.status(200).json({
@@ -26,6 +27,18 @@ class DriverController {
         limit: result.limit
       }
     });
+  });
+
+  // PATCH /drivers/:id/archive
+  archiveDriver = catchAsync(async (req, res) => {
+    const driver = await driverService.archiveDriver(req.params.id);
+    res.status(200).json({ success: true, message: 'Driver archived successfully', data: driver });
+  });
+
+  // PATCH /drivers/:id/unarchive
+  unarchiveDriver = catchAsync(async (req, res) => {
+    const driver = await driverService.unarchiveDriver(req.params.id);
+    res.status(200).json({ success: true, message: 'Driver restored successfully', data: driver });
   });
 
   // GET /drivers/available
