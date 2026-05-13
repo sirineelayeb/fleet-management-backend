@@ -93,6 +93,19 @@ class TruckController {
     res.status(200).json({ success: true, message: 'Truck archived successfully' });
   });
 
+  // PATCH /api/trucks/:id/unarchive
+  unarchiveTruck = catchAsync(async (req, res) => {
+    const truck = await Truck.findById(req.params.id);
+    if (!truck) throw new AppError('Truck not found', 404);
+    if (!truck.isArchived) throw new AppError('Truck is not archived', 400);
+
+    truck.isArchived = false;
+    truck.archivedAt = null;
+    truck.status = 'available';
+    await truck.save();
+
+    res.status(200).json({ success: true, message: 'Truck restored successfully' });
+  });
 
   getDriverAssignmentHistory = catchAsync(async (req, res) => {
   const { id } = req.params;

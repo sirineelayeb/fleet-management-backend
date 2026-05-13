@@ -25,6 +25,7 @@ router.post('/:id/assign-device', restrictTo('shipment_manager', 'admin'), truck
 router.delete('/:id/unassign-device/:deviceId', restrictTo('shipment_manager', 'admin'), truckController.unassignDevice);
 router.get('/:id/driver-history', protect, truckController.getDriverAssignmentHistory);
 router.patch('/:id/archive', restrictTo('admin'), truckController.archiveTruck);
+router.patch('/:id/unarchive', restrictTo('admin'), truckController.unarchiveTruck);
 
 // Dynamic routes (with :id) - MUST BE LAST
 router.get('/:id', truckController.getTruck);
