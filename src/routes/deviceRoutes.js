@@ -23,6 +23,8 @@ router.get('/:id', restrictTo('admin'), deviceController.getDevice);
 router.post('/register', restrictTo('admin'), deviceController.registerDevice);
 
 router.put('/:id', restrictTo('admin'), deviceController.updateDevice);
+router.patch('/:id/archive', restrictTo('admin'), deviceController.archiveDevice);
+router.patch('/:id/unarchive', restrictTo('admin'), deviceController.unarchiveDevice);
 router.delete('/:id', restrictTo('admin'), deviceController.deleteDevice);
 
 // 🚛 Truck assignment

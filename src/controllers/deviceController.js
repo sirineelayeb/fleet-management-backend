@@ -14,9 +14,15 @@ class DeviceController {
   });
 
   getAllDevices = catchAsync(async (req, res) => {
-    const { page = 1, limit = 10, status, search } = req.query;
+    const { page = 1, limit = 10, status, search, archived } = req.query;
 
     const filter = {};
+
+    // Only apply archived filter if the parameter is provided
+    if (archived !== undefined) {
+      filter.isArchived = archived === 'true';
+    }
+    // If archived is not provided, show all devices (both active and archived)
 
     if (status) {
       filter.status = status;
@@ -81,6 +87,30 @@ class DeviceController {
     const device = await Device.findByIdAndDelete(req.params.id);
     if (!device) throw new AppError('Device not found', 404);
     res.json({ success: true });
+  });
+  // PATCH /api/devices/:id/archive
+  archiveDevice = catchAsync(async (req, res) => {
+    const device = await Device.findById(req.params.id);
+    if (!device) throw new AppError('Device not found', 404);
+    if (device.isArchived) throw new AppError('Device is already archived', 400);
+
+    device.isArchived = true;
+    device.archivedAt = new Date();
+    await device.save();
+
+    res.status(200).json({ success: true, message: 'Device archived successfully' });
+  });
+  // PATCH /api/devices/:id/unarchive
+  unarchiveDevice = catchAsync(async (req, res) => {
+    const device = await Device.findById(req.params.id);
+    if (!device) throw new AppError('Device not found', 404);
+    if (!device.isArchived) throw new AppError('Device is not archived', 400);
+
+    device.isArchived = false;
+    device.archivedAt = null;
+    await device.save();
+
+    res.status(200).json({ success: true, message: 'Device restored successfully' });
   });
 
   assignToTruck = catchAsync(async (req, res) => {
