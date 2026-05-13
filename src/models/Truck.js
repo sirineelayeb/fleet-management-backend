@@ -39,7 +39,9 @@ const truckSchema = new mongoose.Schema({
   speedLimit: { type: Number, default: 90, min: 0, max: 150 },
   lastSpeedUpdate: { type: Date, default: Date.now },
   lastTelemetryAt: { type: Date },
-  vin: String
+  vin: String,
+  isArchived: { type: Boolean, default: false },
+  archivedAt: { type: Date, default: null }
 }, { timestamps: true });
 
 // Pre-save middleware

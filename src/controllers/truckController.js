@@ -7,9 +7,13 @@ const AppError = require('../utils/AppError');
 class TruckController {
   // GET /api/trucks
   getAllTrucks = catchAsync(async (req, res) => {
-    const { status, search, page = 1, limit = 10 } = req.query;
+    const { status, search, page = 1, limit = 10, archived = false } = req.query;
 
     const filters = {};
+
+    // ✅ Filter archived trucks unless explicitly requested
+    filters.isArchived = archived === 'true';
+
     if (status) filters.status = status;
     if (search) {
       filters.$or = [
@@ -76,6 +80,20 @@ class TruckController {
     await TruckService.delete(req.params.id);
     res.status(200).json({ success: true, message: 'Truck deleted successfully' });
   });
+  // PATCH /api/trucks/:id/archive
+  archiveTruck = catchAsync(async (req, res) => {
+    const truck = await Truck.findById(req.params.id);
+    if (!truck) throw new AppError('Truck not found', 404);
+    if (truck.isArchived) throw new AppError('Truck is already archived', 400);
+
+    truck.isArchived = true;
+    truck.archivedAt = new Date();
+    truck.status = 'inactive';
+    await truck.save();
+
+    res.status(200).json({ success: true, message: 'Truck archived successfully' });
+  });
+
 
   getDriverAssignmentHistory = catchAsync(async (req, res) => {
   const { id } = req.params;

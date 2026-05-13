@@ -30,5 +30,5 @@ router.get('/:id/driver-history', protect, truckController.getDriverAssignmentHi
 router.get('/:id', truckController.getTruck);
 router.put('/:id', restrictTo('admin'), truckController.updateTruck);
 router.delete('/:id', restrictTo('admin'), truckController.deleteTruck);
-
+router.patch('/:id/archive', TruckController.archiveTruck);
 module.exports = router;
