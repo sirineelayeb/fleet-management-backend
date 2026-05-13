@@ -24,11 +24,10 @@ router.delete('/:id/unassign-driver', restrictTo('shipment_manager', 'admin'), t
 router.post('/:id/assign-device', restrictTo('shipment_manager', 'admin'), truckController.assignDevice);
 router.delete('/:id/unassign-device/:deviceId', restrictTo('shipment_manager', 'admin'), truckController.unassignDevice);
 router.get('/:id/driver-history', protect, truckController.getDriverAssignmentHistory);
-
+router.patch('/:id/archive', restrictTo('admin'), truckController.archiveTruck);
 
 // Dynamic routes (with :id) - MUST BE LAST
 router.get('/:id', truckController.getTruck);
 router.put('/:id', restrictTo('admin'), truckController.updateTruck);
 router.delete('/:id', restrictTo('admin'), truckController.deleteTruck);
-router.patch('/:id/archive', TruckController.archiveTruck);
 module.exports = router;
