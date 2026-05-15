@@ -11,8 +11,6 @@ class MQTTService {
     this.io = io;
 
     const brokerUrl = process.env.MQTT_BROKER_URL;
-    const username = process.env.MQTT_USER;
-    const password = process.env.MQTT_PASS;
 
     if (!brokerUrl) {
       console.log('⚠️ MQTT not configured, skipping...');
@@ -21,9 +19,9 @@ class MQTTService {
 
     console.log('🔌 Connecting to MQTT broker...');
     console.log(`📡 Broker: ${brokerUrl}`);
-    console.log(`📡 Username: ${username}`);
 
-    const mqttClient = mqtt.connect(
+    // ✅ FIX: assign to this.client (NOT local variable)
+    this.client = mqtt.connect(
       'mqtt://broker.hivemq.com:1883',
       {
         reconnectPeriod: 5000,
@@ -32,10 +30,12 @@ class MQTTService {
       }
     );
 
+    // ─────────────────────────────
+    // CONNECT EVENT
+    // ─────────────────────────────
     this.client.on('connect', () => {
       console.log('✅ MQTT Connected successfully');
-      
-      // Subscribe to the topic pattern
+
       this.client.subscribe('fleet/+/gps', { qos: 1 }, (err) => {
         if (err) {
           console.error('❌ Subscription failed:', err);
@@ -45,44 +45,45 @@ class MQTTService {
       });
     });
 
+    // ─────────────────────────────
+    // MESSAGE EVENT
+    // ─────────────────────────────
     this.client.on('message', async (topic, message) => {
-      console.log(`📨 MQTT Message received on topic: ${topic}`);
-      
       try {
+        console.log(`📨 MQTT topic: ${topic}`);
+
         const messageStr = message.toString();
-        console.log(`📨 Raw message: ${messageStr}`);
-        
         const data = JSON.parse(messageStr);
-        
-        // Extract deviceId from topic (format: fleet/DEVICE_ID/gps)
-        const topicParts = topic.split('/');
+
+        // Extract deviceId from topic
+        const parts = topic.split('/');
         let deviceId = null;
-        
-        if (topicParts.length === 3 && topicParts[0] === 'fleet' && topicParts[2] === 'gps') {
-          deviceId = topicParts[1];
+
+        if (parts.length === 3 && parts[0] === 'fleet' && parts[2] === 'gps') {
+          deviceId = parts[1];
         }
-        
-        // Also check if deviceId is in the message
+
         if (!deviceId && data.deviceId) {
           deviceId = data.deviceId;
         }
-        
+
         if (!deviceId) {
-          console.log('⚠️ No deviceId found in topic or message');
+          console.log('⚠️ Missing deviceId');
           return;
         }
-        
-        if (!data.location || typeof data.location.lat !== 'number' || typeof data.location.lng !== 'number') {
-          console.log('⚠️ Invalid location data');
+
+        if (!data.location?.lat || !data.location?.lng) {
+          console.log('⚠️ Invalid GPS data');
           return;
         }
-        
-        console.log(`📡 Processing GPS for device: ${deviceId}, speed: ${data.speed || 0}km/h`);
-        
-        // Process the tracking data
+
+        console.log(
+          `📡 Device: ${deviceId} | Speed: ${data.speed || 0}`
+        );
+
         await trackingService.processTracking(
           {
-            deviceId: deviceId,
+            deviceId,
             location: data.location,
             speed: data.speed || 0,
             heading: data.heading || 0,
@@ -93,14 +94,17 @@ class MQTTService {
           this.io,
           'mqtt'
         );
-        
+
       } catch (err) {
-        console.error('❌ Error processing MQTT message:', err);
+        console.error('❌ MQTT message error:', err.message);
       }
     });
 
-    this.client.on('error', (error) => {
-      console.error('❌ MQTT error:', error);
+    // ─────────────────────────────
+    // ERROR HANDLING
+    // ─────────────────────────────
+    this.client.on('error', (err) => {
+      console.error('❌ MQTT error:', err.message);
     });
 
     this.client.on('reconnect', () => {
@@ -110,12 +114,17 @@ class MQTTService {
     this.client.on('offline', () => {
       console.log('🔌 MQTT offline');
     });
+
+    this.client.on('close', () => {
+      console.log('🔴 MQTT connection closed');
+    });
   }
 
   stop() {
     if (this.client) {
       this.client.end();
-      console.log('MQTT service stopped');
+      this.client = null;
+      console.log('🛑 MQTT service stopped');
     }
   }
 }
