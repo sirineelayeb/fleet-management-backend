@@ -23,15 +23,14 @@ class MQTTService {
     console.log(`📡 Broker: ${brokerUrl}`);
     console.log(`📡 Username: ${username}`);
 
-    this.client = mqtt.connect(brokerUrl, {
-      username: username,
-      password: password,
-      protocol: 'mqtts',
-      rejectUnauthorized: false,
-      keepalive: 60,
-      reconnectPeriod: 5000,
-      connectTimeout: 10000
-    });
+    const mqttClient = mqtt.connect(
+      'mqtt://broker.hivemq.com:1883',
+      {
+        reconnectPeriod: 5000,
+        connectTimeout: 30000,
+        clean: true
+      }
+    );
 
     this.client.on('connect', () => {
       console.log('✅ MQTT Connected successfully');
