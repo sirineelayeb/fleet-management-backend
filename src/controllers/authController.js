@@ -248,12 +248,12 @@ exports.forgotPassword = async (req, res) => {
     await user.save({ validateBeforeSave: false });
     
     // Create reset URL
-    const resetURL = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password/${resetToken}`;
+    const resetURL = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
     console.log('=================================');
-    console.log(`🔐 PASSWORD RESET REQUESTED`);
-    console.log(`📧 Email: ${user.email}`);
-    console.log(`🔗 Reset link: ${resetURL}`);
-    console.log(`⏰ Expires: ${new Date(resetTokenExpiry).toLocaleString()}`);
+    console.log(`PASSWORD RESET REQUESTED`);
+    console.log(`Email: ${user.email}`);
+    console.log(`Reset link: ${resetURL}`);
+    console.log(`Expires: ${new Date(resetTokenExpiry).toLocaleString()}`);
     console.log('=================================');
     // Send email
     try {
