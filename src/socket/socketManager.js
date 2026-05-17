@@ -1,4 +1,3 @@
-// backend/src/socket/socketManager.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
@@ -36,35 +35,35 @@ const initSocket = (server) => {
       socket.user = user;
       next();
     } catch (err) {
-      console.log("❌ Auth error:", err.message);
+      console.log("Auth error:", err.message);
       next(new Error("Auth error"));
     }
   });
 
   io.on("connection", (socket) => {
-    console.log("🟢 SOCKET CONNECTED:", socket.id);
-    console.log("👤 User:", socket.user?.name);
-    console.log("👤 Role:", socket.user?.role);
-    console.log("👤 User ID:", socket.user?._id?.toString());
+    console.log("SOCKET CONNECTED:", socket.id);
+    console.log("User:", socket.user?.name);
+    console.log("Role:", socket.user?.role);
+    console.log("User ID:", socket.user?._id?.toString());
 
     // Join user-specific room
     const userRoom = `user_${socket.user._id.toString()}`;
     socket.join(userRoom);
-    console.log(`✅ Joined room: ${userRoom}`);
+    console.log(`Joined room: ${userRoom}`);
 
     // Join role-specific room
     const roleRoom = socket.user.role;
     socket.join(roleRoom);
-    console.log(`✅ Joined role room: ${roleRoom}`);
+    console.log(`Joined role room: ${roleRoom}`);
 
     // For shipment managers, also join a specific room
     if (socket.user.role === 'shipment_manager') {
       socket.join('shipment_manager');
-      console.log(`✅ Joined room: shipment_manager`);
+      console.log(`Joined room: shipment_manager`);
     }
 
     // Log all rooms this socket is in
-    console.log(`📡 Socket in rooms:`, Array.from(socket.rooms));
+    console.log(`Socket in rooms:`, Array.from(socket.rooms));
 
     // Send confirmation back to client
     socket.emit('connection_confirmed', {
@@ -73,14 +72,13 @@ const initSocket = (server) => {
       rooms: Array.from(socket.rooms)
     });
 
-    // ✅ Handle join event from client (for reconnection scenarios)
     socket.on('join', ({ userId, role }) => {
       const joinUserRoom = `user_${userId}`;
       socket.join(joinUserRoom);
-      console.log(`✅ Client requested join room: ${joinUserRoom}`);
+      console.log(`Client requested join room: ${joinUserRoom}`);
       
       socket.join(role);
-      console.log(`✅ Client requested join role room: ${role}`);
+      console.log(`Client requested join role room: ${role}`);
       
       socket.emit('joined_rooms', {
         rooms: Array.from(socket.rooms),
@@ -89,14 +87,13 @@ const initSocket = (server) => {
       });
     });
 
-    // ✅ Handle join room event
     socket.on('joinRoom', (room) => {
       socket.join(room);
-      console.log(`✅ Client joined room: ${room}`);
+      console.log(`Client joined room: ${room}`);
     });
 
     socket.on("disconnect", () => {
-      console.log("🔴 SOCKET DISCONNECTED:", socket.id);
+      console.log("SOCKET DISCONNECTED:", socket.id);
     });
   });
 
@@ -105,9 +102,9 @@ const initSocket = (server) => {
 const logRoomMembers = (io, roomName) => {
   const room = io.sockets.adapter.rooms.get(roomName);
   if (room) {
-    console.log(`📊 Room "${roomName}" has ${room.size} members:`, Array.from(room));
+    console.log(`Room "${roomName}" has ${room.size} members:`, Array.from(room));
   } else {
-    console.log(`📊 Room "${roomName}" is empty`);
+    console.log(`Room "${roomName}" is empty`);
   }
 };
 

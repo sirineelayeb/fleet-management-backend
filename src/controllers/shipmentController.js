@@ -182,7 +182,6 @@ class ShipmentController {
     const mission = await Mission.findOne({ shipment: shipment._id });
 
     if (mission) {
-      // FIX 2: use shared freeResources instead of inline duplication
       await shipmentService.freeResources(mission);
       await TripHistory.deleteMany({ mission: mission._id });
       await mission.deleteOne();
@@ -236,7 +235,6 @@ class ShipmentController {
       throw new AppError('Shipment is not in assigned status', 400);
     }
 
-    // FIX 2: cancelActiveMission handles freeResources + trip cancellation
     await shipmentService.cancelActiveMission(id, 'unassigned by user');
 
     shipment.truck   = null;
@@ -276,7 +274,6 @@ class ShipmentController {
   });
 
   // ============================================================
-  // FIX 4: Force-complete endpoint (admin only)
   // POST /api/shipments/:id/force-complete
   // ============================================================
 
@@ -475,7 +472,6 @@ class ShipmentController {
       throw new AppError('Shipment is already cancelled', 400);
     }
 
-    // FIX 2: cancelActiveMission handles freeResources + trip
     await shipmentService.cancelActiveMission(id, reason || 'Cancelled by user');
 
     shipment.status = 'cancelled';

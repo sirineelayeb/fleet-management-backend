@@ -1,27 +1,27 @@
-# 🚛 Smart Fleet Management — Backend API
+# Smart Fleet Management — Backend API
 
 A RESTful Node.js backend powering a smart fleet management platform for Tunisian truck fleets. Handles real-time GPS tracking, license plate recognition events, driver performance scoring, shipment management, and IoT device telemetry.
 
-> 🎓 PFE Internship Project — Syrine Elayeb
+PFE Internship Project — Syrine Elayeb
 
 ---
 
-## ✨ Features
+## Features
 
-- 🗺️ **Real-time GPS tracking** — live truck positions cached in Redis, pushed via Socket.io
-- 📷 **LPR event logging** — receives plate detection events from the LPR microservice
-- 👨‍✈️ **Driver management** — profiles, photo uploads, assignments, performance scoring
-- 🚚 **Truck & device management** — IoT device registration, truck assignment
-- 📦 **Shipment tracking** — full shipment lifecycle management
-- 🔔 **Real-time notifications** — Socket.io powered alerts
-- 📊 **Performance analytics** — driver score logs and reports
-- 🔐 **Role-based access control** — admin and user roles with JWT auth
-- 🌍 **Loading zone management** — geo-fenced zone monitoring
-- ⏱️ **Device watchdog** — cron job marks devices inactive on missed heartbeat
+- Real-time GPS tracking — live truck positions cached in Redis, pushed via Socket.io
+- LPR event logging — receives plate detection events from the LPR microservice
+- Driver management — profiles, photo uploads, assignments, performance scoring
+- Truck & device management — IoT device registration, truck assignment
+- Shipment tracking — full shipment lifecycle management
+- Real-time notifications — Socket.io powered alerts
+- Performance analytics — driver score logs and reports
+- Role-based access control — admin and user roles with JWT auth
+- Loading zone management — geo-fenced zone monitoring
+- Device watchdog — cron job marks devices inactive on missed heartbeat
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
 | Technology | Purpose |
 |---|---|
@@ -36,7 +36,7 @@ A RESTful Node.js backend powering a smart fleet management platform for Tunisia
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 backend/
@@ -144,14 +144,14 @@ backend/
 
 ---
 
-## 🔌 API Endpoints
+## API Endpoints
 
 ### Auth `/api/auth`
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| POST | `/login` | ❌ | Login and receive JWT token |
-| POST | `/logout` | ✅ | Logout current session |
-| GET | `/me` | ✅ | Get current user profile |
+| POST | `/login` | No | Login and receive JWT token |
+| POST | `/logout` | Yes | Logout current session |
+| GET | `/me` | Yes | Get current user profile |
 
 ### Users `/api/users`
 | Method | Path | Auth | Description |
@@ -164,7 +164,7 @@ backend/
 ### Trucks `/api/trucks`
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | `/` | ✅ | List all trucks |
+| GET | `/` | Yes | List all trucks |
 | POST | `/` | Admin | Add truck |
 | PUT | `/:id` | Admin | Update truck |
 | DELETE | `/:id` | Admin | Delete truck |
@@ -172,7 +172,7 @@ backend/
 ### Drivers `/api/drivers`
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | `/` | ✅ | List all drivers |
+| GET | `/` | Yes | List all drivers |
 | POST | `/` | Admin | Add driver (with photo upload) |
 | PUT | `/:id` | Admin | Update driver |
 | DELETE | `/:id` | Admin | Delete driver |
@@ -191,8 +191,8 @@ backend/
 ### Tracking `/api/tracking`
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | `/live` | ✅ | Get all live truck positions |
-| GET | `/:truckId` | ✅ | Get location history for a truck |
+| GET | `/live` | Yes | Get all live truck positions |
+| GET | `/:truckId` | Yes | Get location history for a truck |
 
 ### LPR `/api/lpr`
 | Method | Path | Auth | Description |
@@ -203,7 +203,7 @@ backend/
 ### Shipments `/api/shipments`
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | `/` | ✅ | List all shipments |
+| GET | `/` | Yes | List all shipments |
 | POST | `/` | Admin | Create shipment |
 | PUT | `/:id` | Admin | Update shipment |
 | DELETE | `/:id` | Admin | Delete shipment |
@@ -211,8 +211,8 @@ backend/
 ### Trip History `/api/trip-history`
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | `/` | ✅ | List all trips |
-| GET | `/:truckId` | ✅ | Trips for a specific truck |
+| GET | `/` | Yes | List all trips |
+| GET | `/:truckId` | Yes | Trips for a specific truck |
 
 ### Performance `/api/performance`
 | Method | Path | Auth | Description |
@@ -223,27 +223,27 @@ backend/
 ### Notifications `/api/notifications`
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | `/` | ✅ | Get current user notifications |
-| PATCH | `/:id/read` | ✅ | Mark notification as read |
+| GET | `/` | Yes | Get current user notifications |
+| PATCH | `/:id/read` | Yes | Mark notification as read |
 
 ### Loading Zones `/api/loading-zones`
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | `/` | ✅ | List all loading zones |
+| GET | `/` | Yes | List all loading zones |
 | POST | `/` | Admin | Create loading zone |
 | DELETE | `/:id` | Admin | Delete loading zone |
 
 ### Customers `/api/customers`
 | Method | Path | Auth | Description |
 |---|---|---|---|
-| GET | `/` | ✅ | List all customers |
+| GET | `/` | Yes | List all customers |
 | POST | `/` | Admin | Create customer |
 | PUT | `/:id` | Admin | Update customer |
 | DELETE | `/:id` | Admin | Delete customer |
 
 ---
 
-## 🔐 Authentication & Authorization
+## Authentication & Authorization
 
 JWT-based authentication with two roles: `admin` and `user`.
 
@@ -262,7 +262,7 @@ Authorization: Bearer <LPR_API_SECRET>
 
 ---
 
-## ⚡ Real-time Architecture
+## Real-time Architecture
 
 ```
 GPS Device (MQTT or HTTP POST /api/devices/tracking)
@@ -275,7 +275,7 @@ trackingService.js
 
 ---
 
-## 🌱 Environment Variables
+## Environment Variables
 
 Create a `.env` file at the project root:
 
@@ -310,7 +310,7 @@ LPR_API_SECRET=your_lpr_secret_key
 
 ---
 
-## 🚀 Deployment (Render)
+## Deployment (Render)
 
 The backend is deployed on **Render** as a web service.
 
@@ -342,7 +342,7 @@ node src/seeders/adminSeeder.js
 
 ---
 
-## 🔮 Roadmap
+## Roadmap
 
 - [ ] Fuel consumption tracking
 - [ ] Advanced alert rules engine
@@ -351,7 +351,7 @@ node src/seeders/adminSeeder.js
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repo
 2. Create a branch: `git checkout -b feature/your-feature`
@@ -360,12 +360,12 @@ node src/seeders/adminSeeder.js
 
 ---
 
-## 📄 License
+## License
 
 MIT License
 
 ---
 
-## 👩‍💻 Author
+## Author
 
 **Syrine Elayeb** — PFE Internship Project

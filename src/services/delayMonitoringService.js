@@ -14,12 +14,12 @@ class DelayMonitoringService {
     cron.schedule('0 * * * *', () => {
       this.checkDelayedShipments();
     });
-    console.log('✅ Delay monitoring service started (checks every hour)');
+    console.log('Delay monitoring service started (checks every hour)');
   }
   
   async checkDelayedShipments() {
     try {
-      console.log('🔍 Checking for newly delayed shipments...');
+      console.log('Checking for newly delayed shipments...');
       const now = new Date();
       
       // Find shipments that:
@@ -34,11 +34,11 @@ class DelayMonitoringService {
         .populate('assignedTo', 'name email role');
       
       if (delayedShipments.length === 0) {
-        console.log('✅ No newly delayed shipments found');
+        console.log('No newly delayed shipments found');
         return;
       }
       
-      console.log(`📦 Found ${delayedShipments.length} newly delayed shipment(s)`);
+      console.log(`Found ${delayedShipments.length} newly delayed shipment(s)`);
       
       for (const shipment of delayedShipments) {
         // Calculate delay duration
@@ -48,12 +48,11 @@ class DelayMonitoringService {
         const delayHours = Math.floor(delayMinutes / 60);
         const delayDays = Math.floor(delayHours / 24);
         
-        console.log(`⏰ Delay detected: ${shipment.shipmentId}`);
+        console.log(`Delay detected: ${shipment.shipmentId}`);
         console.log(`   Planned: ${plannedDate.toLocaleString()}`);
         console.log(`   Current: ${now.toLocaleString()}`);
         console.log(`   Delay: ${delayDays}d ${delayHours % 24}h ${delayMinutes % 60}m`);
         
-        // ✅ Send notification with io instance
         await notificationService.createNotification('delivery_delayed', {
           shipmentId: shipment._id,
           shipmentNumber: shipment.shipmentId,
@@ -67,19 +66,18 @@ class DelayMonitoringService {
           currentStatus: shipment.status,
           managerId: shipment.assignedTo?._id?.toString(),
           managerName: shipment.assignedTo?.name
-        }, this.io);  // ✅ Pass io here
+        }, this.io);  
         
-        // Mark as notified - this ensures it's sent only ONCE
         shipment.delayNotified = true;
         await shipment.save();
         
-        console.log(`✅ Delay notification sent for ${shipment.shipmentId}`);
+        console.log(`Delay notification sent for ${shipment.shipmentId}`);
       }
       
-      console.log(`📧 Processed ${delayedShipments.length} delay notification(s)`);
+      console.log(`Processed ${delayedShipments.length} delay notification(s)`);
       
     } catch (error) {
-      console.error('❌ Error checking delayed shipments:', error);
+      console.error('Error checking delayed shipments:', error);
     }
   }
   

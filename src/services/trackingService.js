@@ -6,30 +6,24 @@ const TripHistory         = require('../models/TripHistory');
 const Shipment            = require('../models/Shipment');
 const Driver              = require('../models/Driver');
 const TripHistoryService  = require('./tripHistoryService');
-const notificationService = require('./notificationService'); 
+const notificationService = require('./notificationService');
 
-// ─── Thresholds ───────────────────────────────────────────────────────────────
-
+// ─── Thresholds ───────────────────────────────────────────────────────────
 const BATTERY_LOW_PCT      = 20;               // fire device_low_battery below this %
 const OFFLINE_THRESHOLD_MS = 5 * 60 * 1000;   // 5 min without ping = was offline
-
-// ─────────────────────────────────────────────────────────────────────────────
 
 class TrackingService {
   constructor() {
     this._lastProcessed    = new Map(); // deviceId → last write timestamp (ms)
     this._THROTTLE_MS      = 3000;      // min 3s between DB writes per device
 
-    /**
-     * Per-device alert dedup — prevents spamming the same notification
-     * every 3 seconds while the condition persists.
-     * Resets automatically when the condition clears.
-     */
+    // Per‑device alert dedup — prevents spamming same notification
     this._deviceAlertState = new Map(); // deviceId → { lowBatterySent, offlineSent }
   }
 
-  // ─── Public entry point ───────────────────────────────────────────────────
-
+  // ─────────────────────────────────────────────────────────────────────────
+  //  PUBLIC ENTRY POINT
+  // ─────────────────────────────────────────────────────────────────────────
   async processTracking(data, io, source = 'unknown') {
     const {
       deviceId,
@@ -42,18 +36,18 @@ class TrackingService {
     } = data;
 
     if (this._shouldThrottle(deviceId)) {
-      console.log(`⏭️  Throttled: ${deviceId}`);
+      console.log(`⏭️ Throttled: ${deviceId}`);
       return;
     }
 
     try {
-      // Step 1: resolve device + truck, fire device-health notifications
+      // Step 1: resolve device + truck, fire health notifications
       const { device, truck } = await this._resolveDeviceAndTruck(
         deviceId, batteryLevel, temperature, io
       );
       if (!device || !truck) return;
 
-      // Step 2: find active mission + trip
+      // Step 2: find active mission + trip for this truck
       const { activeMission, activeTrip } = await this._getActiveMissionAndTrip(truck._id);
 
       // Step 3: write location to DB + update truck state
@@ -88,40 +82,44 @@ class TrackingService {
     }
   }
 
-  // ─── Step 1: Device resolution + health notifications ────────────────────
-
+  // ─────────────────────────────────────────────────────────────────────────
+  //  STEP 1 – DEVICE + TRUCK RESOLUTION & HEALTH CHECKS
+  // ─────────────────────────────────────────────────────────────────────────
   async _resolveDeviceAndTruck(deviceId, batteryLevel, temperature, io) {
     const device = await Device.findOne({ deviceId });
     if (!device) {
-      console.log(`⚠️ Device not found: ${deviceId}`);
+      console.log(`Device not found: ${deviceId}`);
       return {};
     }
 
     const alertState = this._getAlertState(deviceId);
 
+    // offline detection & reconnection alert
     if (device.lastSeen) {
       const gapMs      = Date.now() - new Date(device.lastSeen).getTime();
       const wasOffline = gapMs > OFFLINE_THRESHOLD_MS;
 
       if (wasOffline && !alertState.offlineSent) {
         alertState.offlineSent = true;
-        await notificationService.createNotification('device_reconnected', {
-          deviceId:   device.deviceId,
-          truckId:    device.truck,
-          lastSeen:   device.lastSeen,
-          gapMinutes: Math.round(gapMs / 60000),
-        }, io);
+        // await notificationService.createNotification('device_reconnected', {
+        //   deviceId:   device.deviceId,
+        //   truckId:    device.truck,
+        //   lastSeen:   device.lastSeen,
+        //   gapMinutes: Math.round(gapMs / 60000),
+        // }, io);
         console.log(`📡 Device ${deviceId} back online after ${Math.round(gapMs / 60000)} min`);
       }
 
       if (!wasOffline) alertState.offlineSent = false;
     }
 
+    // update device metadata
     device.lastSeen = new Date();
     if (batteryLevel !== undefined) device.batteryLevel = batteryLevel;
     if (temperature  !== undefined) device.temperature  = temperature;
     await device.save();
 
+    // low battery alert
     if (batteryLevel !== undefined) {
       if (batteryLevel < BATTERY_LOW_PCT && !alertState.lowBatterySent) {
         alertState.lowBatterySent = true;
@@ -149,9 +147,9 @@ class TrackingService {
     return { device, truck };
   }
 
-
-  // ─── Step 2: Active mission + trip ────────────────────────────────────────
-
+  // ─────────────────────────────────────────────────────────────────────────
+  //  STEP 2 – ACTIVE MISSION & TRIP
+  // ─────────────────────────────────────────────────────────────────────────
   async _getActiveMissionAndTrip(truckId) {
     const activeMission = await Mission.findOne({
       truck:  truckId,
@@ -159,7 +157,7 @@ class TrackingService {
     }).populate({
       path:   'shipment',
       select: 'shipmentId origin destination destinationCoordinates assignedTo actualDepartureDate'
-    }); // select assignedTo so no extra fetch needed later
+    });
 
     let activeTrip = null;
     if (activeMission) {
@@ -171,8 +169,10 @@ class TrackingService {
 
     return { activeMission, activeTrip };
   }
-  // ─── Step 3: Persist location ─────────────────────────────────────────────
 
+  // ─────────────────────────────────────────────────────────────────────────
+  //  STEP 3 – PERSIST LOCATION
+  // ─────────────────────────────────────────────────────────────────────────
   async _updateLocation({
     truck, activeMission, activeTrip,
     location, speed, heading, batteryLevel, temperature, timestamp, source
@@ -198,22 +198,22 @@ class TrackingService {
     return locationRecord;
   }
 
-  // ─── Step 4: Mission state machine ────────────────────────────────────────
-
+  // ─────────────────────────────────────────────────────────────────────────
+  //  STEP 4 – MISSION STATE MACHINE
+  // ─────────────────────────────────────────────────────────────────────────
   async _handleMissionTransitions({ truck, activeMission, activeTrip, location, speed, io }) {
-    // Truck started moving → start mission
+    // Not started → start when truck moves >5 km/h
     if (activeMission.status === 'not_started' && speed > 5) {
       await this._startMission(truck, activeMission, activeTrip, io);
       return;
     }
 
-    // Truck stopped near destination → complete mission
+    // In progress → complete when truck stops near destination
     if (activeMission.status === 'in_progress' && activeMission.shipment) {
       const dest = activeMission.shipment.destinationCoordinates;
 
       if (!dest?.lat) {
-        // No coordinates — auto-complete impossible.
-        // Admin uses force-complete from the dashboard.
+        // No coordinates – cannot auto‑complete
         return;
       }
 
@@ -288,14 +288,16 @@ class TrackingService {
       truckPlate:     truck.licensePlate,
       missionNumber:  mission.missionNumber,
       distance:       mission.totalDistance,
-      managerId,      // ✅ now correctly in scope
+      managerId,
     }, io);
 
     console.log(`✅ Mission ${mission.missionNumber} completed for truck ${truck.licensePlate}`);
     this._emitMissionEvent(io, 'mission_completed', mission, truck);
   }
-  // ─── Step 5: Real-time emit ───────────────────────────────────────────────
 
+  // ─────────────────────────────────────────────────────────────────────────
+  //  STEP 5 – REAL-TIME EMITS
+  // ─────────────────────────────────────────────────────────────────────────
   _emitMissionEvent(io, event, mission, truck) {
     if (!io) return;
     io.to('admin').to('shipment_manager').emit(event, {
@@ -325,17 +327,10 @@ class TrackingService {
       shipmentId:    activeMission?.shipment?.shipmentId
     };
 
-    const adminRoom          = io.sockets.adapter.rooms.get('admin');
-    const shipmentManagerRoom = io.sockets.adapter.rooms.get('shipment_manager');
+    // Broadcast to admin & shipment manager rooms
+    io.to('admin').to('shipment_manager').emit('truck_location', payload);
 
-    if ((adminRoom?.size || 0) > 0 || (shipmentManagerRoom?.size || 0) > 0) {
-      io.to('admin').to('shipment_manager').emit('truck_location', payload);
-      console.log(`✅ Emitted truck_location to admin and shipment_manager rooms`);
-    } else {
-      console.log(`⚠️ No clients in admin or shipment_manager rooms, skipping emit`);
-    }
-
-    // Per-truck room for driver's own view
+    // Per‑truck room for driver's own view
     io.to(`truck_${truck._id}`).emit('gps_update', {
       location:  { lat: location.lat, lng: location.lng },
       speed,
@@ -344,8 +339,9 @@ class TrackingService {
     });
   }
 
-  // ─── Helpers ──────────────────────────────────────────────────────────────
-
+  // ─────────────────────────────────────────────────────────────────────────
+  //  HELPERS
+  // ─────────────────────────────────────────────────────────────────────────
   _getAlertState(deviceId) {
     if (!this._deviceAlertState.has(deviceId)) {
       this._deviceAlertState.set(deviceId, { lowBatterySent: false, offlineSent: false });
@@ -392,8 +388,9 @@ class TrackingService {
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
-  // ─── Query helpers ────────────────────────────────────────────────────────
-
+  // ─────────────────────────────────────────────────────────────────────────
+  //  QUERY HELPERS (used by other parts of the system)
+  // ─────────────────────────────────────────────────────────────────────────
   async getTruckHistory(truckId, limit = 100, startDate = null, endDate = null) {
     const query = { truck: truckId };
     if (startDate || endDate) {

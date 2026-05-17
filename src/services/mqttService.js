@@ -13,14 +13,13 @@ class MQTTService {
     const brokerUrl = process.env.MQTT_BROKER_URL;
 
     if (!brokerUrl) {
-      console.log('⚠️ MQTT not configured, skipping...');
+      console.log('MQTT not configured, skipping...');
       return;
     }
 
-    console.log('🔌 Connecting to MQTT broker...');
-    console.log(`📡 Broker: ${brokerUrl}`);
+    console.log('Connecting to MQTT broker...');
+    console.log(`Broker: ${brokerUrl}`);
 
-    // ✅ FIX: assign to this.client (NOT local variable)
     this.client = mqtt.connect(
       'mqtt://broker.hivemq.com:1883',
       {
@@ -34,13 +33,13 @@ class MQTTService {
     // CONNECT EVENT
     // ─────────────────────────────
     this.client.on('connect', () => {
-      console.log('✅ MQTT Connected successfully');
+      console.log('MQTT Connected successfully');
 
       this.client.subscribe('fleet/+/gps', { qos: 1 }, (err) => {
         if (err) {
-          console.error('❌ Subscription failed:', err);
+          console.error('Subscription failed:', err);
         } else {
-          console.log('📡 Subscribed to fleet/+/gps');
+          console.log('Subscribed to fleet/+/gps');
         }
       });
     });
@@ -50,7 +49,7 @@ class MQTTService {
     // ─────────────────────────────
     this.client.on('message', async (topic, message) => {
       try {
-        console.log(`📨 MQTT topic: ${topic}`);
+        console.log(`MQTT topic: ${topic}`);
 
         const messageStr = message.toString();
         const data = JSON.parse(messageStr);
@@ -68,17 +67,17 @@ class MQTTService {
         }
 
         if (!deviceId) {
-          console.log('⚠️ Missing deviceId');
+          console.log('Missing deviceId');
           return;
         }
 
         if (!data.location?.lat || !data.location?.lng) {
-          console.log('⚠️ Invalid GPS data');
+          console.log('Invalid GPS data');
           return;
         }
 
         console.log(
-          `📡 Device: ${deviceId} | Speed: ${data.speed || 0}`
+          `Device: ${deviceId} | Speed: ${data.speed || 0}`
         );
 
         await trackingService.processTracking(
@@ -96,7 +95,7 @@ class MQTTService {
         );
 
       } catch (err) {
-        console.error('❌ MQTT message error:', err.message);
+        console.error('MQTT message error:', err.message);
       }
     });
 
@@ -104,19 +103,19 @@ class MQTTService {
     // ERROR HANDLING
     // ─────────────────────────────
     this.client.on('error', (err) => {
-      console.error('❌ MQTT error:', err.message);
+      console.error('MQTT error:', err.message);
     });
 
     this.client.on('reconnect', () => {
-      console.log('🔄 MQTT reconnecting...');
+      console.log('MQTT reconnecting...');
     });
 
     this.client.on('offline', () => {
-      console.log('🔌 MQTT offline');
+      console.log('MQTT offline');
     });
 
     this.client.on('close', () => {
-      console.log('🔴 MQTT connection closed');
+      console.log('MQTT connection closed');
     });
   }
 
@@ -124,7 +123,7 @@ class MQTTService {
     if (this.client) {
       this.client.end();
       this.client = null;
-      console.log('🛑 MQTT service stopped');
+      console.log('MQTT service stopped');
     }
   }
 }

@@ -217,7 +217,7 @@ exports.updateMe = async (req, res, next) => {
         name: updatedUser.name,
         email: updatedUser.email,
         role: updatedUser.role,
-        createdAt: updatedUser.createdAt // always correct now
+        createdAt: updatedUser.createdAt 
       },
     });
 

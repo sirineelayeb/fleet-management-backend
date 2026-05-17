@@ -1,4 +1,3 @@
-// backend/src/utils/AppError.js
 class AppError extends Error {
   constructor(message, statusCode) {
     super(message);

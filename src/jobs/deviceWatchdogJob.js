@@ -12,15 +12,28 @@ function startDeviceWatchdog(io) {
 
       // Only devices that are still marked 'active' but haven't pinged recently
       // status won't auto-update to 'inactive' until next save() — so we check lastSeen directly
-      const staleDevices = await Device.find({
-        status:  'active',          // was online
-        lastSeen: { $lt: cutoff },  // but hasn't pinged in > 5 min
-      });
+      const staleDevices = await Device.find(
+      { status: 'active', lastSeen: { $lt: cutoff } },
+      { deviceId: 1, truck: 1, lastSeen: 1 } // projection
+      );
+
+      if (staleDevices.length) {
+        await Device.updateMany(
+          { _id: { $in: staleDevices.map(d => d._id) } },
+          { $set: { status: 'inactive' } }
+        );
+
+        for (const device of staleDevices) {
+          await notificationService.createNotification('device_offline', {
+            deviceId: device.deviceId,
+            truckId:  device.truck,
+            lastSeen: device.lastSeen,
+          }, io);
+        }
+      }
 
       for (const device of staleDevices) {
         // Trigger pre('save') hook → sets status to 'inactive' automatically
-        device.lastSeen = device.lastSeen; // no-op value, but...
-        // ↑ won't mark isModified. Do this instead:
         device.status = 'inactive';        // set directly, skip maintenance devices
         await device.save();
 

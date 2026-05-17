@@ -22,9 +22,6 @@ const sendPasswordResetEmail = async (email, resetURL) => {
     }
   });
   
-  // Make sure the resetURL is correctly formatted
-  console.log('Sending email with reset URL:', resetURL); // Debug log
-  
   const mailOptions = {
     from: `"Fleet Manager" <${process.env.EMAIL_USER}>`,
     to: email,
