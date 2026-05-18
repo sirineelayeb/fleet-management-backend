@@ -40,6 +40,12 @@ function buildConfig(type, data) {
       message: `Truck ${data.licensePlate || 'Unknown'} arrived ${data.minutesLate || 0} minutes late for shipment ${data.shipmentId || 'Unknown'}.`,
       targetRoles: ['admin'],
     },
+    truck_wrong_zone: {
+    severity: 'warning',
+    title: 'Wrong Loading Zone',
+    message: `Truck ${data.licensePlate || 'Unknown'} attempted to access ${data.gateName || 'gate'} but is assigned to a different loading zone (${data.assignedZoneName || 'Unknown'}).`,
+    targetRoles: ['admin'],
+    },
     speed_violation: {
       severity: 'warning',
       title: 'Speed Violation',
@@ -150,6 +156,7 @@ const ADMIN_BROADCAST = new Set([
   'access_denied',
   'unknown_truck_detected',
   'truck_entry_late',
+  'truck_wrong_zone',
   'speed_violation',
   'maintenance_required',
   'driver_score_changed',

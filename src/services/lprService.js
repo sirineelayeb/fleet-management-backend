@@ -3,6 +3,7 @@ const Truck = require('../models/Truck');
 const Shipment = require('../models/Shipment');
 const AppError = require('../utils/AppError');
 const notificationService = require('./notificationService');
+const LoadingZone = require('../models/LoadingZone'); 
 
 class LprService {
 
@@ -37,6 +38,7 @@ class LprService {
       // 2 — Find active shipment for this truck
       matchedShipment = await Shipment.findOne({
         truck: truck._id,
+        loadingZone: loadingZone, // Match the camera's loading zone
         status: { $in: ['pending', 'assigned', 'in_progress'] }
       }).sort({ plannedDepartureDate: 1 });
 
@@ -128,7 +130,7 @@ class LprService {
 
   async _notifyDetection({ io, normalized, direction, cameraId, truck, matchedShipment, isAuthorized, entryStatus, now }) {
     try {
-      // Unknown truck
+      // Unknown truck — plate not registered at all
       if (!truck) {
         await notificationService.createNotification('access_denied', {
           licensePlate: normalized,
@@ -138,8 +140,7 @@ class LprService {
         }, io);
         return;
       }
-
-      // Truck registered but no active shipment
+      // Truck has no active shipment at all
       if (!matchedShipment) {
         await notificationService.createNotification('access_denied', {
           licensePlate: normalized,
@@ -149,7 +150,19 @@ class LprService {
         }, io);
         return;
       }
-
+      // Truck has an active shipment but at a different loading zone
+      if (!matchedShipment) {
+        const assignedZone = await LoadingZone.findById(anyActiveShipment.loadingZone)
+          .select('name');
+        await notificationService.createNotification('truck_wrong_zone', {
+          licensePlate: normalized,
+          accessType: direction,
+          gateName: cameraId || 'gate',
+          assignedZoneName: assignedZone?.name || 'Unknown',
+          currentZoneId: loadingZone,
+        }, io);
+        return;
+      }
       // Entry notifications
       if (direction === 'entry') {
         if (entryStatus === 'on_time') {

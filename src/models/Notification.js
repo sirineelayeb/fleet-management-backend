@@ -31,6 +31,7 @@ const NOTIFICATION_TYPES = [
   'access_denied',
   'unknown_truck_detected',
   'truck_entry_late',
+  'truck_wrong_zone',
   'loading_completed',
   // Truck
   'speed_violation',
