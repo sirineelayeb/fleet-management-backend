@@ -40,7 +40,7 @@ class TruckService {
       timestamp: new Date()
     }, io);
 
-    console.log(`⚠️ SPEED VIOLATION: ${truck.licensePlate} - ${currentSpeed}/${speedLimit} km/h (Excess: ${excessSpeed})`);
+    console.log(`SPEED VIOLATION: ${truck.licensePlate} - ${currentSpeed}/${speedLimit} km/h (Excess: ${excessSpeed})`);
 
     return { violated: true, excessSpeed, severity };
   }

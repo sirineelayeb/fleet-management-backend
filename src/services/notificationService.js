@@ -194,7 +194,7 @@ class NotificationService {
       console.log(`✅ Notification saved [${type}] id=${saved._id}`);
 
       if (!io) {
-        console.log('⚠️  No Socket.IO instance — notification persisted to DB only');
+        console.log('No Socket.IO instance — notification persisted to DB only');
         return saved;
       }
 
@@ -212,7 +212,7 @@ class NotificationService {
 
     if (MANAGER_TARGETED.has(type)) {
       if (!data.managerId) {
-        console.warn(`⚠️  ${type}: data.managerId missing — skipping live emit`);
+        console.warn(`${type}: data.managerId missing — skipping live emit`);
         return;
       }
       const room = `user_${data.managerId.toString()}`;
@@ -220,7 +220,7 @@ class NotificationService {
         io.to(room).emit('new_notification', payload);
         console.log(`[${type}] → manager room ${room}`);
       } else {
-        console.log(`⚠️  [${type}] Manager ${room} not connected`);
+        console.log(`[${type}] Manager ${room} not connected`);
       }
       return;
     }
@@ -249,15 +249,15 @@ class NotificationService {
           io.to(managerRoom).emit('new_notification', payload);
           console.log(`[${type}] → manager room ${managerRoom}`);
         } else {
-          console.log(`⚠️  [${type}] Assigned manager ${managerRoom} not connected`);
+          console.log(`[${type}] Assigned manager ${managerRoom} not connected`);
         }
       } else {
-        console.log(`⚠️  [${type}] No managerId — sent to admins only`);
+        console.log(`[${type}] No managerId — sent to admins only`);
       }
       return;
     }
 
-    console.warn(`⚠️  [${type}] No routing rule matched — notification not emitted live`);
+    console.warn(`[${type}] No routing rule matched — notification not emitted live`);
   }
 
   async _emitToAdmins(io, payload, actorId, type) {
@@ -266,8 +266,8 @@ class NotificationService {
     for (const socket of adminSockets) {
       const socketUserId = socket.user?._id?.toString();
       if (actorId && socketUserId === actorId.toString()) {
-        console.log(`🔕 [${type}] Skipping actor socket ${socket.id}`);
-        continue;
+        console.log(`[${type}] Skipping actor socket ${socket.id}`);
+        continue; // skip the actor
       }
       socket.emit('new_notification', payload);
       sent++;

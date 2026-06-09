@@ -69,7 +69,7 @@ class TrackingService {
       );
 
       console.log(
-        `📍 ${deviceId} → ${location.lat.toFixed(6)}, ${location.lng.toFixed(6)}` +
+        `${deviceId} → ${location.lat.toFixed(6)}, ${location.lng.toFixed(6)}` +
         ` @ ${speed}km/h | Truck: ${truck.licensePlate}` +
         ` | Mission: ${activeMission?.missionNumber || 'None'}`
       );
@@ -77,7 +77,7 @@ class TrackingService {
       return { locationRecord, truck, activeMission };
 
     } catch (error) {
-      console.error('❌ Error in processTracking:', error);
+      console.error('Error in processTracking:', error);
       throw error;
     }
   }
@@ -107,7 +107,7 @@ class TrackingService {
         //   lastSeen:   device.lastSeen,
         //   gapMinutes: Math.round(gapMs / 60000),
         // }, io);
-        console.log(`📡 Device ${deviceId} back online after ${Math.round(gapMs / 60000)} min`);
+        console.log(`Device ${deviceId} back online after ${Math.round(gapMs / 60000)} min`);
       }
 
       if (!wasOffline) alertState.offlineSent = false;
@@ -128,19 +128,19 @@ class TrackingService {
           truckId:     device.truck,
           batteryLevel,
         }, io);
-        console.log(`🔋 Device ${deviceId} low battery: ${batteryLevel}%`);
+        console.log(`Device ${deviceId} low battery: ${batteryLevel}%`);
       }
       if (batteryLevel >= BATTERY_LOW_PCT) alertState.lowBatterySent = false;
     }
 
     if (!device.truck) {
-      console.log(`⚠️ No truck assigned to device: ${deviceId}`);
+      console.log(`No truck assigned to device: ${deviceId}`);
       return {};
     }
 
     const truck = await Truck.findById(device.truck);
     if (!truck) {
-      console.log(`⚠️ Truck not found for device: ${deviceId}`);
+      console.log(`Truck not found for device: ${deviceId}`);
       return {};
     }
 
@@ -252,7 +252,7 @@ class TrackingService {
       managerId,
     }, io);
 
-    console.log(`🚛 Mission ${mission.missionNumber} started for truck ${truck.licensePlate}`);
+    console.log(`Mission ${mission.missionNumber} started for truck ${truck.licensePlate}`);
     this._emitMissionEvent(io, 'mission_started', mission, truck);
   }
 

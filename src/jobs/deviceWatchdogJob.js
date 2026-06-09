@@ -1,4 +1,3 @@
-// src/jobs/deviceWatchdogJob.js
 const cron   = require('node-cron');
 const Device = require('../models/Device');
 const notificationService = require('../services/notificationService');
@@ -43,14 +42,14 @@ function startDeviceWatchdog(io) {
           lastSeen: device.lastSeen,
         }, io);
 
-        console.log(`🔴 Device ${device.deviceId} marked offline`);
+        console.log(`Device ${device.deviceId} marked offline`);
       }
     } catch (err) {
-      console.error('❌ Watchdog error:', err);
+      console.error('Watchdog error:', err);
     }
   });
 
-  console.log('🐕 Device watchdog started');
+  console.log('Device watchdog started');
 }
 
 module.exports = { startDeviceWatchdog };
