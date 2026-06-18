@@ -1,17 +1,41 @@
 const mqtt = require('mqtt');
 const trackingService = require('./trackingService');
+const Device = require('../models/Device');
 
 class MQTTService {
   constructor() {
     this.client = null;
     this.io = null;
+    this.knownDeviceIds = new Set();
+    this.cacheTimeout = null;
+    this._lastRefresh = 0;                // ← track last refresh time
+    this._refreshCooldown = 30000;        // 30 seconds cooldown
+  }
+
+  // ─── Refresh the cache (rate‑limited) ──────────────────────────────────
+  async refreshDeviceCache(force = false) {
+    const now = Date.now();
+
+    // Skip if called too often (unless forced)
+    if (!force && (now - this._lastRefresh) < this._refreshCooldown) {
+      return;
+    }
+
+    this._lastRefresh = now;
+
+    try {
+      const devices = await Device.find({}, { deviceId: 1 });
+      this.knownDeviceIds = new Set(devices.map(d => d.deviceId));
+      console.log(`[MQTT] Device cache refreshed: ${this.knownDeviceIds.size} known devices`);
+    } catch (err) {
+      console.error('[MQTT] Failed to refresh device cache:', err.message);
+    }
   }
 
   start(io) {
     this.io = io;
 
     const brokerUrl = process.env.MQTT_BROKER_URL;
-
     if (!brokerUrl) {
       console.log('MQTT not configured, skipping...');
       return;
@@ -29,45 +53,54 @@ class MQTTService {
       }
     );
 
-    // ─────────────────────────────
+    // ──────────────────────────────────────────────────────────────────────
     // CONNECT EVENT
-    // ─────────────────────────────
-    this.client.on('connect', () => {
+    // ──────────────────────────────────────────────────────────────────────
+    this.client.on('connect', async () => {
       console.log('MQTT Connected successfully');
 
+      await this.refreshDeviceCache(false);
+
+      // Only start interval if not already running
+      if (!this.cacheTimeout) {
+        this.cacheTimeout = setInterval(() => this.refreshDeviceCache(true), 60000);
+      }
+
       this.client.subscribe('fleet/+/gps', { qos: 1 }, (err) => {
-        if (err) {
-          console.error('Subscription failed:', err);
-        } else {
-          console.log('Subscribed to fleet/+/gps');
-        }
+        if (err) console.error('Subscription failed:', err);
+        else     console.log('Subscribed to fleet/+/gps');
       });
     });
 
-    // ─────────────────────────────
-    // MESSAGE EVENT
-    // ─────────────────────────────
+    // ──────────────────────────────────────────────────────────────────────
+    // MESSAGE EVENT – unchanged (whitelist filter remains)
+    // ──────────────────────────────────────────────────────────────────────
     this.client.on('message', async (topic, message) => {
       try {
-        console.log(`MQTT topic: ${topic}`);
-
         const messageStr = message.toString();
+        // ── Ignore empty retained message clears ──
+        if (!messageStr) return;
         const data = JSON.parse(messageStr);
 
-        // Extract deviceId from topic
         const parts = topic.split('/');
         let deviceId = null;
-
         if (parts.length === 3 && parts[0] === 'fleet' && parts[2] === 'gps') {
           deviceId = parts[1];
         }
-
         if (!deviceId && data.deviceId) {
           deviceId = data.deviceId;
         }
-
         if (!deviceId) {
           console.log('Missing deviceId');
+          return;
+        }
+
+        // ★ Whitelist filter (silent drop for unknown devices)
+        if (!this.knownDeviceIds.has(deviceId)) {
+          // Optional debug: uncomment if needed
+          // if (process.env.DEBUG === 'true') {
+          //   console.log(`[MQTT] Ignoring unknown device: ${deviceId}`);
+          // }
           return;
         }
 
@@ -76,9 +109,7 @@ class MQTTService {
           return;
         }
 
-        console.log(
-          `Device: ${deviceId} | Speed: ${data.speed || 0}`
-        );
+        console.log(`Device: ${deviceId} | Speed: ${data.speed || 0}`);
 
         await trackingService.processTracking(
           {
@@ -87,8 +118,8 @@ class MQTTService {
             speed: data.speed || 0,
             heading: data.heading || 0,
             batteryLevel: data.batteryLevel,
-            temperature: data.temperature,
-            timestamp: data.timestamp
+            timestamp: data.timestamp,
+            firmwareVersion: data.firmwareVersion
           },
           this.io,
           'mqtt'
@@ -99,9 +130,7 @@ class MQTTService {
       }
     });
 
-    // ─────────────────────────────
-    // ERROR HANDLING
-    // ─────────────────────────────
+    // ─── Error handling (unchanged) ────────────────────────────────────
     this.client.on('error', (err) => {
       console.error('MQTT error:', err.message);
     });
@@ -120,6 +149,10 @@ class MQTTService {
   }
 
   stop() {
+    if (this.cacheTimeout) {
+      clearInterval(this.cacheTimeout);
+      this.cacheTimeout = null;
+    }
     if (this.client) {
       this.client.end();
       this.client = null;

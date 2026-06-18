@@ -1,397 +1,553 @@
-const Device              = require('../models/Device');
-const Truck               = require('../models/Truck');
-const LocationHistory     = require('../models/LocationHistory');
-const Mission             = require('../models/Mission');
-const TripHistory         = require('../models/TripHistory');
-const Shipment            = require('../models/Shipment');
-const Driver              = require('../models/Driver');
-const TripHistoryService  = require('./tripHistoryService');
+'use strict';
+
+// =============================================================================
+//  HaulTrack — TrackingService
+//  Handles every incoming IoT telemetry frame end-to-end:
+//    1. Throttle duplicate frames
+//    2. Resolve device → truck, fire health alerts
+//    3. Fetch active mission + trip
+//    4. Persist location record + update truck snapshot
+//    5. Drive mission state machine (start / complete)
+//    6. Broadcast real-time events via Socket.IO
+// =============================================================================
+
+const Device             = require('../models/Device');
+const Truck              = require('../models/Truck');
+const Driver             = require('../models/Driver');
+const Mission            = require('../models/Mission');
+const Shipment           = require('../models/Shipment');
+const LocationHistory    = require('../models/LocationHistory');
+const TripHistory        = require('../models/TripHistory');
+const TripHistoryService = require('./tripHistoryService');
 const notificationService = require('./notificationService');
 
-// ─── Thresholds ───────────────────────────────────────────────────────────
-const BATTERY_LOW_PCT      = 20;               // fire device_low_battery below this %
-const OFFLINE_THRESHOLD_MS = 5 * 60 * 1000;   // 5 min without ping = was offline
+// -----------------------------------------------------------------------------
+//  CONSTANTS
+// -----------------------------------------------------------------------------
+const BATTERY_LOW_PCT      = 20;               // % — fire alert below this
+const OFFLINE_THRESHOLD_MS = 5 * 60 * 1000;   // 5 min gap → device was offline
+const DESTINATION_RADIUS_M = 200;             // metres — "arrived" tolerance
+const EARTH_RADIUS_KM      = 6371;
+const MISSION_START_SPEED  = 5;               // km/h — above this → mission starts
+const MISSION_STOP_SPEED   = 5;               // km/h — below this (+ at dest) → completes
 
+// =============================================================================
 class TrackingService {
-  constructor() {
-    this._lastProcessed    = new Map(); // deviceId → last write timestamp (ms)
-    this._THROTTLE_MS      = 3000;      // min 3s between DB writes per device
 
-    // Per‑device alert dedup — prevents spamming same notification
-    this._deviceAlertState = new Map(); // deviceId → { lowBatterySent, offlineSent }
+  constructor() {
+    // Throttle: skip DB writes that arrive too fast for the same device
+    this._lastProcessedAt = new Map();  // deviceId → timestamp ms
+    this._THROTTLE_MS     = 3_000;
+
+    // Per-device alert dedup — prevents repeated identical notifications
+    this._alertState = new Map();       // deviceId → { lowBatterySent, offlineSent }
   }
 
-  // ─────────────────────────────────────────────────────────────────────────
+  // ===========================================================================
   //  PUBLIC ENTRY POINT
-  // ─────────────────────────────────────────────────────────────────────────
-  async processTracking(data, io, source = 'unknown') {
-    const {
-      deviceId,
-      location,
-      speed        = 0,
-      heading      = 0,
-      batteryLevel,
-      temperature,
-      timestamp
-    } = data;
+  // ===========================================================================
 
-    if (this._shouldThrottle(deviceId)) {
-      console.log(`⏭️ Throttled: ${deviceId}`);
+  /**
+   * Process one telemetry frame from a device.
+   * Called by the MQTT subscriber whenever a message arrives on fleet/+/gps.
+   *
+   * @param {object} data  – parsed MQTT payload
+   * @param {object} io    – Socket.IO server instance
+   * @param {string} source – 'mqtt' | 'api' | etc.
+   */
+async processTracking(data, io, source = 'mqtt') {
+  const {
+    deviceId,
+    location,
+    speed = 0,
+    heading = 0,
+    batteryLevel,
+    firmwareVersion,
+    timestamp,
+  } = data;
+
+  // ─────────────────────────────────────────────
+  // 1. Validate payload
+  // ─────────────────────────────────────────────
+  if (!deviceId || !location?.lat || !location?.lng) {
+    console.warn('[Tracking] Invalid payload');
+    return;
+  }
+
+  // ─────────────────────────────────────────────
+  // 2. Ignore stale messages (VERY IMPORTANT FIX)
+  // ─────────────────────────────────────────────
+  if (timestamp) {
+    const msgTime = new Date(timestamp).getTime();
+
+    // only reject if timestamp is in the FUTURE (bad data)
+    if (msgTime > Date.now() + 60_000) {
       return;
     }
+  }
 
-    try {
-      // Step 1: resolve device + truck, fire health notifications
-      const { device, truck } = await this._resolveDeviceAndTruck(
-        deviceId, batteryLevel, temperature, io
-      );
-      if (!device || !truck) return;
+  // ─────────────────────────────────────────────
+  // 3. Throttle per device
+  // ─────────────────────────────────────────────
+  if (this._shouldThrottle(deviceId)) {
+    return;
+  }
 
-      // Step 2: find active mission + trip for this truck
-      const { activeMission, activeTrip } = await this._getActiveMissionAndTrip(truck._id);
+  // ─────────────────────────────────────────────
+  // 4. Deduplicate GPS (CRITICAL FIX)
+  // ─────────────────────────────────────────────
+  if (!this._lastGPS) this._lastGPS = new Map();
 
-      // Step 3: write location to DB + update truck state
-      const locationRecord = await this._updateLocation({
-        truck, activeMission, activeTrip,
-        location, speed, heading, batteryLevel, temperature, timestamp, source
+  const last = this._lastGPS.get(deviceId);
+
+  const isDuplicate =
+    last &&
+    last.lat === location.lat &&
+    last.lng === location.lng &&
+    last.speed === speed &&
+    last.heading === heading;
+
+  if (isDuplicate) {
+    console.log(`[Tracking] Duplicate ignored: ${deviceId}`);
+    return;
+  }
+
+  this._lastGPS.set(deviceId, {
+    lat: location.lat,
+    lng: location.lng,
+    speed,
+    heading,
+  });
+
+  try {
+    // ─────────────────────────────────────────────
+    // 5. Resolve device & truck (NO STATUS CHANGE HERE)
+    // ─────────────────────────────────────────────
+    const { device, truck } = await this._resolveDeviceAndTruck(
+      deviceId,
+      batteryLevel,
+      firmwareVersion,
+      io
+    );
+
+    if (!device || !truck) return;
+
+    // ─────────────────────────────────────────────
+    // 6. Get mission/trip
+    // ─────────────────────────────────────────────
+    const { activeMission, activeTrip } =
+      await this._getActiveMissionAndTrip(truck._id);
+
+    // ─────────────────────────────────────────────
+    // 7. Persist location (ONLY place where lastSeen should update)
+    // ─────────────────────────────────────────────
+    const locationRecord = await this._persistLocation({
+      truck,
+      activeMission,
+      activeTrip,
+      location,
+      speed,
+      heading,
+      batteryLevel,
+      timestamp: new Date(), // 🔥 FORCE SERVER TIME (IMPORTANT FIX)
+      source,
+    });
+
+    // ─────────────────────────────────────────────
+    // 8. Mission logic (safe)
+    // ─────────────────────────────────────────────
+    if (activeMission) {
+      await this._handleMissionTransitions({
+        truck,
+        activeMission,
+        activeTrip,
+        location,
+        speed,
+        io,
       });
+    }
 
-      // Step 4: mission state machine (start / complete)
-      if (activeMission) {
-        await this._handleMissionTransitions({
-          truck, activeMission, activeTrip, location, speed, io
-        });
-      }
+    // ─────────────────────────────────────────────
+    // 9. Emit realtime update
+    // ─────────────────────────────────────────────
+    this._emitLocationUpdate(
+      io,
+      truck,
+      location,
+      speed,
+      heading,
+      batteryLevel,
+      activeMission
+    );
 
-      // Step 5: emit real-time update to relevant rooms
-      this._emitLocationUpdate(
-        io, truck, location, speed, heading, batteryLevel, temperature, activeMission
-      );
+    // ─────────────────────────────────────────────
+    // 10. Log
+    // ─────────────────────────────────────────────
+    console.log(
+      `[Tracking] ${deviceId} → ${location.lat.toFixed(6)}, ${location.lng.toFixed(6)} ` +
+      `@ ${speed} km/h | ${truck.licensePlate} | Mission: ${
+        activeMission?.missionNumber ?? 'none'
+      }`
+    );
 
-      console.log(
-        `${deviceId} → ${location.lat.toFixed(6)}, ${location.lng.toFixed(6)}` +
-        ` @ ${speed}km/h | Truck: ${truck.licensePlate}` +
-        ` | Mission: ${activeMission?.missionNumber || 'None'}`
-      );
+    return { locationRecord, truck, activeMission };
 
-      return { locationRecord, truck, activeMission };
+  } catch (err) {
+    console.error('[Tracking] processTracking error:', err);
+    throw err;
+  }
+}
 
-    } catch (error) {
-      console.error('Error in processTracking:', error);
-      throw error;
+  // ===========================================================================
+  //  STEP 1 — DEVICE + TRUCK RESOLUTION & HEALTH CHECKS
+  // ===========================================================================
+
+async _resolveDeviceAndTruck(deviceId, batteryLevel, firmwareVersion, io) {
+  const device = await Device.findOne({ deviceId });
+  if (!device) return {};
+
+  // ── Early exit — unassigned device, don't update anything ──
+  if (!device.truck) return {};
+
+  device.lastSeen = new Date();
+
+  if (batteryLevel !== undefined)    device.batteryLevel    = batteryLevel;
+  if (firmwareVersion !== undefined) device.firmwareVersion = firmwareVersion;
+
+  if (device.status !== 'maintenance') {
+    device.status = 'active';
+  }
+
+  await device.save();
+
+  if (batteryLevel !== undefined) {
+    await this._checkLowBattery(device, batteryLevel, io);
+  }
+
+  const truck = await Truck.findById(device.truck);
+  if (!truck) return {};
+
+  return { device, truck };
+}
+
+  // ---------------------------------------------------------------------------
+
+_checkOfflineRecovery(device, deviceId, io) {
+    if (!device.lastSeen) return;
+    const gapMs      = Date.now() - new Date(device.lastSeen).getTime();
+    const wasOffline = gapMs > OFFLINE_THRESHOLD_MS;
+    const state      = this._getAlertState(deviceId);
+
+    if (wasOffline && !state.offlineSent) {
+      state.offlineSent = true;
+      const gapMinutes = Math.round(gapMs / 60_000);
+      console.log(`[Tracking] Device ${deviceId} back online after ${gapMinutes} min`);
+      // Send notification
+      notificationService.createNotification('device_reconnected', {
+        deviceId: device.deviceId,
+        truckId: device.truck,
+        lastSeen: device.lastSeen,
+        gapMinutes,
+      }, io);
+    }
+    if (!wasOffline) {
+      state.offlineSent = false;
+    }
+}
+
+  async _checkLowBattery(device, batteryLevel, io) {
+    const state = this._getAlertState(device.deviceId);
+
+    if (batteryLevel < BATTERY_LOW_PCT && !state.lowBatterySent) {
+      state.lowBatterySent = true;
+      await notificationService.createNotification('device_low_battery', {
+        deviceId:    device.deviceId,
+        truckId:     device.truck,
+        batteryLevel,
+      }, io);
+      console.log(`[Tracking] Low battery: ${device.deviceId} @ ${batteryLevel}%`);
+    }
+
+    if (batteryLevel >= BATTERY_LOW_PCT) {
+      state.lowBatterySent = false;
     }
   }
 
-  // ─────────────────────────────────────────────────────────────────────────
-  //  STEP 1 – DEVICE + TRUCK RESOLUTION & HEALTH CHECKS
-  // ─────────────────────────────────────────────────────────────────────────
-  async _resolveDeviceAndTruck(deviceId, batteryLevel, temperature, io) {
-    const device = await Device.findOne({ deviceId });
-    if (!device) {
-      console.log(`Device not found: ${deviceId}`);
-      return {};
+  /**
+   * Mark truck as in_mission and driver as busy whenever the device is actively
+   * pinging.  Idempotent — skips trucks in maintenance / inactive / already set.
+   */
+  async _markTruckOnline(truckId, io) {
+    const truck = await Truck.findById(truckId);
+    if (!truck) return;
+
+    if (['maintenance', 'inactive', 'in_mission'].includes(truck.status)) return;
+
+    truck.status = 'in_mission';
+    await truck.save();
+
+    if (truck.driver) {
+      await Driver.findByIdAndUpdate(truck.driver, { status: 'busy' });
     }
 
-    const alertState = this._getAlertState(deviceId);
+    console.log(`[Tracking] Truck ${truck.licensePlate} → in_mission`);
 
-    // offline detection & reconnection alert
-    if (device.lastSeen) {
-      const gapMs      = Date.now() - new Date(device.lastSeen).getTime();
-      const wasOffline = gapMs > OFFLINE_THRESHOLD_MS;
-
-      if (wasOffline && !alertState.offlineSent) {
-        alertState.offlineSent = true;
-        // await notificationService.createNotification('device_reconnected', {
-        //   deviceId:   device.deviceId,
-        //   truckId:    device.truck,
-        //   lastSeen:   device.lastSeen,
-        //   gapMinutes: Math.round(gapMs / 60000),
-        // }, io);
-        console.log(`Device ${deviceId} back online after ${Math.round(gapMs / 60000)} min`);
-      }
-
-      if (!wasOffline) alertState.offlineSent = false;
-    }
-
-    // update device metadata
-    device.lastSeen = new Date();
-    if (batteryLevel !== undefined) device.batteryLevel = batteryLevel;
-    if (temperature  !== undefined) device.temperature  = temperature;
-    await device.save();
-
-    // low battery alert
-    if (batteryLevel !== undefined) {
-      if (batteryLevel < BATTERY_LOW_PCT && !alertState.lowBatterySent) {
-        alertState.lowBatterySent = true;
-        await notificationService.createNotification('device_low_battery', {
-          deviceId:    device.deviceId,
-          truckId:     device.truck,
-          batteryLevel,
-        }, io);
-        console.log(`Device ${deviceId} low battery: ${batteryLevel}%`);
-      }
-      if (batteryLevel >= BATTERY_LOW_PCT) alertState.lowBatterySent = false;
-    }
-
-    if (!device.truck) {
-      console.log(`No truck assigned to device: ${deviceId}`);
-      return {};
-    }
-
-    const truck = await Truck.findById(device.truck);
-    if (!truck) {
-      console.log(`Truck not found for device: ${deviceId}`);
-      return {};
-    }
-
-    return { device, truck };
+    io?.to('admin').to('shipment_manager').emit('truck_status_changed', {
+      truckId:      truck._id,
+      licensePlate: truck.licensePlate,
+      status:       'in_mission',
+    });
   }
 
-  // ─────────────────────────────────────────────────────────────────────────
-  //  STEP 2 – ACTIVE MISSION & TRIP
-  // ─────────────────────────────────────────────────────────────────────────
+  // ===========================================================================
+  //  STEP 2 — ACTIVE MISSION + TRIP
+  // ===========================================================================
+
   async _getActiveMissionAndTrip(truckId) {
     const activeMission = await Mission.findOne({
       truck:  truckId,
-      status: { $in: ['not_started', 'in_progress'] }
+      status: { $in: ['not_started', 'in_progress'] },
     }).populate({
       path:   'shipment',
-      select: 'shipmentId origin destination destinationCoordinates assignedTo actualDepartureDate'
+      select: 'shipmentId origin destination destinationCoordinates assignedTo actualDepartureDate',
     });
 
-    let activeTrip = null;
-    if (activeMission) {
-      activeTrip = await TripHistory.findOne({
-        mission: activeMission._id,
-        status:  { $in: ['planned', 'in_progress'] }
-      }).sort({ startTime: -1 });
-    }
+    if (!activeMission) return { activeMission: null, activeTrip: null };
+
+    const activeTrip = await TripHistory
+      .findOne({ mission: activeMission._id, status: { $in: ['planned', 'in_progress'] } })
+      .sort({ startTime: -1 });
 
     return { activeMission, activeTrip };
   }
 
-  // ─────────────────────────────────────────────────────────────────────────
-  //  STEP 3 – PERSIST LOCATION
-  // ─────────────────────────────────────────────────────────────────────────
-  async _updateLocation({
-    truck, activeMission, activeTrip,
-    location, speed, heading, batteryLevel, temperature, timestamp, source
-  }) {
+  // ===========================================================================
+  //  STEP 3 — PERSIST LOCATION
+  // ===========================================================================
+
+  async _persistLocation({ truck, activeMission, activeTrip, location, speed, heading,
+                            batteryLevel, timestamp, source }) {
     const locationRecord = await LocationHistory.create({
       truck:    truck._id,
-      trip:     activeTrip?._id    || null,
-      mission:  activeMission?._id || null,
+      mission:  activeMission?._id ?? null,
+      trip:     activeTrip?._id    ?? null,
       location: {
         type:        'Point',
-        coordinates: [location.lng, location.lat] // GeoJSON: [lng, lat]
+        coordinates: [location.lng, location.lat],  // GeoJSON order: [lng, lat]
       },
-      speed, heading, batteryLevel, temperature,
+      speed, heading, batteryLevel,
       timestamp: timestamp ? new Date(timestamp) : new Date(),
-      source
+      source,
     });
 
-    truck.currentLocation = { lat: location.lat, lng: location.lng };
-    truck.currentSpeed    = speed;
-    truck.lastTelemetryAt = new Date();
-    await truck.save();
+    // Keep the truck's "last known" snapshot in sync
+    await Truck.findByIdAndUpdate(truck._id, {
+      currentLocation: { lat: location.lat, lng: location.lng },
+      currentSpeed:    speed,
+      lastTelemetryAt: new Date(),
+    });
 
     return locationRecord;
   }
 
-  // ─────────────────────────────────────────────────────────────────────────
-  //  STEP 4 – MISSION STATE MACHINE
-  // ─────────────────────────────────────────────────────────────────────────
+  // ===========================================================================
+  //  STEP 4 — MISSION STATE MACHINE
+  // ===========================================================================
+
   async _handleMissionTransitions({ truck, activeMission, activeTrip, location, speed, io }) {
-    // Not started → start when truck moves >5 km/h
-    if (activeMission.status === 'not_started' && speed > 5) {
-      await this._startMission(truck, activeMission, activeTrip, io);
-      return;
-    }
+    switch (activeMission.status) {
 
-    // In progress → complete when truck stops near destination
-    if (activeMission.status === 'in_progress' && activeMission.shipment) {
-      const dest = activeMission.shipment.destinationCoordinates;
+      case 'not_started':
+        if (speed > MISSION_START_SPEED) {
+          await this._startMission(truck, activeMission, activeTrip, io);
+        }
+        break;
 
-      if (!dest?.lat) {
-        // No coordinates – cannot auto‑complete
-        return;
+      case 'in_progress': {
+        const dest = activeMission.shipment?.destinationCoordinates;
+        if (!dest?.lat) break;   // no geo-fence configured → can't auto-complete
+
+        if (speed < MISSION_STOP_SPEED && this._isAtDestination(location, dest)) {
+          await this._completeMission(truck, activeMission, activeTrip, io);
+        }
+        break;
       }
 
-      if (speed < 5 && this.isAtDestination(location, dest)) {
-        await this._completeMission(truck, activeMission, activeTrip, io);
-      }
+      default:
+        break;
     }
   }
 
+  // ---------------------------------------------------------------------------
+
   async _startMission(truck, mission, trip, io) {
+    const now = new Date();
+
     mission.status    = 'in_progress';
-    mission.startTime = new Date();
+    mission.startTime = now;
     await mission.save();
 
     if (trip) {
       trip.status    = 'in_progress';
-      trip.startTime = new Date();
+      trip.startTime = now;
       await trip.save();
     }
 
     if (mission.shipment) {
       await Shipment.findByIdAndUpdate(mission.shipment._id, {
         status:              'in_progress',
-        actualDepartureDate: new Date()
+        actualDepartureDate: now,
       });
     }
 
-    const managerId = mission.shipment?.assignedTo?.toString() || null;
-
     await notificationService.createNotification('mission_started', {
+      missionNumber:  mission.missionNumber,
       shipmentNumber: mission.shipment?.shipmentId,
       origin:         mission.shipment?.origin,
       destination:    mission.shipment?.destination,
       truckPlate:     truck.licensePlate,
-      missionNumber:  mission.missionNumber,
-      managerId,
+      managerId:      mission.shipment?.assignedTo?.toString() ?? null,
     }, io);
 
-    console.log(`Mission ${mission.missionNumber} started for truck ${truck.licensePlate}`);
+    console.log(`[Mission] ${mission.missionNumber} started — truck ${truck.licensePlate}`);
     this._emitMissionEvent(io, 'mission_started', mission, truck);
   }
 
+  // ---------------------------------------------------------------------------
+
   async _completeMission(truck, mission, trip, io) {
+    const now = new Date();
+
     mission.status  = 'completed';
-    mission.endTime = new Date();
+    mission.endTime = now;
     await mission.save();
 
     if (trip) {
-      await TripHistoryService.completeTrip(trip._id, new Date());
+      await TripHistoryService.completeTrip(trip._id, now);
     }
 
-    truck.status       = 'available';
-    truck.currentSpeed = 0;
-    await truck.save();
+    await Truck.findByIdAndUpdate(truck._id, {
+      status:       'available',
+      currentSpeed: 0,
+    });
 
     await Driver.findByIdAndUpdate(mission.driver, {
       status:        'available',
-      assignedTruck: null
+      assignedTruck: null,
     });
 
     await Shipment.findByIdAndUpdate(mission.shipment._id, {
       status:             'completed',
-      actualDeliveryDate: new Date()
+      actualDeliveryDate: now,
     });
 
-    const managerId = mission.shipment?.assignedTo?.toString() || null;
-
     await notificationService.createNotification('mission_completed', {
+      missionNumber:  mission.missionNumber,
       shipmentNumber: mission.shipment?.shipmentId,
       origin:         mission.shipment?.origin,
       destination:    mission.shipment?.destination,
       truckPlate:     truck.licensePlate,
-      missionNumber:  mission.missionNumber,
       distance:       mission.totalDistance,
-      managerId,
+      managerId:      mission.shipment?.assignedTo?.toString() ?? null,
     }, io);
 
-    console.log(`✅ Mission ${mission.missionNumber} completed for truck ${truck.licensePlate}`);
+    console.log(`[Mission] ${mission.missionNumber} completed — truck ${truck.licensePlate}`);
     this._emitMissionEvent(io, 'mission_completed', mission, truck);
   }
 
-  // ─────────────────────────────────────────────────────────────────────────
-  //  STEP 5 – REAL-TIME EMITS
-  // ─────────────────────────────────────────────────────────────────────────
-  _emitMissionEvent(io, event, mission, truck) {
+  // ===========================================================================
+  //  STEP 5 — REAL-TIME SOCKET.IO BROADCASTS
+  // ===========================================================================
+
+  _emitLocationUpdate(io, truck, location, speed, heading, batteryLevel, activeMission) {
     if (!io) return;
-    io.to('admin').to('shipment_manager').emit(event, {
+
+    // Full payload → admin & shipment-manager dashboards
+    io.to('admin').to('shipment_manager').emit('truck_location', {
+      truckId:       truck._id,
+      licensePlate:  truck.licensePlate,
+      location:      { lat: location.lat, lng: location.lng },
+      speed, heading,
+      batteryLevel,
+      status:        truck.status,
+      missionId:     activeMission?._id,
+      missionNumber: activeMission?.missionNumber,
+      shipmentId:    activeMission?.shipment?.shipmentId,
+      timestamp:     new Date(),
+    });
+
+    // Lightweight payload → driver's own truck room
+    io.to(`truck_${truck._id}`).emit('gps_update', {
+      location:  { lat: location.lat, lng: location.lng },
+      speed, heading,
+      timestamp: new Date(),
+    });
+  }
+
+  _emitMissionEvent(io, event, mission, truck) {
+    io?.to('admin').to('shipment_manager').emit(event, {
       missionId:     mission._id,
       missionNumber: mission.missionNumber,
       truckId:       truck._id,
       licensePlate:  truck.licensePlate,
-      shipmentId:    mission.shipment?.shipmentId
+      shipmentId:    mission.shipment?.shipmentId,
     });
   }
 
-  _emitLocationUpdate(io, truck, location, speed, heading, batteryLevel, temperature, activeMission) {
-    if (!io) return;
+  // ===========================================================================
+  //  PRIVATE HELPERS
+  // ===========================================================================
 
-    const payload = {
-      truckId:       truck._id,
-      licensePlate:  truck.licensePlate,
-      location:      { lat: location.lat, lng: location.lng },
-      speed,
-      heading,
-      timestamp:     new Date(),
-      batteryLevel,
-      temperature,
-      status:        truck.status,
-      missionId:     activeMission?._id,
-      missionNumber: activeMission?.missionNumber,
-      shipmentId:    activeMission?.shipment?.shipmentId
-    };
-
-    // Broadcast to admin & shipment manager rooms
-    io.to('admin').to('shipment_manager').emit('truck_location', payload);
-
-    // Per‑truck room for driver's own view
-    io.to(`truck_${truck._id}`).emit('gps_update', {
-      location:  { lat: location.lat, lng: location.lng },
-      speed,
-      heading,
-      timestamp: new Date()
-    });
-  }
-
-  // ─────────────────────────────────────────────────────────────────────────
-  //  HELPERS
-  // ─────────────────────────────────────────────────────────────────────────
   _getAlertState(deviceId) {
-    if (!this._deviceAlertState.has(deviceId)) {
-      this._deviceAlertState.set(deviceId, { lowBatterySent: false, offlineSent: false });
+    if (!this._alertState.has(deviceId)) {
+      this._alertState.set(deviceId, { lowBatterySent: false, offlineSent: false });
     }
-    return this._deviceAlertState.get(deviceId);
+    return this._alertState.get(deviceId);
   }
 
   _shouldThrottle(deviceId) {
     const now  = Date.now();
-    const last = this._lastProcessed.get(deviceId) || 0;
+    const last = this._lastProcessedAt.get(deviceId) ?? 0;
     if (now - last < this._THROTTLE_MS) return true;
-    this._lastProcessed.set(deviceId, now);
 
-    // Evict stale entries to prevent unbounded Map growth
-    if (this._lastProcessed.size > 1000) {
-      const cutoff = now - 10 * 60 * 1000;
-      for (const [id, ts] of this._lastProcessed) {
-        if (ts < cutoff) this._lastProcessed.delete(id);
+    this._lastProcessedAt.set(deviceId, now);
+
+    // Evict stale entries so the Map doesn't grow unbounded in large fleets
+    if (this._lastProcessedAt.size > 1_000) {
+      const cutoff = now - 10 * 60_000;
+      for (const [id, ts] of this._lastProcessedAt) {
+        if (ts < cutoff) this._lastProcessedAt.delete(id);
       }
     }
 
     return false;
   }
 
-  isAtDestination(currentLocation, destinationCoordinates) {
-    if (!destinationCoordinates?.lat) return false;
-    const distanceMeters = this.calculateDistance(
+  // Haversine formula — returns distance in kilometres
+  _calculateDistanceKm(lat1, lng1, lat2, lng2) {
+    if (!lat1 || !lng1 || !lat2 || !lng2) return 0;
+    const toRad = (d) => d * Math.PI / 180;
+    const dLat  = toRad(lat2 - lat1);
+    const dLng  = toRad(lng2 - lng1);
+    const a = Math.sin(dLat / 2) ** 2
+            + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+    return EARTH_RADIUS_KM * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  _isAtDestination(currentLocation, destinationCoords) {
+    if (!destinationCoords?.lat) return false;
+    const distanceM = this._calculateDistanceKm(
       currentLocation.lat, currentLocation.lng,
-      destinationCoordinates.lat, destinationCoordinates.lng
-    ) * 1000;
-    return distanceMeters <= 200; // 200 meters tolerance
+      destinationCoords.lat, destinationCoords.lng
+    ) * 1_000;
+    return distanceM <= DESTINATION_RADIUS_M;
   }
 
-  calculateDistance(lat1, lon1, lat2, lon2) {
-    if (!lat1 || !lon1 || !lat2 || !lon2) return 0;
-    const R    = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a    =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * Math.PI / 180) *
-      Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  }
+  // ===========================================================================
+  //  QUERY HELPERS  (called by controllers / other services)
+  // ===========================================================================
 
-  // ─────────────────────────────────────────────────────────────────────────
-  //  QUERY HELPERS (used by other parts of the system)
-  // ─────────────────────────────────────────────────────────────────────────
-  async getTruckHistory(truckId, limit = 100, startDate = null, endDate = null) {
+  async getTruckHistory(truckId, { limit = 100, startDate = null, endDate = null } = {}) {
     const query = { truck: truckId };
     if (startDate || endDate) {
       query.timestamp = {};
@@ -401,13 +557,13 @@ class TrackingService {
     return LocationHistory.find(query)
       .sort({ timestamp: -1 })
       .limit(limit)
-      .populate('trip')
-      .populate('mission');
+      .populate('trip mission');
   }
 
-  async getMissionHistory(missionId, limit = 500) {
+  async getMissionHistory(missionId, { limit = 500 } = {}) {
     return LocationHistory.find({ mission: missionId })
       .sort({ timestamp: 1 })
+      .limit(limit)
       .populate('truck');
   }
 
@@ -420,9 +576,10 @@ class TrackingService {
       lng:        truck.currentLocation?.lng,
       speed:      truck.currentSpeed,
       lastUpdate: truck.lastTelemetryAt,
-      status:     truck.status
+      status:     truck.status,
     };
   }
 }
 
+// Export a singleton — one instance owns all throttle/alert state across the app
 module.exports = new TrackingService();

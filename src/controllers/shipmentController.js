@@ -59,7 +59,7 @@ class ShipmentController {
     const [shipments, total] = await Promise.all([
       Shipment.find(query)
         .populate('truck',       'licensePlate displayPlate brand model')
-        .populate('driver',      'name phone')
+        .populate('driver',      'name phone email')
         .populate('customer',    'name phone')
         .populate('loadingZone', 'name')
         .populate('createdBy',   'name')
@@ -87,7 +87,7 @@ class ShipmentController {
   getShipment = catchAsync(async (req, res) => {
     const shipment = await Shipment.findById(req.params.id)
       .populate('truck',       'licensePlate displayPlate brand model capacity type status year')
-      .populate('driver',      'name phone licenseNumber score')
+      .populate('driver',      'name phone email licenseNumber score')
       .populate('customer',    'name phone email address')
       .populate('loadingZone', 'name description')
       .populate('notes.createdBy', 'name email role')
@@ -399,7 +399,7 @@ class ShipmentController {
     const [shipments, total] = await Promise.all([
       Shipment.find(filter)
         .populate('truck',       'licensePlate brand model')
-        .populate('driver',      'name phone')
+        .populate('driver',      'name phone email')
         .populate('customer',    'name phone')
         .populate('loadingZone', 'name')
         .populate('createdBy',   'name')

@@ -35,8 +35,8 @@ const tripHistorySchema = new mongoose.Schema({
   actualDurationHours: { type: Number, default: 0 },
   averageSpeed: { type: Number, default: 0 },
   maxSpeed: { type: Number, default: 0 },
-  fuelConsumption: { type: Number, default: null },
-  averageFuelEfficiency: { type: Number, default: null },
+  // fuelConsumption: { type: Number, default: null },
+  // averageFuelEfficiency: { type: Number, default: null },
 
   // Timeline
   startTime: { type: Date},      // trip creation / assignment time

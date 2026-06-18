@@ -7,14 +7,13 @@ const deviceSchema = new mongoose.Schema({
 
   batteryLevel:    { type: Number, default: 100, min: 0, max: 100 },
   firmwareVersion: { type: String, default: '1.0.0' },
-  lastSeen:        { type: Date, default: Date.now },
-  temperature:     { type: Number },
+  lastSeen:        { type: Date, default: null },
 
   // Reflects actual connectivity, not just manually set
   status: {
     type: String,
     enum: ['active', 'inactive', 'maintenance'],
-    default: 'active'
+    default: 'inactive'
   },
   isArchived: { type: Boolean, default: false },
   archivedAt: { type: Date, default: null }
@@ -27,23 +26,12 @@ deviceSchema.index({ lastSeen: -1 });
 
 deviceSchema.virtual('isOnline').get(function () {
   const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-  return this.lastSeen > fiveMinutesAgo;
+  return this.lastSeen && this.lastSeen > fiveMinutesAgo;
 });
-
 deviceSchema.pre('save', function (next) {
-  // Sync status with actual connectivity
-  if (this.isModified('lastSeen')) {
-    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-    if (this.status !== 'maintenance') {
-      this.status = this.lastSeen > fiveMinutesAgo ? 'active' : 'inactive';
-    }
-  }
-
-  // Track when truck assignment changes
   if (this.isModified('truck')) {
     this.assignedAt = this.truck ? new Date() : null;
   }
-
   next();
 });
 

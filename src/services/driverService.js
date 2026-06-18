@@ -100,9 +100,9 @@ class DriverService {
       driverData.photo = data.photo;
     }
 
-    const driver = await Driver.create(driverData);  // ✅ was missing
+    const driver = await Driver.create(driverData);  // was missing
     return driver.populate('assignedTruck', 'licensePlate displayPlate brand model');
-  }                                                   // ✅ closing brace was missing
+  }                                                   // closing brace was missing
 
   async updateDriver(id, data) {
     try {
@@ -115,7 +115,7 @@ class DriverService {
         delete data.lastName;
       }
 
-      // ✅ Handle empty email to avoid sparse index conflicts
+      // Handle empty email to avoid sparse index conflicts
       if (data.email === '' || data.email === null || data.email === undefined) {
         delete data.email;
       } else if (data.email) {

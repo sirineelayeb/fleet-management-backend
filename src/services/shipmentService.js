@@ -132,10 +132,13 @@ class ShipmentService {
       };
 
     } catch (error) {
-      console.error('Error in assignShipment:', error);
-      throw error;
-    }
+    console.error('[assignShipment] Detailed error:', error);
+    // If it's already an AppError, rethrow it.
+    if (error instanceof AppError) throw error;
+    // Otherwise, wrap it in a 500 AppError.
+    throw new AppError(error.message || 'Failed to assign shipment', 500);
   }
+}
 
   // ─── Reassignment ─────────────────────────────────────────────────────────
 

@@ -11,38 +11,30 @@ function startDeviceWatchdog(io) {
 
       // Only devices that are still marked 'active' but haven't pinged recently
       // status won't auto-update to 'inactive' until next save() — so we check lastSeen directly
-      const staleDevices = await Device.find(
-      { status: 'active', lastSeen: { $lt: cutoff } },
-      { deviceId: 1, truck: 1, lastSeen: 1 } // projection
-      );
+      const staleDevices = await Device.find({
+      lastSeen: { $lt: cutoff },
+      status: { $ne: 'maintenance' }
+    });
 
       if (staleDevices.length) {
-        await Device.updateMany(
-          { _id: { $in: staleDevices.map(d => d._id) } },
-          { $set: { status: 'inactive' } }
-        );
-
         for (const device of staleDevices) {
-          await notificationService.createNotification('device_offline', {
-            deviceId: device.deviceId,
-            truckId:  device.truck,
-            lastSeen: device.lastSeen,
-          }, io);
+          if (device.status !== 'inactive') {
+            device.status = 'inactive';
+            await device.save();
+
+            await notificationService.createNotification(
+              'device_offline',
+              {
+                deviceId: device.deviceId,
+                truckId: device.truck,
+                lastSeen: device.lastSeen,
+              },
+              io
+            );
+
+            console.log(`Device ${device.deviceId} marked offline`);
+          }
         }
-      }
-
-      for (const device of staleDevices) {
-        // Trigger pre('save') hook → sets status to 'inactive' automatically
-        device.status = 'inactive';        // set directly, skip maintenance devices
-        await device.save();
-
-        await notificationService.createNotification('device_offline', {
-          deviceId: device.deviceId,
-          truckId:  device.truck,
-          lastSeen: device.lastSeen,
-        }, io);
-
-        console.log(`Device ${device.deviceId} marked offline`);
       }
     } catch (err) {
       console.error('Watchdog error:', err);

@@ -39,7 +39,7 @@ const sendErrorProd = (err, res) => {
     });
   } else {
     // Programming or other unknown error: don't leak error details
-    console.error('ERROR 💥', err);
+    console.error('ERROR', err);
     res.status(500).json({
       success: false,
       status: 'error',

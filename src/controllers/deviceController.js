@@ -4,25 +4,30 @@ const trackingService = require('../services/trackingService');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const PaginatedResponse = require('../utils/pagination');
-class DeviceController {
 
+const OFFLINE_THRESHOLD_MS = 5 * 60 * 1000;
+
+class DeviceController {
   handleTrackingData = catchAsync(async (req, res) => {
     const io = req.io; 
     await trackingService.processTracking(req.body, io, 'http');
-
     res.json({ success: true });
   });
 
   getAllDevices = catchAsync(async (req, res) => {
     const { page = 1, limit = 10, status, search, archived } = req.query;
 
+    // Lazily correct any devices that have gone silent since they were last touched
+    await Device.updateMany(
+      { status: 'active', lastSeen: { $lt: new Date(Date.now() - OFFLINE_THRESHOLD_MS) } },
+      { $set: { status: 'inactive' } }
+    );
+
     const filter = {};
 
-    // Only apply archived filter if the parameter is provided
     if (archived !== undefined) {
       filter.isArchived = archived === 'true';
     }
-    // If archived is not provided, show all devices (both active and archived)
 
     if (status) {
       filter.status = status;
@@ -46,6 +51,13 @@ class DeviceController {
   getDevice = catchAsync(async (req, res) => {
     const device = await Device.findById(req.params.id).populate('truck');
     if (!device) throw new AppError('Device not found', 404);
+
+    // Lazily correct this single device's status if it's gone silent
+    if (device.status === 'active' && Date.now() - new Date(device.lastSeen).getTime() > OFFLINE_THRESHOLD_MS) {
+      device.status = 'inactive';
+      await device.save();
+    }
+
     res.json({ success: true, data: device });
   });
 
@@ -63,7 +75,9 @@ class DeviceController {
     const device = await Device.create({ 
       deviceId, 
       firmwareVersion, 
-      truck: truckId || null
+      truck: truckId || null,
+      status: 'inactive',
+      lastSeen: null
     });
 
     // Keep the Truck side of the relationship in sync
@@ -78,7 +92,14 @@ class DeviceController {
 
 
   updateDevice = catchAsync(async (req, res) => {
-    const device = await Device.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    // Whitelist allowed fields to prevent accidental/hostile updates
+    const allowed = ['firmwareVersion', 'batteryLevel', 'truck', 'status', 'isArchived', 'archivedAt', 'assignedAt'];
+    const updateData = {};
+    for (const key of allowed) {
+      if (Object.prototype.hasOwnProperty.call(req.body, key)) updateData[key] = req.body[key];
+    }
+
+    const device = await Device.findByIdAndUpdate(req.params.id, updateData, { new: true, runValidators: true });
     if (!device) throw new AppError('Device not found', 404);
     res.json({ success: true, data: device });
   });

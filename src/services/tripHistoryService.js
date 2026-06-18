@@ -109,10 +109,10 @@ class TripHistoryService {
     const maxSpeed = Math.max(...locations.map(l => l.speed || 0));
     trip.maxSpeed = maxSpeed;
 
-    if (fuelConsumption) {
-      trip.fuelConsumption = fuelConsumption;
-      trip.averageFuelEfficiency = trip.actualDistanceKm / fuelConsumption;
-    }
+    // if (fuelConsumption) {
+    //   trip.fuelConsumption = fuelConsumption;
+    //   trip.averageFuelEfficiency = trip.actualDistanceKm / fuelConsumption;
+    // }
 
     trip.status = 'completed';
     await trip.save();

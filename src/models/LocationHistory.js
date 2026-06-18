@@ -11,7 +11,6 @@ const locationHistorySchema = new mongoose.Schema({
   speed:        { type: Number, default: 0 },
   heading:      { type: Number, default: 0 },
   batteryLevel: { type: Number },
-  temperature:  { type: Number },
   timestamp:    { type: Date, default: Date.now },
   source:       { type: String, default: 'device' }
 });

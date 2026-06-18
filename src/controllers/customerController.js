@@ -12,7 +12,7 @@ class CustomerController {
     
     if (isActive !== undefined) filter.isActive = isActive === 'true';
     
-    if (search) {
+          if (search) {
       filter.$or = [
         { name: { $regex: search, $options: 'i' } },
         { phone: { $regex: search, $options: 'i' } },

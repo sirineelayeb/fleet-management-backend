@@ -244,13 +244,13 @@ class PerformanceController {
     // Total distance and duration
     const totalDistance = trips.reduce((sum, t) => sum + (t.actualDistanceKm || 0), 0);
     const totalDuration = trips.reduce((sum, t) => sum + (t.actualDurationHours || 0), 0);
-    const totalFuel = trips.reduce((sum, t) => sum + (t.fuelConsumption || 0), 0);
+    // const totalFuel = trips.reduce((sum, t) => sum + (t.fuelConsumption || 0), 0);
     
     // Average speed
     const avgSpeed = totalDuration > 0 ? totalDistance / totalDuration : 0;
     
     // Fuel efficiency
-    const fuelEfficiency = totalFuel > 0 ? totalDistance / totalFuel : 0;
+    // const fuelEfficiency = totalFuel > 0 ? totalDistance / totalFuel : 0;
     
     // Utilization rate (assuming 8-hour workday)
     const utilizationRate = totalTrips > 0 ? (totalDuration / (totalTrips * 8)) * 100 : 0;

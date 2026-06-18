@@ -88,18 +88,18 @@ function buildConfig(type, data) {
       message: `Shipment ${data.shipmentNumber || 'Unknown'} is delayed by ${data.delayMinutes || 0} minutes.`,
       targetRoles: ['admin'],
     },
-    // device_offline: {
-    //   severity: 'critical',
-    //   title: 'Device Offline',
-    //   message: `${data.deviceId || 'Unknown'} went offline`,
-    //   targetRoles: ['admin'],
-    // },
-    // device_reconnected: {
-    //   severity: 'info',
-    //   title: 'Device Reconnected',
-    //   message: `${data.deviceId || 'Unknown'} reconnected (offline ${formatDuration(data.gapMinutes || 0)})`,
-    //   targetRoles: ['admin'],
-    // },
+    device_offline: {
+      severity: 'critical',
+      title: 'Device Offline',
+      message: `${data.deviceId || 'Unknown'} went offline`,
+      targetRoles: ['admin'],
+    },
+    device_reconnected: {
+      severity: 'info',
+      title: 'Device Reconnected',
+      message: `${data.deviceId || 'Unknown'} reconnected (offline ${formatDuration(data.gapMinutes || 0)})`,
+      targetRoles: ['admin'],
+    },
     device_low_battery: {
       severity: 'warning',
       title: 'Low Battery',
@@ -191,7 +191,7 @@ class NotificationService {
         sentAt: new Date(),
       });
 
-      console.log(`✅ Notification saved [${type}] id=${saved._id}`);
+      console.log(`Notification saved [${type}] id=${saved._id}`);
 
       if (!io) {
         console.log('No Socket.IO instance — notification persisted to DB only');

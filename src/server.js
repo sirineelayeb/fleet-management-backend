@@ -4,7 +4,7 @@ const { server, io } = require('./app');
 const createDefaultAdmin = require('./seeders/adminSeeder');
 const mqttService = require('./services/mqttService');
 const delayMonitoringService = require('./services/delayMonitoringService');
-// const { startDeviceWatchdog } = require('./jobs/deviceWatchdogJob'); 
+const { startDeviceWatchdog } = require('./jobs/deviceWatchdogJob'); 
 
 dotenv.config();
 
@@ -19,7 +19,7 @@ const startServer = async () => {
     console.log('MQTT service started, listening to fleet/gps');
     
     delayMonitoringService.start(io);
-    // startDeviceWatchdog(io);
+    startDeviceWatchdog(io);
     
     const PORT = process.env.PORT || 5000;
     const serverInstance = server.listen(PORT, () => {
