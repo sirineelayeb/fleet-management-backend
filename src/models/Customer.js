@@ -6,8 +6,8 @@ const customerSchema = new mongoose.Schema({
   address: { type: String },
   email: { type: String },
   location: {
-    lat: { type: Number, default: null },
-    lng: { type: Number, default: null },
+    lat: { type: Number, default: null, required: true },
+    lng: { type: Number, default: null, required: true },
     placeName: { type: String, default: '' } // Human-readable address
   },
   isActive: { type: Boolean, default: true }

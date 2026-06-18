@@ -436,7 +436,7 @@ class ShipmentService {
 
   // ─── Notifications ────────────────────────────────────────────────────────
 
-  async sendCancellationNotification(shipment, reason, io) {
+  async sendCancellationNotification(shipment, reason, io, cancelledById = null, cancelledByName = 'System') {
     await notificationService.createNotification('shipment_cancelled', {
       shipmentId:     shipment._id,
       shipmentNumber: shipment.shipmentId,
@@ -444,8 +444,8 @@ class ShipmentService {
       origin:         shipment.origin,
       destination:    shipment.destination,
       customerName:   shipment.customer?.name,
-      cancelledBy:    'System'
-    }, io);
+      cancelledBy:    cancelledByName
+    }, io, cancelledById);
   }
 }
 

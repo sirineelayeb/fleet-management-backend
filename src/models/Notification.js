@@ -68,6 +68,7 @@ const notificationSchema = new mongoose.Schema(
     title:   { type: String, required: true },
     message: { type: String, required: true },
     data:    { type: mongoose.Schema.Types.Mixed, default: {} },
+    actor:   { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 
     read:    { type: Boolean, default: false },
     readAt:  Date,

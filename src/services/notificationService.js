@@ -20,6 +20,13 @@ const formatDuration = (minutes) => {
   }
   return `${h} hour${h !== 1 ? 's' : ''} ${m} minute${m !== 1 ? 's' : ''}`;
 };
+
+const formatDelayDuration = (minutes) => {
+  const d = Math.floor(minutes / (24 * 60));
+  const h = Math.floor((minutes % (24 * 60)) / 60);
+  const m = Math.round(minutes % 60);
+  return `${d}d ${h}h ${m}m`;
+};
 function buildConfig(type, data) {
   const configs = {
     access_denied: {
@@ -85,7 +92,7 @@ function buildConfig(type, data) {
     delivery_delayed: {
       severity: 'warning',
       title: 'Delivery Delayed',
-      message: `Shipment ${data.shipmentNumber || 'Unknown'} is delayed by ${data.delayMinutes || 0} minutes.`,
+      message: `Shipment ${data.shipmentNumber || 'Unknown'} is delayed by ${formatDelayDuration(data.delayMinutes || 0)}.`,
       targetRoles: ['admin'],
     },
     device_offline: {
@@ -187,6 +194,7 @@ class NotificationService {
         title: cfg.title,
         message: cfg.message,
         data,
+        actor: actorId,
         targetRoles: cfg.targetRoles,
         sentAt: new Date(),
       });
@@ -277,7 +285,11 @@ class NotificationService {
 
   _buildRoleQuery(userRole, userId) {
     if (userRole === 'admin') {
-      return { targetRoles: { $in: ['admin'] } };
+      const query = { targetRoles: { $in: ['admin'] } };
+      if (userId) {
+        query.$nor = [{ type: { $in: Array.from(ADMIN_EXCLUDE_ACTOR) }, actor: userId }];
+      }
+      return query;
     }
     if (userRole === 'shipment_manager' && userId) {
       return {

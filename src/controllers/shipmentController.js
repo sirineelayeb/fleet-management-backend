@@ -247,8 +247,9 @@ class ShipmentController {
         shipmentId:     shipment._id,
         shipmentNumber: shipment.shipmentId,
         origin:         shipment.origin,
-        destination:    shipment.destination
-      }, req.io);
+        destination:    shipment.destination,
+        unassignedBy:   req.user.name || req.user.email
+      }, req.io, req.user._id);
     }
 
     res.status(200).json({
@@ -481,7 +482,13 @@ class ShipmentController {
     await shipment.save();
 
     if (req.io) {
-      await shipmentService.sendCancellationNotification(shipment, reason, req.io);
+      await shipmentService.sendCancellationNotification(
+        shipment,
+        reason,
+        req.io,
+        req.user._id,
+        req.user.name || req.user.email
+      );
     }
 
     res.status(200).json({

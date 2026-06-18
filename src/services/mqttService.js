@@ -15,18 +15,20 @@ class MQTTService {
   // ─── Refresh the cache (rate‑limited) ──────────────────────────────────
   async refreshDeviceCache(force = false) {
     const now = Date.now();
-
-    // Skip if called too often (unless forced)
-    if (!force && (now - this._lastRefresh) < this._refreshCooldown) {
-      return;
-    }
+    if (!force && (now - this._lastRefresh) < this._refreshCooldown) return;
 
     this._lastRefresh = now;
 
     try {
       const devices = await Device.find({}, { deviceId: 1 });
-      this.knownDeviceIds = new Set(devices.map(d => d.deviceId));
-      console.log(`[MQTT] Device cache refreshed: ${this.knownDeviceIds.size} known devices`);
+      const newSet = new Set(devices.map(d => d.deviceId));
+
+      // Only log if count changed
+      if (newSet.size !== this.knownDeviceIds.size) {
+        console.log(`[MQTT] Device cache updated: ${this.knownDeviceIds.size} → ${newSet.size} known devices`);
+      }
+
+      this.knownDeviceIds = newSet;
     } catch (err) {
       console.error('[MQTT] Failed to refresh device cache:', err.message);
     }
@@ -59,10 +61,9 @@ class MQTTService {
     this.client.on('connect', async () => {
       console.log('MQTT Connected successfully');
 
-      await this.refreshDeviceCache(false);
-
-      // Only start interval if not already running
+      // Only refresh + start interval on first connect
       if (!this.cacheTimeout) {
+        await this.refreshDeviceCache(true);
         this.cacheTimeout = setInterval(() => this.refreshDeviceCache(true), 60000);
       }
 
@@ -109,7 +110,23 @@ class MQTTService {
           return;
         }
 
-        console.log(`Device: ${deviceId} | Speed: ${data.speed || 0}`);
+        // Reject telemetry older than 5 minutes (stale/retained messages)
+        if (data.timestamp) {
+          const msgTime = new Date(data.timestamp).getTime();
+          const now = Date.now();
+          const ageMs = now - msgTime;
+          const fiveMinMs = 5 * 60 * 1000;
+          
+          if (ageMs > fiveMinMs) {
+            console.log(`[Tracking] Rejected stale telemetry from ${deviceId}: ${Math.round(ageMs / 1000)}s old`);
+            return;
+          }
+        }
+
+        // Log all telemetry details to track source
+        const now = new Date().toISOString();
+        console.log(`[${now}] Telemetry from ${deviceId} | Battery: ${data.batteryLevel || 'N/A'}% | Speed: ${data.speed || 0} | Payload Timestamp: ${data.timestamp || 'N/A'}`);
+        console.log(`  Raw Data:`, JSON.stringify(data));
 
         await trackingService.processTracking(
           {
