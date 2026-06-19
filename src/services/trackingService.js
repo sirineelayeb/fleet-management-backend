@@ -26,7 +26,7 @@ const notificationService = require('./notificationService');
 // -----------------------------------------------------------------------------
 const BATTERY_LOW_PCT      = 20;               // % — fire alert below this
 const OFFLINE_THRESHOLD_MS = 5 * 60 * 1000;   // 5 min gap → device was offline
-const DESTINATION_RADIUS_M = 200;             // metres — "arrived" tolerance
+const DESTINATION_RADIUS_M = 500;             // metres — "arrived" tolerance
 const EARTH_RADIUS_KM      = 6371;
 const MISSION_START_SPEED  = 5;               // km/h — above this → mission starts
 const MISSION_STOP_SPEED   = 5;               // km/h — below this (+ at dest) → completes
@@ -540,6 +540,7 @@ _checkOfflineRecovery(device, deviceId, io) {
       currentLocation.lat, currentLocation.lng,
       destinationCoords.lat, destinationCoords.lng
     ) * 1_000;
+    console.log("DISTANCE =", distanceM);
     return distanceM <= DESTINATION_RADIUS_M;
   }
 
