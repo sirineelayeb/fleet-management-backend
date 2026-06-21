@@ -11,3 +11,5 @@ package-lock.json
 uploads/
 reset-admin.js
 seed.js
+seed_test_mahdia_monastir.js
+mqtt-test.js
